@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="duplicateQuestion">Хотите удалить дупликат?</string>
+    <string name="app_name">CST2335 Финальный проект</string>
+</resources>
