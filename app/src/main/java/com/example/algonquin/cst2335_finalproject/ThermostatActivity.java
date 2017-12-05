@@ -137,6 +137,7 @@ public class ThermostatActivity extends Activity {
         for (int i = 0; i < arrayList.size(); i++) {
             ScheduleEntry z = arrayList.get(i);
             if (z.day == x.day && z.hours == x.hours && z.minutes == x.minutes && z.temperature == x.temperature) {
+                if (x == z) continue; //if it's the same object - skip
                 result = true;
                 y = i;
                 break;
@@ -217,7 +218,7 @@ public class ThermostatActivity extends Activity {
             text += tempEntry.hours +":";
             if (tempEntry.minutes<10) {text+="0";}
             text += tempEntry.minutes;
-            text = text + ", Temperature in C:" + tempEntry.temperature;
+            text = text + ", \nTemperature in C:" + (tempEntry.temperature+5);
             message.setText(text); // get the string at position
             return result;
         }
