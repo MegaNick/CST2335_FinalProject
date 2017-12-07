@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ActivityTracking">
+
+
+    <TextView
+        android:id="@+id/textView_dashBoard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="46dp"
+        android:textSize="26sp"
+        android:text="@string/dashboard" />
+
+    <Button
+        android:id="@+id/button_addActivity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView_dashBoard"
+        android:layout_centerHorizontal="true"
+        android:textSize="20sp"
+        android:layout_marginTop="20dp"
+        android:text="Add a activity" />
+
+    <Button
+        android:id="@+id/button_ViewActivity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/button_addActivity"
+        android:layout_centerHorizontal="true"
+        android:textSize="20sp"
+        android:text="View your activities" />
+
+    <Button
+        android:id="@+id/button_CalculateActivity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/button_ViewActivity"
+        android:layout_centerHorizontal="true"
+        android:textSize="20sp"
+        android:text="Calculate your activities and time" />
+
+
+</RelativeLayout>

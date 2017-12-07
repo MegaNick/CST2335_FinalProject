@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,6 +21,14 @@ public class StartActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
 
+        Button bt_activityTracking = findViewById(R.id.button);
+        bt_activityTracking.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(StartActivity.this,ActivityTracking.class);
+                startActivity(intent);
+            }
+        });
 
         foodButton = (Button)findViewById(R.id.button2);
         foodButton.setOnClickListener(new View.OnClickListener() {

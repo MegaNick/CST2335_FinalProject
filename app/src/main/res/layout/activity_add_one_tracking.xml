@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddOneActivityTracking">
+
+
+    <TextView
+        android:id="@+id/textView_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textSize="20sp"
+        android:text="Date: " />
+
+    <TextView
+        android:id="@+id/textView_valueOfDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textSize="20sp"
+        android:layout_toRightOf="@id/textView_date"
+        android:text=""/>
+
+    <TextView
+        android:id="@+id/textView_selectOneActivity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textSize="20sp"
+        android:layout_below="@id/textView_date"
+        android:text="Select a activity: " />
+
+    <Spinner
+        android:id="@+id/spinner_selectOneActivity"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_toRightOf="@+id/textView_selectOneActivity"
+        android:textSize="20sp"
+        android:layout_below="@id/textView_date"
+        />
+
+    <TextView
+        android:id="@+id/textView_amountOfTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textView_selectOneActivity"
+        android:textSize="20sp"
+        android:layout_marginTop="20dp"
+        android:text="Amount of time: " />
+
+    <EditText
+        android:id="@+id/editText_amountOfTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:hint="In minutes"
+        android:layout_marginTop="20dp"
+        android:layout_toRightOf="@id/textView_amountOfTime"
+        android:layout_below="@id/spinner_selectOneActivity"
+        />
+
+    <TextView
+        android:id="@+id/textView_comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textSize="20sp"
+        android:layout_below="@id/textView_amountOfTime"
+        android:text="Comment:" />
+
+    <EditText
+        android:id="@+id/editText_comment"
+        android:layout_width="match_parent"
+        android:layout_height="265dp"
+        android:layout_below="@+id/textView_comment"
+        android:layout_marginTop="10dp"
+        android:ems="10"
+        android:gravity="left|top"
+        android:inputType="textMultiLine" />
+
+    <Button
+        android:id="@+id/button_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:text="Add" />
+
+    <Button
+        android:id="@+id/button_update"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:text="Update" />
+
+    <Button
+        android:id="@+id/button_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/button_update"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="false"
+        android:text="Delete" />
+
+</RelativeLayout>
