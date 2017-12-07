@@ -1,6 +1,10 @@
 package com.example.algonquin.cst2335_finalproject;
 
 import android.app.Activity;
+
+import android.app.FragmentTransaction;
+import android.content.Intent;
+import android.os.Bundle;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,16 +12,26 @@ import android.view.View;
 import android.widget.Button;
 
 public class StartActivity extends Activity {
-    Button buttonThermostat;
-
+    private Button buttonThermostat;
+    private Button foodButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
-        buttonThermostat = findViewById(R.id.thermostatButton);
 
-        //Start Thermostat Activity
+
+        foodButton = (Button)findViewById(R.id.button2);
+        foodButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(StartActivity.this, FoodList.class);
+                startActivity(intent);
+                  }
+        });
+        
+        //Start Thermostat Activity        
+        buttonThermostat = findViewById(R.id.thermostatButton);
         buttonThermostat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
