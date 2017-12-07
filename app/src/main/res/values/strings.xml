@@ -1,8 +1,9 @@
 <resources>
     <string name="app_name">CST2335_FinalProject</string>
     <!---Automobile stuff -->
-    <string name = "fuelCostButton">Calculate Fuel Cost</string>
-    <string name = "fuelVolumeTV">Enter the amount of gas (L)</string>
+    <string name="fuelCostButton">Add new purchase</string>
+    <string name="fuelVolumeTV">Enter the amount of gas (L)</string>
     <string name="duplicateQuestion">Do you want to delete duplicate?</string>
-    <string name="app_name">CST2335 Final Project</string>
+    <string name="enterGasPriceS">Enter the price of gas</string>
+
 </resources>

@@ -9,6 +9,7 @@ import android.widget.Button;
 
 public class StartActivity extends Activity {
     Button buttonThermostat;
+    Button automobileButton;
 
 
     @Override
@@ -16,12 +17,22 @@ public class StartActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
         buttonThermostat = findViewById(R.id.thermostatButton);
+        automobileButton = findViewById(R.id.autoMobileButton);
 
         //Start Thermostat Activity
         buttonThermostat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), ThermostatActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        //Start Automobile Activity
+        automobileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), AutomobileActivity.class);
                 startActivity(intent);
             }
         });
