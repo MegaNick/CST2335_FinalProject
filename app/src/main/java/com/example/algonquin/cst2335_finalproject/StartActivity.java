@@ -1,6 +1,11 @@
 package com.example.algonquin.cst2335_finalproject;
 
 import android.app.Activity;
+
+import android.app.FragmentTransaction;
+import android.content.Intent;
+import android.os.Bundle;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,9 +13,10 @@ import android.view.View;
 import android.widget.Button;
 
 public class StartActivity extends Activity {
-    Button buttonThermostat;
-    Button automobileButton;
 
+    Button automobileButton;
+    private Button buttonThermostat;
+    private Button foodButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,8 +24,29 @@ public class StartActivity extends Activity {
         setContentView(R.layout.activity_start);
         buttonThermostat = findViewById(R.id.thermostatButton);
         automobileButton = findViewById(R.id.autoMobileButton);
+      
+      //Activity Tracking
+        Button bt_activityTracking = findViewById(R.id.button);
+        bt_activityTracking.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(StartActivity.this,ActivityTracking.class);
+                startActivity(intent);
+            }
+        });
 
-        //Start Thermostat Activity
+      //Nutrition Tracker
+        foodButton = (Button)findViewById(R.id.button2);
+        foodButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(StartActivity.this, FoodList.class);
+                startActivity(intent);
+                  }
+        });
+        
+        //Start Thermostat Activity        
+        buttonThermostat = findViewById(R.id.thermostatButton);
         buttonThermostat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
