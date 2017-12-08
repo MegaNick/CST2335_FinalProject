@@ -24,7 +24,10 @@
         <activity android:name=".NutritionDetails" />
         <activity android:name=".FoodList"></activity>
         <activity android:name=".ThermostatActivity" />
-        <activity android:name=".RuleSetterActivity"></activity>
+        <activity android:name=".RuleSetterActivity" />
+        <activity android:name=".AutomobileActivity" />
+        <activity android:name=".PurchaseGasActivity" />
+        <activity android:name=".GasPriceHistoryActivity"></activity>
     </application>
 
 </manifest>

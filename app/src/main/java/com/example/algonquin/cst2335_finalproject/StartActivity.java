@@ -13,6 +13,8 @@ import android.view.View;
 import android.widget.Button;
 
 public class StartActivity extends Activity {
+
+    Button automobileButton;
     private Button buttonThermostat;
     private Button foodButton;
 
@@ -20,7 +22,10 @@ public class StartActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
-
+        buttonThermostat = findViewById(R.id.thermostatButton);
+        automobileButton = findViewById(R.id.autoMobileButton);
+      
+      //Activity Tracking
         Button bt_activityTracking = findViewById(R.id.button);
         bt_activityTracking.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -30,6 +35,7 @@ public class StartActivity extends Activity {
             }
         });
 
+      //Nutrition Tracker
         foodButton = (Button)findViewById(R.id.button2);
         foodButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,6 +51,15 @@ public class StartActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), ThermostatActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        //Start Automobile Activity
+        automobileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), AutomobileActivity.class);
                 startActivity(intent);
             }
         });
