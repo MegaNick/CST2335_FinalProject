@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.algonquin.cst2335_finalproject.RuleSetterActivity">
+    tools:context="com.example.algonquin.cst2335_finalproject.ThermoRuleSetterActivity">
 
     <TextView
         android:id="@+id/welcomeText"

@@ -15,10 +15,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-import java.util.ArrayList;
-
-public class RuleSetterActivity extends Activity {
-    public static final String ACTIVITY_NAME = "RuleSetterActivity";
+public class ThermoRuleSetterActivity extends Activity {
+    public static final String ACTIVITY_NAME = "ThermoRuleSetterActivity";
     public static final Integer TEMP_VALUES [] = {5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35};
     TextView welcomeText;
     Spinner spinner;
@@ -77,7 +75,7 @@ public class RuleSetterActivity extends Activity {
 
         //Setting temperature
         //Spinner with temperatures
-        ArrayAdapter<Integer> spinnerAdapter2 = new ArrayAdapter<> (this, android.R.layout.simple_spinner_item, RuleSetterActivity.TEMP_VALUES);
+        ArrayAdapter<Integer> spinnerAdapter2 = new ArrayAdapter<> (this, android.R.layout.simple_spinner_item, ThermoRuleSetterActivity.TEMP_VALUES);
         spinnerAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         setTemperature.setAdapter(spinnerAdapter2);
         setTemperature.setSelection(intArray[4]);
@@ -108,7 +106,7 @@ public class RuleSetterActivity extends Activity {
                     int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
                     int minute = mcurrentTime.get(Calendar.MINUTE);
 
-                TimePickerDialog mTimePicker = new TimePickerDialog(RuleSetterActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                TimePickerDialog mTimePicker = new TimePickerDialog(ThermoRuleSetterActivity.this, new TimePickerDialog.OnTimeSetListener() {
                 @Override
                 public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
                     intArray[2] = selectedHour;

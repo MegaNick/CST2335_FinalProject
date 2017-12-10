@@ -2,44 +2,49 @@ package com.example.algonquin.cst2335_finalproject;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v4.app.FragmentActivity;
-import android.app.DialogFragment;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.os.Handler;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.icu.util.Calendar;
-import android.widget.DatePicker;
 import android.widget.ListView;
-import android.widget.Spinner;
+import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-public class ThermostatActivity extends Activity {
+public class ThermostatActivity extends AppCompatActivity {
     Button ruleAddButton;
-    int year, monthOfYear, dayOfMonth;
     public static final String [] DAYS = {"MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"};
     ArrayList<ScheduleEntry> arrayList = new ArrayList<>();
     private ListView chatListView;
     private ChatAdapter messageAdapter;
+    private ProgressBar progressBar;
+    private SQLiteDatabase db;
+    private Handler handler; // Timer Initiator
+    private int timerCounter;
+    private Runnable runnable; //for timer
     int y;
-    ScheduleEntry tempScheduleEntry;
+//    RelativeLayout relativeLayout;
+
+
+
 
 
     @Override
@@ -48,8 +53,33 @@ public class ThermostatActivity extends Activity {
         setContentView(R.layout.activity_thermostat);
         ruleAddButton = findViewById(R.id.addRuleButt);
         chatListView = findViewById(R.id.listView);
+        progressBar = findViewById(R.id.thermoProgressBar);
         messageAdapter =new ChatAdapter( this );
         chatListView.setAdapter (messageAdapter);
+//        relativeLayout = findViewById(R.id.thermoActivityLayout);
+
+        //Initializer
+
+        //Timer Initializer
+        //Timer task for delays
+        timerCounter=0;
+        //Timer counter idea is taken from http://www.mopri.de/2010/timertask-bad-do-it-the-android-way-use-a-handler/comment-page-1/
+        handler = new Handler(); // Timer Initiator
+        runnable = new Runnable() {
+            @Override
+            public void run() {
+      /* do what you need to do */
+            timerCounter++;
+            if (timerCounter>100000) timerCounter=0;
+            System.out.println("=="+timerCounter);
+      /* and here comes the "trick" */
+                handler.postDelayed(this, 100);
+            }
+        };
+        handler.postDelayed(runnable, 1000);
+
+        //Access to Database via AsyncTask
+        new Async(this).execute("");
 
         //ListView listeners
         chatListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -63,7 +93,7 @@ public class ThermostatActivity extends Activity {
                 tempArray[3] = tempEntry.minutes;
                 tempArray[4] = tempEntry.temperature;
                 tempArray[5] = position;
-                Intent intent = new Intent(getApplicationContext(), RuleSetterActivity.class);
+                Intent intent = new Intent(getApplicationContext(), ThermoRuleSetterActivity.class);
                 intent.putExtra("mode", 6 ); // 6 - change or delete entry
                 intent.putExtra("data", tempArray);
                 startActivityForResult(intent, 10);
@@ -74,7 +104,7 @@ public class ThermostatActivity extends Activity {
         ruleAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), RuleSetterActivity.class);
+                Intent intent = new Intent(getApplicationContext(), ThermoRuleSetterActivity.class);
                 intent.putExtra("mode", 5 ); // 5 - new entry
                 startActivityForResult(intent, 10);
             }
@@ -100,29 +130,27 @@ public class ThermostatActivity extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         //If entering new value
-        if (requestCode == 10) { //From RuleSetterActivity
+        if (requestCode == 10) { //From ThermoRuleSetterActivity
+
             if (resultCode == 11) { //Create new entry
                 Bundle extras = data.getExtras();
                 int[] tempArray = (int[]) extras.get("data");
                 ScheduleEntry tempEntry = new ScheduleEntry(tempArray[0], tempArray[1], tempArray[2], tempArray[3], tempArray[4]);
                 duplicationChecker(tempEntry);
-                arrayList.add(tempEntry);
+                addEntry(tempEntry);
+
             } else if (resultCode ==12){ //Delete Entry
                 Bundle extras = data.getExtras();
                 int[] tempArray = (int[]) extras.get("data");
-                eraseEntry(tempArray);
+                eraseEntry(tempArray[0]);
+
             } else if (resultCode ==13){ //Change Entry
                 Bundle extras = data.getExtras();
                 int[] tempArray = (int[]) extras.get("data");
-                arrayList.get(tempArray[5]).id = tempArray[0];
-                arrayList.get(tempArray[5]).day = tempArray[1];
-                arrayList.get(tempArray[5]).hours = tempArray[2];
-                arrayList.get(tempArray[5]).minutes = tempArray[3];
-                arrayList.get(tempArray[5]).temperature = tempArray[4];
-                ScheduleEntry tempEntry = arrayList.get(tempArray[5]);
+                ScheduleEntry tempEntry = new ScheduleEntry(tempArray[0], tempArray[1], tempArray[2], tempArray[3], tempArray[4]);
                 duplicationChecker(tempEntry);
+                updateEntry(tempEntry);
             }
         }
     }
@@ -131,34 +159,29 @@ public class ThermostatActivity extends Activity {
     public void duplicationChecker(ScheduleEntry x){
 
         boolean result = false;
-        addAndSort();
-        messageAdapter.notifyDataSetChanged();
-
-        for (int i = 0; i < arrayList.size(); i++) {
-            ScheduleEntry z = arrayList.get(i);
-            if (z.day == x.day && z.hours == x.hours && z.minutes == x.minutes && z.temperature == x.temperature) {
-                if (x == z) continue; //if it's the same object - skip
-                result = true;
-                y = i;
-                break;
-            }
-        }
+        String query = "SELECT * FROM "+ThermoDatabaseHelper.TABLE_NAME+
+                " WHERE "+ThermoDatabaseHelper.WEEK_DAY+" = '"+x.day +"' AND "+
+                ThermoDatabaseHelper.TIME_HRS+" = '"+x.hours +"' AND "+
+                ThermoDatabaseHelper.TIME_MIN+" = '"+x.minutes +"' AND "+
+                ThermoDatabaseHelper.TEMPERATURE+" = '"+x.temperature+"'";
+        Cursor returnCursor = db.rawQuery(query,null);
 
         //Checking if it is
 
-            if (result) {
+            if (returnCursor.getCount()<1) return;
                 //Duplicate is found
+                returnCursor.moveToFirst();
+                y = returnCursor.getInt(returnCursor.getColumnIndex(ThermoDatabaseHelper.KEY_ID));
+
                 AlertDialog.Builder builder = new AlertDialog.Builder(ThermostatActivity.this);
-// 2. Chain together various setter methods to set the dialog characteristics
                 builder.setMessage(R.string.duplicateQuestion)
 
                         .setTitle("Duplcate entry's found!")
                         .setPositiveButton("YES", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 // User clicked OK button
-                                arrayList.remove(y);
-                                addAndSort();
-                                messageAdapter.notifyDataSetChanged();
+                                //Deleting entry from database
+                                eraseEntry(y);
                             }
                         })
                         .setNegativeButton("NO", new DialogInterface.OnClickListener() {
@@ -167,14 +190,61 @@ public class ThermostatActivity extends Activity {
                             }
                         })
                         .show();
+    }
 
+ //Entry Update
+    public void updateEntry(ScheduleEntry tempEntry){
+        //Update query
+        ContentValues values = new ContentValues();
+        values.put(ThermoDatabaseHelper.WEEK_DAY, tempEntry.day);
+        values.put(ThermoDatabaseHelper.TIME_HRS, tempEntry.hours);
+        values.put(ThermoDatabaseHelper.TIME_MIN, tempEntry.minutes);
+        values.put(ThermoDatabaseHelper.TEMPERATURE, tempEntry.temperature);
+        db.update(ThermoDatabaseHelper.TABLE_NAME, values, ThermoDatabaseHelper.KEY_ID+" = ?", new String[]{String.valueOf(tempEntry.id)});
+        for (int i = 0; i < arrayList.size(); i++) {
+            if (arrayList.get(i).id==tempEntry.id){
+                arrayList.set(i, tempEntry);
             }
+        }
+        addAndSort();
+        messageAdapter.notifyDataSetChanged();
+
+        Toast toast = Toast.makeText(getApplicationContext(), "Entry has been successfully modified", Toast.LENGTH_SHORT);
+        toast.show(); //Delete confirmation
+    }
+
+    //Entry Adding
+    public void addEntry(ScheduleEntry tempEntry){
+        //Insert procedure
+        ContentValues values = new ContentValues();
+        values.put(ThermoDatabaseHelper.WEEK_DAY, tempEntry.day);
+        values.put(ThermoDatabaseHelper.TIME_HRS, tempEntry.hours);
+        values.put(ThermoDatabaseHelper.TIME_MIN, tempEntry.minutes);
+        values.put(ThermoDatabaseHelper.TEMPERATURE, tempEntry.temperature);
+        db.insert(ThermoDatabaseHelper.TABLE_NAME, null, values);
+        arrayList.add(tempEntry);
+        addAndSort();
+        messageAdapter.notifyDataSetChanged();
+        View view = findViewById(android.R.id.content);
+
+        Snackbar snackbar = Snackbar.make (view, "Entry added to the list successfully", Snackbar.LENGTH_SHORT);
+        snackbar.show();
     }
 
     //Entry eraser
-    public void eraseEntry(int[] x){
-        arrayList.remove(x[5]);
+    public void eraseEntry(int x){
+        String query = "DELETE FROM "+ThermoDatabaseHelper.TABLE_NAME + " WHERE "+
+                ThermoDatabaseHelper.KEY_ID +" = '"+x + "';";
+        db.execSQL(query);
+        Log.i("==", "QueryDelete="+query);
+        //deleting line from view
+        for (int i = 0; i < arrayList.size(); i++) {
+            if (arrayList.get(i).id==x){
+                arrayList.remove(i);
+            }
+        }
         messageAdapter.notifyDataSetChanged();
+
         Toast toast = Toast.makeText(getApplicationContext(), "Entry has been removed successfully", Toast.LENGTH_SHORT);
         toast.show(); //Delete confirmation
     }
@@ -223,6 +293,85 @@ public class ThermostatActivity extends Activity {
             return result;
         }
 
-    }//End Inner Class
+    }//End Inner Class ChatAdapter
 
+    //Inner Class
+    private class Async extends AsyncTask<String, Integer, String>{
+        Activity mActivity;
+
+        public Async(Activity activity) {
+            mActivity = activity;
+        }
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+     //       returnCursor = null;
+            //Initializing video countdown
+            timerCounter = 0;
+            progressBar.setActivated(true);
+         }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            ProgressBar pbar;
+            pbar = mActivity.findViewById(R.id.thermoProgressBar);
+            pbar.setVisibility(View.INVISIBLE);
+            addAndSort();
+            messageAdapter.notifyDataSetChanged();
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+            int x = values[0];
+            ProgressBar pbar;
+            pbar = mActivity.findViewById(R.id.thermoProgressBar);
+            pbar.setVisibility(View.VISIBLE);
+            pbar.setProgress(x);
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            onProgressUpdate(25);
+
+//Database opener and processor
+            if (db == null) {
+                db= new ThermoDatabaseHelper(getApplicationContext()).getReadableDatabase();
+            }
+
+            while (timerCounter<10);
+            onProgressUpdate(50);
+
+            //Update Screen
+            Cursor cursor = db.rawQuery("SELECT * FROM "+ThermoDatabaseHelper.TABLE_NAME, null);
+            while (timerCounter<20);
+            onProgressUpdate(75);
+            arrayList.clear();
+            cursor.moveToFirst();
+            while(!cursor.isAfterLast()){
+                ScheduleEntry temp = new ScheduleEntry();
+
+                temp.id = cursor.getInt(cursor.getColumnIndex(ThermoDatabaseHelper.KEY_ID));
+                temp.day = cursor.getInt(cursor.getColumnIndex(ThermoDatabaseHelper.WEEK_DAY));
+                temp.hours = cursor.getInt(cursor.getColumnIndex(ThermoDatabaseHelper.TIME_HRS));
+                temp.minutes = cursor.getInt(cursor.getColumnIndex(ThermoDatabaseHelper.TIME_MIN));
+                temp.temperature = cursor.getInt(cursor.getColumnIndex(ThermoDatabaseHelper.TEMPERATURE));
+                arrayList.add(temp);
+                cursor.moveToNext();
+            }
+            while (timerCounter<30);
+
+            onProgressUpdate(100);
+            while (timerCounter<40);
+            cursor.close();
+            return null;
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        db.close();
+    }
 }
