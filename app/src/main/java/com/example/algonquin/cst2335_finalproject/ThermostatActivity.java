@@ -56,7 +56,6 @@ public class ThermostatActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.thermoProgressBar);
         messageAdapter =new ChatAdapter( this );
         chatListView.setAdapter (messageAdapter);
-//        relativeLayout = findViewById(R.id.thermoActivityLayout);
 
         //Initializer
 
@@ -288,7 +287,7 @@ public class ThermostatActivity extends AppCompatActivity {
             text += tempEntry.hours +":";
             if (tempEntry.minutes<10) {text+="0";}
             text += tempEntry.minutes;
-            text = text + ", \nTemperature in C:" + (tempEntry.temperature+5);
+            text = text + ", \nTemperature in C:" + (tempEntry.temperature);
             message.setText(text); // get the string at position
             return result;
         }

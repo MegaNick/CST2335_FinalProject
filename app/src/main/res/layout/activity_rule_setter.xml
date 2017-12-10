@@ -72,13 +72,6 @@
         android:layout_marginTop="52dp"
         android:text="SAVE" />
 
-    <Spinner
-        android:id="@+id/spinnerTemp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/textView5"
-        android:layout_toEndOf="@+id/textView5" />
-
     <Button
         android:id="@+id/deleteButton"
         android:layout_width="wrap_content"
@@ -104,5 +97,17 @@
         android:layout_above="@+id/deleteButton"
         android:layout_toEndOf="@+id/deleteButton"
         android:text="Save as a new rule" />
+
+    <EditText
+        android:id="@+id/editTemperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textView5"
+        android:layout_alignBottom="@+id/textView5"
+        android:layout_toEndOf="@+id/textView5"
+        android:ems="10"
+        android:inputType="number"
+        android:text="Temperature"
+        android:imeOptions="actionDone"/>
 
 </RelativeLayout>

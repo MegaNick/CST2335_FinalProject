@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 public class ThermoRuleSetterActivity extends Activity {
     public static final String ACTIVITY_NAME = "ThermoRuleSetterActivity";
@@ -21,7 +22,8 @@ public class ThermoRuleSetterActivity extends Activity {
     TextView welcomeText;
     Spinner spinner;
     EditText setTime;
-    Spinner setTemperature;
+ //   Spinner setTemperature;
+    EditText setTemperature;
     ScheduleEntry entry;
     Button submit;
     Button deleteButton;
@@ -36,7 +38,7 @@ public class ThermoRuleSetterActivity extends Activity {
         welcomeText = findViewById(R.id.welcomeText);
         spinner = findViewById(R.id.spinnerDays);
         setTime = findViewById(R.id.textTime);
-        setTemperature = findViewById(R.id.spinnerTemp);
+        setTemperature = findViewById(R.id.editTemperature);
         submit = findViewById(R.id.buttonSubmit);
         deleteButton = findViewById(R.id.deleteButton);
         cancelButton = findViewById(R.id.cancelButton);
@@ -74,11 +76,7 @@ public class ThermoRuleSetterActivity extends Activity {
         setTime.setText(tempTime);
 
         //Setting temperature
-        //Spinner with temperatures
-        ArrayAdapter<Integer> spinnerAdapter2 = new ArrayAdapter<> (this, android.R.layout.simple_spinner_item, ThermoRuleSetterActivity.TEMP_VALUES);
-        spinnerAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        setTemperature.setAdapter(spinnerAdapter2);
-        setTemperature.setSelection(intArray[4]);
+        setTemperature.setText(String.valueOf(intArray[4]));
 
 
         //Settings changers
@@ -125,26 +123,18 @@ public class ThermoRuleSetterActivity extends Activity {
         });
 
         //Temperature handler
-        setTemperature.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Log.i(ACTIVITY_NAME, "==Temperature Position = "+position);
-                intArray[4] = position;
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
 
         //Submit Button Handler
         newRuleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.putExtra("data", intArray);
-                setResult(11, intent); //11-create new entry
-                finish();
+                if (checkTemp()) {
+                    Intent intent = new Intent();
+                    intent.putExtra("data", intArray);
+                    setResult(11, intent); //11-create new entry
+                    finish();
+                }
             }
         });
 
@@ -173,12 +163,28 @@ public class ThermoRuleSetterActivity extends Activity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.putExtra("data", intArray);
-                setResult(13, intent); //12-change entry
-                finish();
+                if (checkTemp()) {
+                    Intent intent = new Intent();
+                    intent.putExtra("data", intArray);
+                    setResult(13, intent); //12-change entry
+                    finish();
+                }
             }
         });
+    }
+
+    public boolean checkTemp(){
+        int temp;
+        String temperature = setTemperature.getText().toString();
+        try {
+            temp = Integer.parseInt(temperature);
+        } catch (NumberFormatException e){
+            Toast toast = Toast.makeText(getApplicationContext(), "Please enter CORRECT temperature value", Toast.LENGTH_SHORT);
+            toast.show(); //show warning
+            return false;
+        }
+        intArray[4]=temp;
+        return true;
     }
 
 }
