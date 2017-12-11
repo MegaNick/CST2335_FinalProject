@@ -1,12 +1,16 @@
 package com.example.algonquin.cst2335_finalproject;
 
-import android.app.Activity;
+import android.annotation.SuppressLint;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.icu.util.Calendar;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -16,37 +20,47 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-public class ThermoRuleSetterActivity extends Activity {
+public class ThermoRuleSetterActivity extends Fragment {
     public static final String ACTIVITY_NAME = "ThermoRuleSetterActivity";
     public static final Integer TEMP_VALUES [] = {5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35};
-    TextView welcomeText;
-    Spinner spinner;
-    EditText setTime;
- //   Spinner setTemperature;
-    EditText setTemperature;
-    ScheduleEntry entry;
-    Button submit;
-    Button deleteButton;
-    Button cancelButton;
-    Button newRuleButton;
+    private TextView welcomeText;
+    private Spinner spinner;
+    private EditText setTime;
+    private EditText setTemperature;
+    private Button submit;
+    private Button deleteButton;
+    private Button cancelButton;
+    private Button newRuleButton;
+//    private View view;
+    int phoneMode;
     int [] intArray; // 0-id, 1-day, 2-hours, 3-minutes, 4-temperature, 5-viewId
 
+    //Constructors to check Phone or Tablet
+    public ThermoRuleSetterActivity(){} // Default Constructor
+
+    @SuppressLint("ValidFragment")
+    public ThermoRuleSetterActivity(int x){
+        phoneMode = x;
+    }
+
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_rule_setter);
-        welcomeText = findViewById(R.id.welcomeText);
-        spinner = findViewById(R.id.spinnerDays);
-        setTime = findViewById(R.id.textTime);
-        setTemperature = findViewById(R.id.editTemperature);
-        submit = findViewById(R.id.buttonSubmit);
-        deleteButton = findViewById(R.id.deleteButton);
-        cancelButton = findViewById(R.id.cancelButton);
-        newRuleButton = findViewById(R.id.newRuleButton);
-        Intent intent = getIntent();
-        Bundle extras = intent.getExtras();
-        intArray = (int[]) extras.get("data");
-        int mode = (int) extras.get("mode");
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_thermo_rule_setter, container, false);
+        welcomeText = view.findViewById(R.id.welcomeText);
+        spinner = view.findViewById(R.id.spinnerDays);
+        setTime = view.findViewById(R.id.textTime);
+        setTemperature = view.findViewById(R.id.editTemperature);
+        submit = view.findViewById(R.id.buttonSubmit);
+        deleteButton = view.findViewById(R.id.deleteButton);
+        cancelButton = view.findViewById(R.id.cancelButton);
+        newRuleButton = view.findViewById(R.id.newRuleButton);
+
+
+        Bundle args = this.getArguments();
+
+
+        int mode = args.getInt("mode");
 
         if (mode == 5) { //Do entry new value
             //Changing welcome text
@@ -55,6 +69,7 @@ public class ThermoRuleSetterActivity extends Activity {
             deleteButton.setEnabled(false);
             submit.setEnabled(false);
         } else if (mode == 6){ //Do edit or delete value
+            intArray = args.getIntArray("data");
             welcomeText.setText("Please change or delete Thermostat Rule");
             deleteButton.setEnabled(true);
             submit.setEnabled(true);
@@ -62,7 +77,7 @@ public class ThermoRuleSetterActivity extends Activity {
 //Put Numbers into proper boxes
         //Spinner with Dates
         // Info about spinners https://developer.android.com/guide/topics/ui/controls/spinner.html
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String> (this, android.R.layout.simple_spinner_item, ThermostatActivity.DAYS);
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String> (getContext(), android.R.layout.simple_spinner_item, ThermostatActivity.DAYS);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerAdapter);
         spinner.setSelection(intArray[1]);
@@ -98,27 +113,27 @@ public class ThermoRuleSetterActivity extends Activity {
         setTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    //Stack overflow https://stackoverflow.com/questions/17901946/timepicker-dialog-from-clicking-edittext
+                //Stack overflow https://stackoverflow.com/questions/17901946/timepicker-dialog-from-clicking-edittext
 
-                    Calendar mcurrentTime = Calendar.getInstance();
-                    int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
-                    int minute = mcurrentTime.get(Calendar.MINUTE);
+                Calendar mcurrentTime = Calendar.getInstance();
+                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+                int minute = mcurrentTime.get(Calendar.MINUTE);
 
-                TimePickerDialog mTimePicker = new TimePickerDialog(ThermoRuleSetterActivity.this, new TimePickerDialog.OnTimeSetListener() {
-                @Override
-                public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                    intArray[2] = selectedHour;
-                    intArray[3] = selectedMinute;
-                    String tempTime = "";
-                    if (intArray[2]<10){tempTime = "0";}
-                    tempTime = tempTime + intArray[2] +":";
-                    if (intArray[3]<10) {tempTime+="0";}
-                    tempTime = tempTime + intArray[3];
-                    setTime.setText(tempTime);
-                }
-                        }, hour, minute, true);//True -  24 hour time
-                        mTimePicker.setTitle("Select Time");
-                        mTimePicker.show();
+                TimePickerDialog mTimePicker = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                        intArray[2] = selectedHour;
+                        intArray[3] = selectedMinute;
+                        String tempTime = "";
+                        if (intArray[2]<10){tempTime = "0";}
+                        tempTime = tempTime + intArray[2] +":";
+                        if (intArray[3]<10) {tempTime+="0";}
+                        tempTime = tempTime + intArray[3];
+                        setTime.setText(tempTime);
+                    }
+                }, hour, minute, true);//True -  24 hour time
+                mTimePicker.setTitle("Select Time");
+                mTimePicker.show();
             }
         });
 
@@ -129,11 +144,17 @@ public class ThermoRuleSetterActivity extends Activity {
         newRuleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkTemp()) {
-                    Intent intent = new Intent();
-                    intent.putExtra("data", intArray);
-                    setResult(11, intent); //11-create new entry
-                    finish();
+                //If it is phone
+                if (phoneMode==0) {
+                    if (checkTemp()) {
+                        Intent intent = new Intent();
+                        intent.putExtra("data", intArray);
+                        getActivity().setResult(11, intent); //11-create new entry
+                        getActivity().finish();
+                    }
+                } else { //If it is tablet
+                    if (checkTemp()) {((ThermostatActivity)getActivity()).addEntry(arrayToEntry(intArray));}
+                    getFragmentManager().popBackStackImmediate();
                 }
             }
         });
@@ -142,9 +163,16 @@ public class ThermoRuleSetterActivity extends Activity {
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                setResult(0, intent);
-                finish();
+                //If it is phone
+                if (phoneMode==0) {
+                    Intent intent = new Intent();
+                    intent.putExtra("data", intArray);
+                    getActivity().setResult(0, intent);
+                    getActivity().finish();
+                }else {//If it is tablet - just leave
+                    getFragmentManager().popBackStackImmediate();
+                }
+
             }
         });
 
@@ -152,10 +180,16 @@ public class ThermoRuleSetterActivity extends Activity {
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.putExtra("data", intArray);
-                setResult(12, intent); //12-delete entry
-                finish();
+                //If it is phone
+                if (phoneMode==0) {
+                    Intent intent = new Intent();
+                    intent.putExtra("data", intArray);
+                    getActivity().setResult(12, intent); //12-delete entry
+                    getActivity().finish();
+                } else { //If it is tablet
+                    ((ThermostatActivity)getActivity()).eraseEntry(arrayToEntry(intArray));
+                    getFragmentManager().popBackStackImmediate();
+                }
             }
         });
 
@@ -163,23 +197,32 @@ public class ThermoRuleSetterActivity extends Activity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkTemp()) {
-                    Intent intent = new Intent();
-                    intent.putExtra("data", intArray);
-                    setResult(13, intent); //12-change entry
-                    finish();
+                //If it is phone
+                if (phoneMode==0) {
+                    if (checkTemp()) {
+                        Intent intent = new Intent();
+                        intent.putExtra("data", intArray);
+                        getActivity().setResult(13, intent); //12-change entry
+                        getActivity().finish();
+                    }
+                } else { //If it is tablet
+                    if (checkTemp()) { ((ThermostatActivity)getActivity()).updateEntry(arrayToEntry(intArray));}
+                    getFragmentManager().popBackStackImmediate();
                 }
+
             }
         });
+    return view;
     }
 
+    //Checking Temperature for valid entry
     public boolean checkTemp(){
         int temp;
         String temperature = setTemperature.getText().toString();
         try {
             temp = Integer.parseInt(temperature);
         } catch (NumberFormatException e){
-            Toast toast = Toast.makeText(getApplicationContext(), "Please enter CORRECT temperature value", Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(getContext(), "Please enter CORRECT temperature value", Toast.LENGTH_SHORT);
             toast.show(); //show warning
             return false;
         }
@@ -187,4 +230,8 @@ public class ThermoRuleSetterActivity extends Activity {
         return true;
     }
 
+    //Transfer array to ThermoScheduleEntry
+    public ScheduleEntry arrayToEntry(int [] x){
+        return new ScheduleEntry(x[0], x[1], x[2], x[3], x[4]);
+    }
 }

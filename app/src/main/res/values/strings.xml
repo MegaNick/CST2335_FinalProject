@@ -19,5 +19,7 @@
 
     <!---Thermostat stuff -->
     <string name="duplicateQuestion">Do you want to delete duplicate?</string>
+    <string name="title_activity_thermo_message_details">ThermoMessageDetails</string>
+    <string name="action_settings">Settings</string>
 
 </resources>

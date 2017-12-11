@@ -1,5 +1,6 @@
 package com.example.algonquin.cst2335_finalproject;
 
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentValues;
@@ -12,7 +13,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -29,11 +32,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-public class ThermostatActivity extends AppCompatActivity {
+public class ThermostatActivity extends FragmentActivity {
     Button ruleAddButton;
     public static final String [] DAYS = {"MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"};
     ArrayList<ScheduleEntry> arrayList = new ArrayList<>();
     private ListView chatListView;
+    private FrameLayout frameLayout;
     private ChatAdapter messageAdapter;
     private ProgressBar progressBar;
     private SQLiteDatabase db;
@@ -41,7 +45,7 @@ public class ThermostatActivity extends AppCompatActivity {
     private int timerCounter;
     private Runnable runnable; //for timer
     int y;
-//    RelativeLayout relativeLayout;
+
 
 
 
@@ -56,8 +60,11 @@ public class ThermostatActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.thermoProgressBar);
         messageAdapter =new ChatAdapter( this );
         chatListView.setAdapter (messageAdapter);
+        //Checking Phone orientation
+        frameLayout = findViewById(R.id.frameThermo);
 
         //Initializer
+        System.out.println("Position-"+frameLayout);
 
         //Timer Initializer
         //Timer task for delays
@@ -70,7 +77,7 @@ public class ThermostatActivity extends AppCompatActivity {
       /* do what you need to do */
             timerCounter++;
             if (timerCounter>100000) timerCounter=0;
-            System.out.println("=="+timerCounter);
+//            System.out.println("=="+timerCounter);
       /* and here comes the "trick" */
                 handler.postDelayed(this, 100);
             }
@@ -92,10 +99,31 @@ public class ThermostatActivity extends AppCompatActivity {
                 tempArray[3] = tempEntry.minutes;
                 tempArray[4] = tempEntry.temperature;
                 tempArray[5] = position;
-                Intent intent = new Intent(getApplicationContext(), ThermoRuleSetterActivity.class);
-                intent.putExtra("mode", 6 ); // 6 - change or delete entry
-                intent.putExtra("data", tempArray);
-                startActivityForResult(intent, 10);
+
+
+                //Checking for phone or tablet
+                //
+                Bundle tempBundle = new  Bundle();
+                tempBundle.putInt("mode", 6);
+                tempBundle.putIntArray("data", tempArray);
+                //This is what we do for phone
+                if (frameLayout==null) {
+                    Intent intent = new Intent(getApplicationContext(), ThermoMessageDetails.class);
+                    intent.putExtra("package",tempBundle);
+                    startActivityForResult(intent, 10);
+                } else{
+                    ThermoRuleSetterActivity newFragment = new ThermoRuleSetterActivity(1);
+                    newFragment.setArguments(tempBundle);
+                    //Backstack cleaning taken from Stackoverflow https://stackoverflow.com/questions/17107005/how-to-clear-fragment-backstack-in-android
+                    while (getSupportFragmentManager().getBackStackEntryCount() > 0){
+                        getSupportFragmentManager().popBackStackImmediate();
+                    }
+                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+                    transaction.replace(R.id.frameThermo, newFragment);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                }
             }
         });
 
@@ -103,9 +131,28 @@ public class ThermostatActivity extends AppCompatActivity {
         ruleAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ThermoRuleSetterActivity.class);
-                intent.putExtra("mode", 5 ); // 5 - new entry
-                startActivityForResult(intent, 10);
+                Bundle tempBundle = new Bundle();
+                tempBundle.putInt("mode", 5); // 5 - new entry
+                //Checking Different Layouts
+
+                //If this is phone
+                if (frameLayout==null) {
+                    Intent intent = new Intent(getApplicationContext(), ThermoMessageDetails.class);
+                    intent.putExtra("package", tempBundle);
+                    startActivityForResult(intent, 10);
+                } else{
+                    //If this is Tablet
+                    ThermoRuleSetterActivity newFragment = new ThermoRuleSetterActivity(1);
+                    newFragment.setArguments(tempBundle);
+                    //Backstack cleaning taken from Stackoverflow https://stackoverflow.com/questions/17107005/how-to-clear-fragment-backstack-in-android
+                    while (getSupportFragmentManager().getBackStackEntryCount() > 0){
+                        getSupportFragmentManager().popBackStackImmediate();
+                    }
+                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                     transaction.replace(R.id.frameThermo, newFragment);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                }
             }
           });
     }
@@ -131,24 +178,18 @@ public class ThermostatActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         //If entering new value
         if (requestCode == 10) { //From ThermoRuleSetterActivity
+            Bundle extras = data.getExtras();
+            int[] tempArray = (int[]) extras.get("data");
+            ScheduleEntry tempEntry = new ScheduleEntry(tempArray[0], tempArray[1], tempArray[2], tempArray[3], tempArray[4]);
+
 
             if (resultCode == 11) { //Create new entry
-                Bundle extras = data.getExtras();
-                int[] tempArray = (int[]) extras.get("data");
-                ScheduleEntry tempEntry = new ScheduleEntry(tempArray[0], tempArray[1], tempArray[2], tempArray[3], tempArray[4]);
-                duplicationChecker(tempEntry);
                 addEntry(tempEntry);
 
             } else if (resultCode ==12){ //Delete Entry
-                Bundle extras = data.getExtras();
-                int[] tempArray = (int[]) extras.get("data");
-                eraseEntry(tempArray[0]);
+                eraseEntry(tempEntry);
 
             } else if (resultCode ==13){ //Change Entry
-                Bundle extras = data.getExtras();
-                int[] tempArray = (int[]) extras.get("data");
-                ScheduleEntry tempEntry = new ScheduleEntry(tempArray[0], tempArray[1], tempArray[2], tempArray[3], tempArray[4]);
-                duplicationChecker(tempEntry);
                 updateEntry(tempEntry);
             }
         }
@@ -157,7 +198,6 @@ public class ThermostatActivity extends AppCompatActivity {
     //Duplication checker
     public void duplicationChecker(ScheduleEntry x){
 
-        boolean result = false;
         String query = "SELECT * FROM "+ThermoDatabaseHelper.TABLE_NAME+
                 " WHERE "+ThermoDatabaseHelper.WEEK_DAY+" = '"+x.day +"' AND "+
                 ThermoDatabaseHelper.TIME_HRS+" = '"+x.hours +"' AND "+
@@ -171,6 +211,7 @@ public class ThermostatActivity extends AppCompatActivity {
                 //Duplicate is found
                 returnCursor.moveToFirst();
                 y = returnCursor.getInt(returnCursor.getColumnIndex(ThermoDatabaseHelper.KEY_ID));
+                returnCursor.close();
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(ThermostatActivity.this);
                 builder.setMessage(R.string.duplicateQuestion)
@@ -180,7 +221,7 @@ public class ThermostatActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int id) {
                                 // User clicked OK button
                                 //Deleting entry from database
-                                eraseEntry(y);
+                                eraseEntry(new ScheduleEntry(y,0,0,0,0));
                             }
                         })
                         .setNegativeButton("NO", new DialogInterface.OnClickListener() {
@@ -193,6 +234,7 @@ public class ThermostatActivity extends AppCompatActivity {
 
  //Entry Update
     public void updateEntry(ScheduleEntry tempEntry){
+        duplicationChecker(tempEntry);
         //Update query
         ContentValues values = new ContentValues();
         values.put(ThermoDatabaseHelper.WEEK_DAY, tempEntry.day);
@@ -214,6 +256,7 @@ public class ThermostatActivity extends AppCompatActivity {
 
     //Entry Adding
     public void addEntry(ScheduleEntry tempEntry){
+        duplicationChecker(tempEntry);
         //Insert procedure
         ContentValues values = new ContentValues();
         values.put(ThermoDatabaseHelper.WEEK_DAY, tempEntry.day);
@@ -221,6 +264,10 @@ public class ThermostatActivity extends AppCompatActivity {
         values.put(ThermoDatabaseHelper.TIME_MIN, tempEntry.minutes);
         values.put(ThermoDatabaseHelper.TEMPERATURE, tempEntry.temperature);
         db.insert(ThermoDatabaseHelper.TABLE_NAME, null, values);
+        Cursor cursor = db.rawQuery("SELECT last_insert_rowid()", null);
+        cursor.moveToFirst();
+        tempEntry.id = cursor.getInt(0);
+        cursor.close();
         arrayList.add(tempEntry);
         addAndSort();
         messageAdapter.notifyDataSetChanged();
@@ -231,7 +278,8 @@ public class ThermostatActivity extends AppCompatActivity {
     }
 
     //Entry eraser
-    public void eraseEntry(int x){
+    public void eraseEntry(ScheduleEntry tempEntry){
+        int x = tempEntry.id;
         String query = "DELETE FROM "+ThermoDatabaseHelper.TABLE_NAME + " WHERE "+
                 ThermoDatabaseHelper.KEY_ID +" = '"+x + "';";
         db.execSQL(query);
@@ -267,8 +315,7 @@ public class ThermostatActivity extends AppCompatActivity {
 
         @Override
         public ScheduleEntry getItem(int position){
-            ScheduleEntry tempEntry = arrayList.get(position);
-            return tempEntry;
+            return arrayList.get(position);
         }
 
         @Override

@@ -13,7 +13,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:text="Please Enter New Thermostat Rule"
-        android:textSize="24sp" />
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/textView3"
@@ -21,9 +21,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/welcomeText"
-        android:layout_marginTop="57dp"
+        android:layout_marginTop="13dp"
         android:text="Week day:"
-        android:textSize="18sp" />
+        android:textSize="14sp" />
 
     <Spinner
         android:id="@+id/spinnerDays"
@@ -38,10 +38,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/textView3"
-        android:layout_marginTop="35dp"
+        android:layout_below="@+id/spinnerDays"
+        android:layout_marginTop="21dp"
         android:text="Time: "
-        android:textSize="18sp" />
+        android:textSize="14sp" />
 
     <EditText
         android:id="@+id/textTime"
@@ -59,17 +59,16 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/textTime"
-        android:layout_marginTop="43dp"
+        android:layout_marginTop="16dp"
         android:text="Temperature in C:"
-        android:textSize="18sp" />
+        android:textSize="14sp" />
 
     <Button
         android:id="@+id/buttonSubmit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/textView5"
-        android:layout_marginTop="52dp"
+        android:layout_below="@+id/editTemperature"
         android:text="SAVE" />
 
     <Button
