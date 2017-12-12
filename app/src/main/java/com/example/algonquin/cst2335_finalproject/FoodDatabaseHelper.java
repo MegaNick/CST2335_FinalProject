@@ -6,11 +6,17 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 public class FoodDatabaseHelper extends SQLiteOpenHelper {
-        protected static String DATABASE_NAME = "EatFood1.db";
-        protected static int VERSION_NUM = 1;
+        private static String DATABASE_NAME = "EatFood1.db";
+        private static int VERSION_NUM = 1;
+        public static final String tableName = "FoodTable";
         public final static String Key_ID = "_id";
-        public final static String KEY_FOOD = "Food";
-        public static final String name = "FoodTable";
+        public final static String Key_FOOD = "Food";
+        public final static String Key_Day = "Day";
+        public final static String Key_Time = "Time";
+        public final static String Key_Calories = "Calories";
+        public final static String Key_Fat = "TotalFat";
+        public final static String Key_Carbohydrate = "TotalCarbohydrate";
+
 
         public FoodDatabaseHelper(Context ctx) {
             super(ctx, DATABASE_NAME, null, VERSION_NUM);
@@ -18,19 +24,18 @@ public class FoodDatabaseHelper extends SQLiteOpenHelper {
 
         @Override
         public void onCreate(SQLiteDatabase db) {
-            db.execSQL("CREATE TABLE " + name + "( _id INTEGER PRIMARY KEY AUTOINCREMENT, Food text);");
-            Log.i("FoodDatabaseHelper", "Calling onCreate");
+            db.execSQL("CREATE TABLE " + tableName +
+                    " ( _id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "Food text, Day text, Time text, Calories text, " +
+                    "TotalFat text, TotalCarbohydrate text);");
         }
 
         @Override
-        public void onOpen(SQLiteDatabase db){
-            Log.i("FoodDatabaseHelper", "Calling onOpen");
-        }
+        public void onOpen(SQLiteDatabase db){ }
 
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-            db.execSQL("DROP TABLE IF EXISTS " + name);
+            db.execSQL("DROP TABLE IF EXISTS " + tableName);
             onCreate(db);
-            Log.i("FoodDatabaseHelper", "Calling onUpgrade, oldVersion=" + oldVersion + "newVersion=" + newVersion);
         }
     }
 

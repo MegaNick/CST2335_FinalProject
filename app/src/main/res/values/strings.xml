@@ -1,9 +1,15 @@
 <resources>
     <string name="app_name">CST2335_FinalProject</string>
-    <string name="calories">Over Power: </string>
-    <string name="total_fat">Jinda is fat: </string>
-    <string name="total_carbohydrate">Triple Triple Coffee: </string>
-    <string name="delete_info">Del</string>
-    <string name="edit_info">Edit</string>
-    <string name="add_food">Add</string>
+    <string name="food_item">Food: </string>
+    <string name="eat_day">Day: </string>
+    <string name="eat_time">Time: </string>
+    <string name="calories">Calories: </string>
+    <string name="total_fat">Total Fat: </string>
+    <string name="total_carbohydrate">Total Carbohydrate: </string>
+    <string name="delete_info">Delete</string>
+    <string name="save_info">Save</string>
+    <string name="save_asNew">Save As A New Record</string>
+    <string name="cancel">Cancel</string>
+    <string name="add_food">Add a Food Item</string>
+    <string name="title_activity_nutrition_details">NutritionDetails</string>
 </resources>

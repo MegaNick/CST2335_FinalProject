@@ -1,38 +1,35 @@
 package com.example.algonquin.cst2335_finalproject;
 
 import android.app.Activity;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import java.util.ArrayList;
 
-import static com.example.algonquin.cst2335_finalproject.FoodDatabaseHelper.KEY_FOOD;
+
 
 public class FoodList extends Activity {
 
+    private static final String ACTIVITY_NAME = "FoodList";
     private ArrayList<String> foodArray = new ArrayList<>();
     private ListView foodListView;
-    private EditText enterFood;
-    private Button editFoodButton;
-    private Button deleteFoodButton;
     private Button addFoodButton;
+    private FoodDatabaseHelper fdHelper;
     private SQLiteDatabase writeableDB;
+    private FoodAdapter foodAdapter;
     private Cursor c;
-    private static final String ACTIVITY_NAME = "FoodList";
+    private Boolean onPhone;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,45 +37,34 @@ public class FoodList extends Activity {
         setContentView(R.layout.activity_food_list);
 
         foodListView = findViewById(R.id.foodListView);
-        enterFood = findViewById(R.id.enterFood);
         addFoodButton = findViewById(R.id.addFood);
-        editFoodButton = findViewById(R.id.editFood);
-        deleteFoodButton = findViewById(R.id.deleteFood);
 
-        final FoodDatabaseHelper fdHelper = new FoodDatabaseHelper(this);
-        writeableDB = fdHelper.getWritableDatabase();
-        final FoodAdapter foodAdapter =new FoodAdapter( this );
+        foodAdapter =new FoodAdapter( this );
         foodListView.setAdapter(foodAdapter);
-        c = writeableDB.rawQuery("select * from " + fdHelper.name,null);
+
+        fdHelper = new FoodDatabaseHelper(this);
+        writeableDB = fdHelper.getWritableDatabase();
+        c = writeableDB.rawQuery("select * from " + fdHelper.tableName,null);
         c.moveToFirst();
 
         while(!c.isAfterLast()){
-            int i = c.getColumnIndex(KEY_FOOD);
+            int i = c.getColumnIndex(FoodDatabaseHelper.Key_FOOD);
             foodArray.add(c.getString(i));
-            Log.i(ACTIVITY_NAME, "SQL MESSAGE:" + c.getString(i));
             c.moveToNext();
         }
 
         addFoodButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String userEnter = enterFood.getText().toString();
-                ContentValues cValues = new ContentValues();
-                foodArray.add(userEnter);
-                cValues.put(KEY_FOOD,userEnter);
-                writeableDB.insert(fdHelper.name,null,cValues);
-                foodAdapter.notifyDataSetChanged();
-                enterFood.setText("");
+                Intent nutritionDetails = new Intent(FoodList.this, NutritionDetails.class);
+                startActivity(nutritionDetails);
             }
         });
 
         foodListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent nutritionDetails = new Intent(FoodList.this, NutritionDetails.class);
-                //phoneIntent.putExtra("bundle",bd);
-                //startActivityForResult(phoneIntent,requestCode);
-                startActivity(nutritionDetails);
+
             }
         });
     }
@@ -103,6 +89,13 @@ public class FoodList extends Activity {
             TextView message = (TextView)result.findViewById(R.id.food_info);
             message.setText(   getItem(position)  ); // get the string at position
             return result;
+        }
+
+        public long getItemId(int position){
+            c.moveToPosition(position);
+            String x;
+            x = c.getString(c.getColumnIndex(FoodDatabaseHelper.Key_ID));
+            return Long.parseLong(x);
         }
     }
 }
