@@ -22,7 +22,6 @@ import android.widget.Toast;
 
 public class ThermoRuleSetterActivity extends Fragment {
     public static final String ACTIVITY_NAME = "ThermoRuleSetterActivity";
-    public static final Integer TEMP_VALUES [] = {5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35};
     private TextView welcomeText;
     private Spinner spinner;
     private EditText setTime;
@@ -56,9 +55,7 @@ public class ThermoRuleSetterActivity extends Fragment {
         cancelButton = view.findViewById(R.id.cancelButton);
         newRuleButton = view.findViewById(R.id.newRuleButton);
 
-
         Bundle args = this.getArguments();
-
 
         int mode = args.getInt("mode");
 
@@ -74,7 +71,7 @@ public class ThermoRuleSetterActivity extends Fragment {
             deleteButton.setEnabled(true);
             submit.setEnabled(true);
         }
-//Put Numbers into proper boxes
+    //Puts Numbers into proper boxes
         //Spinner with Dates
         // Info about spinners https://developer.android.com/guide/topics/ui/controls/spinner.html
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String> (getContext(), android.R.layout.simple_spinner_item, ThermostatActivity.DAYS);
@@ -92,7 +89,6 @@ public class ThermoRuleSetterActivity extends Fragment {
 
         //Setting temperature
         setTemperature.setText(String.valueOf(intArray[4]));
-
 
         //Settings changers
 
@@ -139,7 +135,6 @@ public class ThermoRuleSetterActivity extends Fragment {
 
         //Temperature handler
 
-
         //Submit Button Handler
         newRuleButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -172,7 +167,6 @@ public class ThermoRuleSetterActivity extends Fragment {
                 }else {//If it is tablet - just leave
                     getFragmentManager().popBackStackImmediate();
                 }
-
             }
         });
 
@@ -209,7 +203,6 @@ public class ThermoRuleSetterActivity extends Fragment {
                     if (checkTemp()) { ((ThermostatActivity)getActivity()).updateEntry(arrayToEntry(intArray));}
                     getFragmentManager().popBackStackImmediate();
                 }
-
             }
         });
     return view;

@@ -46,11 +46,6 @@ public class ThermostatActivity extends FragmentActivity {
     private Runnable runnable; //for timer
     int y;
 
-
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,7 +94,6 @@ public class ThermostatActivity extends FragmentActivity {
                 tempArray[3] = tempEntry.minutes;
                 tempArray[4] = tempEntry.temperature;
                 tempArray[5] = position;
-
 
                 //Checking for phone or tablet
                 //
@@ -181,7 +175,6 @@ public class ThermostatActivity extends FragmentActivity {
             Bundle extras = data.getExtras();
             int[] tempArray = (int[]) extras.get("data");
             ScheduleEntry tempEntry = new ScheduleEntry(tempArray[0], tempArray[1], tempArray[2], tempArray[3], tempArray[4]);
-
 
             if (resultCode == 11) { //Create new entry
                 addEntry(tempEntry);

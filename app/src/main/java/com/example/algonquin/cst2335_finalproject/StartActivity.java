@@ -1,69 +1,89 @@
 package com.example.algonquin.cst2335_finalproject;
 
-import android.app.Activity;
-
-import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 
-public class StartActivity extends Activity {
-
-    Button automobileButton;
-    private Button buttonThermostat;
-    private Button foodButton;
+public class StartActivity extends AppCompatActivity {
+    FloatingActionButton flButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
-        buttonThermostat = findViewById(R.id.thermostatButton);
-        automobileButton = findViewById(R.id.autoMobileButton);
-      
-      //Activity Tracking
-        Button bt_activityTracking = findViewById(R.id.button);
-        bt_activityTracking.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(StartActivity.this,ActivityTracking.class);
-                startActivity(intent);
-            }
-        });
+        flButton = findViewById(R.id.infoButton);
+        Toolbar toolbar = findViewById(R.id.start_toolbar);
+        setSupportActionBar(toolbar);
 
-      //Nutrition Tracker
-        foodButton = (Button)findViewById(R.id.button2);
-        foodButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(StartActivity.this, FoodList.class);
-                startActivity(intent);
-                  }
-        });
-        
-        //Start Thermostat Activity        
-        buttonThermostat = findViewById(R.id.thermostatButton);
-        buttonThermostat.setOnClickListener(new View.OnClickListener() {
+        //Help Button
+        flButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ThermostatActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        //Start Automobile Activity
-        automobileButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), AutomobileActivity.class);
-                startActivity(intent);
+                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+               builder.setMessage("CST2335_FinalProject by:\n\n" +
+                       "Huaming Cai - Activity Tracker\n" +
+                       "Shu Chen - Food Nutrition Tracker\n" +
+                       "Nikolay Melnik - Thermostat\n" +
+                       "Jinda Xu - Automobile Activity");
+// Add the button
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
+                });
+ // Create the AlertDialog
+                AlertDialog dialog = builder.create();
+                dialog.show();
             }
         });
     }
+
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu m) {
+        super.onCreateOptionsMenu(m);
+        getMenuInflater().inflate(R.menu.toolbar_menu, m );
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem mi) {
+        super.onOptionsItemSelected(mi);
+        int id = mi.getItemId();
+        switch (id) {
+            case R.id.action_one:
+                //Activity Tracking
+                Intent intent1 = new Intent(StartActivity.this,ActivityTracking.class);
+                startActivity(intent1);
+                break;
+            case R.id.action_two:
+                //Nutrition Tracker
+                Intent intent2 = new Intent(StartActivity.this, FoodList.class);
+                startActivity(intent2);
+                break;
+            case R.id.action_three:
+                //Start Thermostat Activity
+                Intent intent3 = new Intent(getApplicationContext(), ThermostatActivity.class);
+                startActivity(intent3);
+                break;
+            case R.id.action_four:
+                //Start Automobile Activity
+                Intent intent4 = new Intent(getApplicationContext(), AutomobileActivity.class);
+                startActivity(intent4);
+                break;
+            case R.id.action_five:
+                break;
+        }
+        return true;
+    }
+
 
     @Override
     public void onResume() {
