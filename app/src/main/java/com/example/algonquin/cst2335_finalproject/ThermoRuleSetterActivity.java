@@ -49,11 +49,14 @@ public class ThermoRuleSetterActivity extends Fragment {
         welcomeText = view.findViewById(R.id.welcomeText);
         spinner = view.findViewById(R.id.spinnerDays);
         setTime = view.findViewById(R.id.textTime);
+        setTime.setFocusable(false);
         setTemperature = view.findViewById(R.id.editTemperature);
         submit = view.findViewById(R.id.buttonSubmit);
         deleteButton = view.findViewById(R.id.deleteButton);
         cancelButton = view.findViewById(R.id.cancelButton);
         newRuleButton = view.findViewById(R.id.newRuleButton);
+        final String [] days = {getString(R.string.monday), getString(R.string.tuesday), getString(R.string.wednesday), getString(R.string.thursday), getString(R.string.friday), getString(R.string.saturday), getString(R.string.sunday)};
+
 
         Bundle args = this.getArguments();
 
@@ -61,20 +64,20 @@ public class ThermoRuleSetterActivity extends Fragment {
 
         if (mode == 5) { //Do entry new value
             //Changing welcome text
-            welcomeText.setText("Please Enter New Thermostat Rule");
+            welcomeText.setText(R.string.thermoRuleMessage);
             intArray = new int [] {0,0,0,0,15};
             deleteButton.setEnabled(false);
             submit.setEnabled(false);
         } else if (mode == 6){ //Do edit or delete value
             intArray = args.getIntArray("data");
-            welcomeText.setText("Please change or delete Thermostat Rule");
+            welcomeText.setText(R.string.thermoRuleChange);
             deleteButton.setEnabled(true);
             submit.setEnabled(true);
         }
     //Puts Numbers into proper boxes
         //Spinner with Dates
         // Info about spinners https://developer.android.com/guide/topics/ui/controls/spinner.html
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String> (getContext(), android.R.layout.simple_spinner_item, ThermostatActivity.DAYS);
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String> (getContext(), android.R.layout.simple_spinner_item, days);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(spinnerAdapter);
         spinner.setSelection(intArray[1]);
@@ -226,5 +229,11 @@ public class ThermoRuleSetterActivity extends Fragment {
     //Transfer array to ThermoScheduleEntry
     public ScheduleEntry arrayToEntry(int [] x){
         return new ScheduleEntry(x[0], x[1], x[2], x[3], x[4]);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
     }
 }

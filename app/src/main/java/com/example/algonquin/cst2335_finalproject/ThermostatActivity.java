@@ -12,6 +12,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
@@ -33,9 +34,10 @@ import java.util.Collections;
 import java.util.Comparator;
 
 public class ThermostatActivity extends FragmentActivity {
-    Button ruleAddButton;
-    public static final String [] DAYS = {"MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"};
-    ArrayList<ScheduleEntry> arrayList = new ArrayList<>();
+    private Button ruleAddButton;
+    private FloatingActionButton floatingActionButton;
+    private String [] days;
+    private ArrayList<ScheduleEntry> arrayList = new ArrayList<>();
     private ListView chatListView;
     private FrameLayout frameLayout;
     private ChatAdapter messageAdapter;
@@ -44,7 +46,7 @@ public class ThermostatActivity extends FragmentActivity {
     private Handler handler; // Timer Initiator
     private int timerCounter;
     private Runnable runnable; //for timer
-    int y;
+    private int y;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,9 +59,12 @@ public class ThermostatActivity extends FragmentActivity {
         chatListView.setAdapter (messageAdapter);
         //Checking Phone orientation
         frameLayout = findViewById(R.id.frameThermo);
+        days = new String[] {getResources().getString(R.string.monday), getResources().getString(R.string.tuesday), getResources().getString(R.string.wednesday),
+                getResources().getString(R.string.thursday), getResources().getString(R.string.friday), getResources().getString(R.string.saturday), getResources().getString(R.string.sunday)};
+        floatingActionButton = findViewById(R.id.floatingActionButton);
 
         //Initializer
-        System.out.println("Position-"+frameLayout);
+//        System.out.println("Position-"+frameLayout);
 
         //Timer Initializer
         //Timer task for delays
@@ -149,8 +154,46 @@ public class ThermostatActivity extends FragmentActivity {
                 }
             }
           });
-    }
 
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(v.getContext());
+                builder.setTitle("Thermostat Activity by Nikolay Melnik");
+                builder.setMessage( "You can program the thermostat by \n" +
+                                    "adding the new rules or deleting/updating\n" +
+                                    "the old ones.\n" +
+                                    "Please press \"Add new Rule\" button\n" +
+                                    "to add new rule, or click on the List\n" +
+                                    "to update/delete an old one.\n" +
+                                    "In the next activity you can change\n" +
+                                    "individual parameters by clicking on them\n" +
+                                    "or by choosing different options.\n" +
+                                    "After you are satisfied with your choice\n" +
+                                    "please click proper button for operation\n" +
+                                    "and you will return back to this screen\n" +
+                                    "where you will see the changes.\n" +
+                                    "If you enter a duplicate entry, you will\n" +
+                                    "be asked to confirm your choice by an Alert\n" +
+                                    "window.");
+// Add the button
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
+                });
+                // Create the AlertDialog
+                android.support.v7.app.AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
+
+
+    }//END of onCreate
+
+
+
+    ////////////////////////////////////////////////////////////////
+    //Different Methods
     //Add and sort Method
     public void addAndSort(){
         //Sorting the Array
@@ -172,6 +215,7 @@ public class ThermostatActivity extends FragmentActivity {
         super.onActivityResult(requestCode, resultCode, data);
         //If entering new value
         if (requestCode == 10) { //From ThermoRuleSetterActivity
+      if (data==null) return;
             Bundle extras = data.getExtras();
             int[] tempArray = (int[]) extras.get("data");
             ScheduleEntry tempEntry = new ScheduleEntry(tempArray[0], tempArray[1], tempArray[2], tempArray[3], tempArray[4]);
@@ -209,15 +253,15 @@ public class ThermostatActivity extends FragmentActivity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(ThermostatActivity.this);
                 builder.setMessage(R.string.duplicateQuestion)
 
-                        .setTitle("Duplcate entry's found!")
-                        .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                        .setTitle(getResources().getString(R.string.thermoDuplicate))
+                        .setPositiveButton(getResources().getString(R.string.thermoYes), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 // User clicked OK button
                                 //Deleting entry from database
                                 eraseEntry(new ScheduleEntry(y,0,0,0,0));
                             }
                         })
-                        .setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                        .setNegativeButton(getResources().getString(R.string.thermoNo), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 // User cancelled the dialog
                             }
@@ -243,7 +287,7 @@ public class ThermostatActivity extends FragmentActivity {
         addAndSort();
         messageAdapter.notifyDataSetChanged();
 
-        Toast toast = Toast.makeText(getApplicationContext(), "Entry has been successfully modified", Toast.LENGTH_SHORT);
+        Toast toast = Toast.makeText(getApplicationContext(), R.string.SuccessfulEntry, Toast.LENGTH_SHORT);
         toast.show(); //Delete confirmation
     }
 
@@ -266,7 +310,7 @@ public class ThermostatActivity extends FragmentActivity {
         messageAdapter.notifyDataSetChanged();
         View view = findViewById(android.R.id.content);
 
-        Snackbar snackbar = Snackbar.make (view, "Entry added to the list successfully", Snackbar.LENGTH_SHORT);
+        Snackbar snackbar = Snackbar.make (view, getString(R.string.EntrySuccessful), Snackbar.LENGTH_SHORT);
         snackbar.show();
     }
 
@@ -285,7 +329,7 @@ public class ThermostatActivity extends FragmentActivity {
         }
         messageAdapter.notifyDataSetChanged();
 
-        Toast toast = Toast.makeText(getApplicationContext(), "Entry has been removed successfully", Toast.LENGTH_SHORT);
+        Toast toast = Toast.makeText(getApplicationContext(), R.string.EntryRemoved, Toast.LENGTH_SHORT);
         toast.show(); //Delete confirmation
     }
 
@@ -322,7 +366,7 @@ public class ThermostatActivity extends FragmentActivity {
             TextView message = (TextView)result.findViewById(R.id.message_text);
 
             ScheduleEntry tempEntry = getItem(position);
-            String text = DAYS[tempEntry.day] + ", Time:";
+            String text = days[tempEntry.day] + ", Time:";
             if (tempEntry.hours<10){text += "0";}
             text += tempEntry.hours +":";
             if (tempEntry.minutes<10) {text+="0";}

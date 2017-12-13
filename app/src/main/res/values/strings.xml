@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CST2335_FinalProject</string>
+    <string name="app_name">Final Project</string>
 
     <!---Automobile stuff -->
     <string name="fuelCostButton">Add new purchase</string>
@@ -21,5 +21,30 @@
     <string name="duplicateQuestion">Do you want to delete duplicate?</string>
     <string name="title_activity_thermo_message_details">ThermoMessageDetails</string>
     <string name="action_settings">Settings</string>
+    <string name="EntrySuccessful">Entry added to the list successfully</string>
+    <string name="SuccessfulEntry">Entry has been successfully modified</string>
+    <string name="EntryRemoved">Entry has been removed successfully</string>
+    <string name="thermoDuplicate">Duplicate entry\'s found!</string>
+    <string name="thermoYes">YES</string>
+    <string name="thermoNo">NO</string>
+    <string name="ruleAdd">Add new rule</string>
+    <string name="thermoRuleMessage">Please Enter New Thermostat Rule</string>
+    <string name="thermoRuleChange">Please change or delete Thermostat Rule</string>
+    <string name="week_day">Week day:</string>
+    <string name="time">Time:</string>
+    <string name="temperature_in_c">Temperature in C:</string>
+    <string name="save">SAVE</string>
+    <string name="delete_entry">Delete entry</string>
+    <string name="cancel">CANCEL</string>
+    <string name="save_as_a_new_rule">Save as a new rule</string>
+    <string name="temperature">Temperature</string>
+    <string name="alertFinalProject">CST2335_FinalProject by:</string>
+    <string name="monday">MONDAY</string>
+    <string name="tuesday">TUESDAY</string>
+    <string name="wednesday">WEDNESDAY</string>
+    <string name="thursday">THURSDAY</string>
+    <string name="friday">FRIDAY</string>
+    <string name="saturday">SATURDAY</string>
+    <string name="sunday">SUNDAY</string>
 
 </resources>

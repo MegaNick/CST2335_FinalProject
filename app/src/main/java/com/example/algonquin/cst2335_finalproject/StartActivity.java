@@ -27,8 +27,8 @@ public class StartActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-               builder.setMessage("CST2335_FinalProject by:\n\n" +
-                       "Huaming Cai - Activity Tracker\n" +
+                builder.setTitle(R.string.alertFinalProject);
+               builder.setMessage("Huaming Cai - Activity Tracker\n" +
                        "Shu Chen - Food Nutrition Tracker\n" +
                        "Nikolay Melnik - Thermostat\n" +
                        "Jinda Xu - Automobile Activity");
@@ -43,8 +43,6 @@ public class StartActivity extends AppCompatActivity {
             }
         });
     }
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu m) {

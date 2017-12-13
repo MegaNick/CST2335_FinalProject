@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:text="Please Enter New Thermostat Rule"
+        android:text="NoText"
         android:textSize="18sp" />
 
     <TextView
@@ -22,7 +22,7 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/welcomeText"
         android:layout_marginTop="13dp"
-        android:text="Week day:"
+        android:text="@string/week_day"
         android:textSize="14sp" />
 
     <Spinner
@@ -40,7 +40,7 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/spinnerDays"
         android:layout_marginTop="21dp"
-        android:text="Time: "
+        android:text="@string/time"
         android:textSize="14sp" />
 
     <EditText
@@ -60,7 +60,7 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/textTime"
         android:layout_marginTop="16dp"
-        android:text="Temperature in C:"
+        android:text="@string/temperature_in_c"
         android:textSize="14sp" />
 
     <Button
@@ -69,7 +69,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/editTemperature"
-        android:text="SAVE" />
+        android:text="@string/save" />
 
     <Button
         android:id="@+id/deleteButton"
@@ -78,7 +78,7 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/buttonSubmit"
         android:layout_marginTop="13dp"
-        android:text="Delete entry" />
+        android:text="@string/delete_entry" />
 
     <Button
         android:id="@+id/cancelButton"
@@ -87,7 +87,7 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/deleteButton"
         android:layout_marginTop="15dp"
-        android:text="CANCEL" />
+        android:text="@string/cancel" />
 
     <Button
         android:id="@+id/newRuleButton"
@@ -95,7 +95,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/deleteButton"
         android:layout_toEndOf="@+id/deleteButton"
-        android:text="Save as a new rule" />
+        android:text="@string/save_as_a_new_rule" />
 
     <EditText
         android:id="@+id/editTemperature"
@@ -106,7 +106,7 @@
         android:layout_toEndOf="@+id/textView5"
         android:ems="10"
         android:inputType="number"
-        android:text="Temperature"
+        android:text="@string/temperature"
         android:imeOptions="actionDone"/>
 
 </RelativeLayout>

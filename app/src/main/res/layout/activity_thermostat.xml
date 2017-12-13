@@ -14,7 +14,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true"
-        android:text="Add new rule" />
+        android:text="@string/ruleAdd" />
 
     <ListView
         android:id="@+id/listView"
