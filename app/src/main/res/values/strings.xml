@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">CST2335_FinalProject</string>
     <string name="dashboard">Activity Tracking Dashboard</string>
+    <string name="title_activity_dash_board_of_tracking">ActivityTracking</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

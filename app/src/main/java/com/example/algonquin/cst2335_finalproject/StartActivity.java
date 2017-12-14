@@ -19,7 +19,8 @@ public class StartActivity extends Activity {
         bt_activityTracking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(StartActivity.this,ActivityTracking.class);
+                Intent intent = new Intent(StartActivity.this,DashBoardOfActivityTracking.class);
+               // intent.putExtra("dashBoard","add");
                 startActivity(intent);
             }
         });
