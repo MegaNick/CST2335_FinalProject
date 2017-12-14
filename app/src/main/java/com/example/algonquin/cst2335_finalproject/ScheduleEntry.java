@@ -6,6 +6,7 @@ package com.example.algonquin.cst2335_finalproject;
 
 class ScheduleEntry {
     int id, day, hours, minutes, temperature;
+    public ScheduleEntry() {}
     public ScheduleEntry (int a, int b, int c, int d, int e){
         this.id = a;
         this.day = b;

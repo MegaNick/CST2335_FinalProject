@@ -1,5 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="duplicateQuestion">Хотите удалить дупликат?</string>
-    <string name="app_name">CST2335 Финальный проект</string>
+    <string name="app_name">Финальный проект</string>
+    <string name="EntrySuccessful">Запись успешна добавлена в список</string>
+    <string name="SuccessfulEntry">Запись была успешно модифицирована</string>
+    <string name="EntryRemoved">Запись была успешно удалена</string>
+    <string name="thermoDuplicate">Найден повтор!</string>
+    <string name="thermoYes">ДА</string>
+    <string name="thermoNo">НЕТ</string>
+    <string name="ruleAdd">Добавить запись</string>
+    <string name="thermoRuleMessage">Пожалуйста введите новую запись</string>
+    <string name="thermoRuleChange">Пожалуйста измените или удалите запись</string>
+    <string name="week_day">День недели:</string>
+    <string name="time">Время:</string>
+    <string name="temperature_in_c">Температура в C:</string>
+    <string name="save">СОХРАНИТЬ</string>
+    <string name="delete_entry">УДАЛИТЬ ЗАПИСЬ</string>
+    <string name="cancel">ОТМЕНИТЬ</string>
+    <string name="save_as_a_new_rule">СОХРАНИТЬ НОВУЮ ЗАПИСЬ</string>
+    <string name="temperature">Температура</string>
+    <string name="alertFinalProject">CST2335_Финальный проект сделан:</string>
+    <string name="monday">ПОНЕДЕЛЬНИК</string>
+    <string name="tuesday">ВТОРНИК</string>
+    <string name="wednesday">СРЕДА</string>
+    <string name="thursday">ЧЕТВЕРГ</string>
+    <string name="friday">ПЯТНИЦА</string>
+    <string name="saturday">СУББОТА</string>
+    <string name="sunday">ВОСКРЕСЕНЬЕ</string>
+    <string name="helpThermActivity">Термостат V2.0. Автор - Николай Мельник</string>
+    <string name="docs">
+        Вы можете запрограммировать термостат
+        добавляя записи или удалять/редактировать
+        старые.\n
+        Нажмите кнопку \"Добавить запись\" что бы
+        добавить новую, или кликните на Список
+        чтобы удалить/отредактировать старую.\n
+        В новом окне вы можете поменять параметры
+        кликая на них, выбирая различные опции.
+        Если Вы удовлетворены своим выбором,
+        кликните на нужную кнопку и Вы вернетесь
+        обратно в это окно, где Вы увидите сделанные
+        замены.\n
+        Если Вы введете повторную запись, то Вы
+        будете испрошены подтвердить свой выбор
+        в диалоговом окне.</string>
 </resources>
