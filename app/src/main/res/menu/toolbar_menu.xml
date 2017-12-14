@@ -27,7 +27,7 @@
         app:showAsAction="always" />
 
     <item android:id="@+id/action_five"
-        android:title="Five"
+        android:title="Info"
         android:orderInCategory="5"
         app:showAsAction="never" />
 

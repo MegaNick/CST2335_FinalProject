@@ -77,6 +77,17 @@ public class StartActivity extends AppCompatActivity {
                 startActivity(intent4);
                 break;
             case R.id.action_five:
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle(R.string.alertFinalProject);
+                builder.setMessage(getResources().getString(R.string.intro));
+// Add the button
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
+                });
+                // Create the AlertDialog
+                AlertDialog dialog = builder.create();
+                dialog.show();
                 break;
         }
         return true;

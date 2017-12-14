@@ -159,23 +159,9 @@ public class ThermostatActivity extends FragmentActivity {
             @Override
             public void onClick(View v) {
                 android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(v.getContext());
-                builder.setTitle("Thermostat Activity by Nikolay Melnik");
-                builder.setMessage( "You can program the thermostat by \n" +
-                                    "adding the new rules or deleting/updating\n" +
-                                    "the old ones.\n" +
-                                    "Please press \"Add new Rule\" button\n" +
-                                    "to add new rule, or click on the List\n" +
-                                    "to update/delete an old one.\n" +
-                                    "In the next activity you can change\n" +
-                                    "individual parameters by clicking on them\n" +
-                                    "or by choosing different options.\n" +
-                                    "After you are satisfied with your choice\n" +
-                                    "please click proper button for operation\n" +
-                                    "and you will return back to this screen\n" +
-                                    "where you will see the changes.\n" +
-                                    "If you enter a duplicate entry, you will\n" +
-                                    "be asked to confirm your choice by an Alert\n" +
-                                    "window.");
+                builder.setTitle(R.string.helpThermActivity);
+                String text = getResources().getString(R.string.docs);
+                android.support.v7.app.AlertDialog.Builder builder1 = builder.setMessage(text);
 // Add the button
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
