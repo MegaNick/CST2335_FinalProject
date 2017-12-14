@@ -12,7 +12,6 @@
         android:layout_weight="0"
         android:gravity="end"
         android:src="@drawable/food"/>
-        //app:srcCompat="@drawable/food" />
 
     <TextView
         android:id="@+id/food_info"
