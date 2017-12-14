@@ -21,8 +21,8 @@ import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 import java.util.ArrayList;
+import android.support.design.widget.Snackbar;
 
 public class FoodList extends Activity {
 
@@ -179,8 +179,7 @@ public class FoodList extends Activity {
             foodArray.add(foodTemp);
             foodAdapter.notifyDataSetChanged();
 
-            Toast toast = Toast.makeText(getApplicationContext(), "A new food info is added", Toast.LENGTH_LONG);
-            toast.show();
+            Snackbar.make(findViewById(R.id.foodListLayout), "A new food info is added", Snackbar.LENGTH_LONG).show();
         }
         else{
             writeableDB.update(FoodDatabaseHelper.tableName, values, FoodDatabaseHelper.Key_ID+" = ?", null);
@@ -189,8 +188,7 @@ public class FoodList extends Activity {
             foodArray.set(position,foodTemp);
             foodAdapter.notifyDataSetChanged();
 
-            Toast toast = Toast.makeText(getApplicationContext(), "Food info has been modified", Toast.LENGTH_LONG);
-            toast.show();
+            Snackbar.make(findViewById(R.id.foodListLayout), "Food info has been modified", Snackbar.LENGTH_LONG).show();
             }
     }
 
@@ -200,8 +198,7 @@ public class FoodList extends Activity {
         foodArray.remove(viewPostion);
         foodAdapter.notifyDataSetChanged();
 
-        Toast toast = Toast.makeText(getApplicationContext(), "Food info has been removed", Toast.LENGTH_LONG);
-        toast.show();
+        Snackbar.make(findViewById(R.id.foodListLayout), "Food info has been removed", Snackbar.LENGTH_LONG).show();
     }
 
     private class FoodAdapter extends ArrayAdapter<FoodInformation> {
