@@ -12,14 +12,12 @@ import android.view.View;
 import android.widget.Button;
 
 public class StartActivity extends Activity {
-    private Button buttonThermostat;
     private Button foodButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
-
 
         foodButton = (Button)findViewById(R.id.button2);
         foodButton.setOnClickListener(new View.OnClickListener() {
@@ -28,16 +26,6 @@ public class StartActivity extends Activity {
                 Intent intent = new Intent(StartActivity.this, FoodList.class);
                 startActivity(intent);
                   }
-        });
-        
-        //Start Thermostat Activity        
-        buttonThermostat = findViewById(R.id.thermostatButton);
-        buttonThermostat.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ThermostatActivity.class);
-                startActivity(intent);
-            }
         });
     }
 

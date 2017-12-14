@@ -12,4 +12,7 @@
     <string name="cancel">Cancel</string>
     <string name="add_food">Add a Food Item</string>
     <string name="title_activity_nutrition_details">NutritionDetails</string>
+    <string name="ok">Yes</string>
+    <string name="no">No</string>
+    <string name="dialog">Go back without Saving?</string>
 </resources>
