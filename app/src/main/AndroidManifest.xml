@@ -12,22 +12,18 @@
         <activity android:name=".StartActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".ActivityTracking" />
         <activity android:name=".AddOneActivityTracking" />
         <activity android:name=".ViewActivityTracking" />
-        <activity android:name=".NutritionDetails" />
         <activity android:name=".FoodList" />
-        <activity
-            android:name=".ThermostatActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".AutomobileActivity" />
+        <activity android:name=".ThermostatActivity"/>
         <activity android:name=".PurchaseGasActivity" />
         <activity android:name=".GasPriceHistoryActivity" />
         <activity android:name=".ThermoMessageDetails" />
+        <activity android:name=".NutritionOnPhone" />
     </application>
 
 </manifest>

@@ -5,24 +5,33 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".AutomobileActivity">
-
     <ListView
-        android:id="@+id/automobileList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_above="@+id/fuelCostB"
+        android:layout_above="@id/fuelCostB"
+
         ></ListView>
+
+    <EditText
+        android:id="@+id/gasVolumeET"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        />
 
     <Button
         android:id="@+id/fuelCostB"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
         android:text="@string/fuelCostButton"
-        />
+        tools:layout_editor_absoluteX="76dp"
+        tools:layout_editor_absoluteY="115dp" />
 
 
 
