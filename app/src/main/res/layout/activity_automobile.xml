@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".AutomobileActivity">
     <ListView
+        android:id="@+id/automobileList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
