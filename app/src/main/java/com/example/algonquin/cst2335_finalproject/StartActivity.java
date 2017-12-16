@@ -1,30 +1,98 @@
 package com.example.algonquin.cst2335_finalproject;
 
-import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 
-public class StartActivity extends Activity {
-
+public class StartActivity extends AppCompatActivity {
+    FloatingActionButton flButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
+        flButton = findViewById(R.id.infoButton);
+        Toolbar toolbar = findViewById(R.id.start_toolbar);
+        setSupportActionBar(toolbar);
 
-        Button bt_activityTracking = findViewById(R.id.button);
-        bt_activityTracking.setOnClickListener(new View.OnClickListener() {
+        //Help Button
+        flButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(StartActivity.this,DashBoardOfActivityTracking.class);
-               // intent.putExtra("dashBoard","add");
-                startActivity(intent);
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                builder.setTitle(R.string.alertFinalProject);
+               builder.setMessage("Huaming Cai - Activity Tracker\n" +
+                       "Shu Chen - Food Nutrition Tracker\n" +
+                       "Nikolay Melnik - Thermostat\n" +
+                       "Jinda Xu - Automobile Activity");
+// Add the button
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
+                });
+ // Create the AlertDialog
+                AlertDialog dialog = builder.create();
+                dialog.show();
             }
         });
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu m) {
+        super.onCreateOptionsMenu(m);
+        getMenuInflater().inflate(R.menu.toolbar_menu, m );
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem mi) {
+        super.onOptionsItemSelected(mi);
+        int id = mi.getItemId();
+        switch (id) {
+            case R.id.action_one:
+                //Activity Tracking
+                Intent intent1 = new Intent(StartActivity.this,ActivityTracking.class);
+                startActivity(intent1);
+                break;
+            case R.id.action_two:
+                //Nutrition Tracker
+                Intent intent2 = new Intent(StartActivity.this, FoodList.class);
+                startActivity(intent2);
+                break;
+            case R.id.action_three:
+                //Start Thermostat Activity
+                Intent intent3 = new Intent(getApplicationContext(), ThermostatActivity.class);
+                startActivity(intent3);
+                break;
+            case R.id.action_four:
+                //Start Automobile Activity
+                Intent intent4 = new Intent(getApplicationContext(), AutomobileActivity.class);
+                startActivity(intent4);
+                break;
+            case R.id.action_five:
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle(R.string.alertFinalProject);
+                builder.setMessage(getResources().getString(R.string.intro));
+// Add the button
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
+                });
+                // Create the AlertDialog
+                AlertDialog dialog = builder.create();
+                dialog.show();
+                break;
+        }
+        return true;
+    }
+
 
     @Override
     public void onResume() {

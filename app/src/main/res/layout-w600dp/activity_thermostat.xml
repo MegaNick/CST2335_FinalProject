@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/thermoActivityLayoutTablet"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.algonquin.cst2335_finalproject.ThermostatActivity">
+
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/thermoProgressBar"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="24dp" />
+
+    <Button
+        android:id="@+id/addRuleButt"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:text="@string/ruleAdd" />
+
+    <ProgressBar
+        android:id="@+id/thermoProgressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/addRuleButt"
+        android:layout_alignEnd="@+id/listView"
+        android:layout_marginEnd="49dp" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/floatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/listView"
+        android:layout_toStartOf="@+id/frameThermo"
+        android:clickable="true"
+        app:srcCompat="@android:drawable/ic_menu_help" />
+
+    <FrameLayout
+        android:id="@+id/frameThermo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/listView">
+
+    </FrameLayout>
+
+
+</RelativeLayout>
