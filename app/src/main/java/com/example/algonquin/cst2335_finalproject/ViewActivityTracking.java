@@ -209,7 +209,10 @@ public class ViewActivityTracking extends Fragment {
 
             tv_date.setText(separated[1]); //set the activity type
             tv_activityType.setText(separated[2]);   //set the activity type
-            tv_duration.setText(separated[3]);  //set the duration
+            if (separated.length>=4)
+               tv_duration.setText(separated[3]);  //set the duration
+            else
+                tv_duration.setText("");   //duration is null
             return result;
         }
 
@@ -217,22 +220,29 @@ public class ViewActivityTracking extends Fragment {
 
     private class databaseQuery extends AsyncTask<String, Integer, String> {
 
-
-        //onProgressUpdate method to update GUI.
-        @Override
-        protected void onProgressUpdate (Integer ... values) {
-            super.onProgressUpdate(values);
-           // progressBar.setProgress(values[0]);
-        }
-
+        //do in background
         @Override
         protected String doInBackground(String... strings) {
             return null;
         }
 
+        //onProgressUpdate method to update GUI.
+        @Override
+        protected void onProgressUpdate (Integer ... values) {
+            super.onProgressUpdate(values);
+            // progressBar.setProgress(values[0]);
+        }
+
+        //Execute
+        @Override
+        protected  void onPostExecute (String result){
+            super.onPostExecute(result);
+            //progressBar.setVisibility(View.INVISIBLE);
+        }
+
     }
 
-        @Override
+    @Override
     public void onDestroy(){
         super.onDestroy();
         cursor.close();
