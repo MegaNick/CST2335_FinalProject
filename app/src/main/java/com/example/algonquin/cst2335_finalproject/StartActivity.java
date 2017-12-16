@@ -58,7 +58,7 @@ public class StartActivity extends AppCompatActivity {
         switch (id) {
             case R.id.action_one:
                 //Activity Tracking
-                Intent intent1 = new Intent(StartActivity.this,ActivityTracking.class);
+                Intent intent1 = new Intent(StartActivity.this,DashBoardOfActivityTracking.class);
                 startActivity(intent1);
                 break;
             case R.id.action_two:
