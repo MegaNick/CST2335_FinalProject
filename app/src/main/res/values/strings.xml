@@ -59,8 +59,8 @@
     <string name="friday">FRIDAY</string>
     <string name="saturday">SATURDAY</string>
     <string name="sunday">SUNDAY</string>
-    <string name="helpThermActivity">Thermostat Activity V2.0 by Nikolay Melnik</string>
-    <string name="docs"> You can program the thermostat by \n
+    <string name="helpThermoHeader">Thermostat Activity V2.0 by Nikolay Melnik</string>
+    <string name="helpThermActivity"> You can program the thermostat by \n
         adding the new rules or deleting/updating\n
         the old ones.\n
         Please press \"Add new Rule\" button\n
@@ -77,5 +77,6 @@
         be asked to confirm your choice by an Alert\n
         window.</string>
     <string name="intro">Huaming Cai - Activity Tracker\nShu Chen - Food Nutrition Tracker\nNikolay Melnik - Thermostat\nJinda Xu - Automobile Activity"</string>
+
 
 </resources>

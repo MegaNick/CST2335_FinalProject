@@ -7,13 +7,23 @@
     android:layout_height="match_parent"
     tools:context="com.example.algonquin.cst2335_finalproject.ThermostatActivity">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/thermoToolBar"
+        android:layout_width="300dp"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+
     <ListView
         android:id="@+id/listView"
         android:layout_width="300dp"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_above="@+id/thermoProgressBar"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="24dp" />
+        android:layout_below="@+id/thermoToolBar" />
 
     <Button
         android:id="@+id/addRuleButt"
@@ -31,15 +41,6 @@
         android:layout_above="@+id/addRuleButt"
         android:layout_alignEnd="@+id/listView"
         android:layout_marginEnd="49dp" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/floatingActionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/listView"
-        android:layout_toStartOf="@+id/frameThermo"
-        android:clickable="true"
-        app:srcCompat="@android:drawable/ic_menu_help" />
 
     <FrameLayout
         android:id="@+id/frameThermo"

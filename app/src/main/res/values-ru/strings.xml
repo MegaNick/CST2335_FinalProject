@@ -27,8 +27,8 @@
     <string name="friday">ПЯТНИЦА</string>
     <string name="saturday">СУББОТА</string>
     <string name="sunday">ВОСКРЕСЕНЬЕ</string>
-    <string name="helpThermActivity">Термостат V2.0. Автор - Николай Мельник</string>
-    <string name="docs">
+    <string name="helpThermoHeader">Термостат V2.0 by код - Николай Мельник</string>
+    <string name="helpThermActivity">
         Вы можете запрограммировать термостат
         добавляя записи или удалять/редактировать
         старые.\n
@@ -44,4 +44,5 @@
         Если Вы введете повторную запись, то Вы
         будете испрошены подтвердить свой выбор
         в диалоговом окне.</string>
+
 </resources>
