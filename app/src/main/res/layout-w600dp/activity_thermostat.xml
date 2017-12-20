@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/thermoActivityLayoutTablet"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.algonquin.cst2335_finalproject.ThermostatActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/thermoToolBar"
+        android:layout_width="300dp"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/thermoProgressBar"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/thermoToolBar" />
+
+    <Button
+        android:id="@+id/addRuleButt"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:text="@string/ruleAdd" />
+
+    <ProgressBar
+        android:id="@+id/thermoProgressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/addRuleButt"
+        android:layout_alignEnd="@+id/listView"
+        android:layout_marginEnd="49dp" />
+
+    <FrameLayout
+        android:id="@+id/frameThermo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/listView">
+
+    </FrameLayout>
+
+
+</RelativeLayout>

@@ -12,24 +12,17 @@
         android:title="Two"
         android:icon="@drawable/icon_food"
         android:orderInCategory="2"
-
         app:showAsAction="always" />
 
     <item android:id="@+id/action_three"
         android:title="Three"
-        android:icon="@drawable/icon_thermostat"
+        android:icon="@drawable/icon_car"
         android:orderInCategory="3"
         app:showAsAction="always" />
 
     <item android:id="@+id/action_four"
-        android:title="Four"
-        android:icon="@drawable/icon_car"
-        android:orderInCategory="4"
-        app:showAsAction="always" />
-
-    <item android:id="@+id/action_five"
         android:title="Info"
-        android:orderInCategory="5"
+        android:orderInCategory="4"
         app:showAsAction="never" />
 
 </menu>

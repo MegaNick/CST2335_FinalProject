@@ -1,5 +1,19 @@
 <resources>
-    <string name="app_name">CST2335_FinalProject</string>
+    <string name="app_name">Final Project</string>
+
+    <!---Automobile stuff -->
+    <string name="fuelCostButton">Add new purchase</string>
+    <string name="fuelVolumeTV">Enter the amount of gas (L)</string>
+    <string name="enterGasPriceS">Enter the price of gas</string>
+
+    <!---Activity Tracking stuff -->
+    <string name="dashboard">Activity Tracking Dashboard</string>
+    <string name="title_activity_dash_board_of_tracking">ActivityTracking</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!---Nutrition stuff -->
     <string name="food_item">Food: </string>
     <string name="eat_day">Day: </string>
     <string name="eat_time">Time: </string>
@@ -14,6 +28,7 @@
     <string name="title_activity_nutrition_details">NutritionDetails</string>
     <string name="ok">Yes</string>
     <string name="no">No</string>
+
     <string name="delete_button_dialog">Delete this record?</string>
     <string name="cancel_button_dialog">Go back without Saving?</string>
     <string name="dialog_ok_button">OK</string>
@@ -28,4 +43,54 @@
     1. Please fill out all empty fields.\n\n
     2. Food Item field must and only contain letters.\n\n
     3. Fields for Calories, Fat and Carbohydrate are numbers only.\n\nInformation will store into a database and can be used for calculation and future analysis purposes.\n\nClick Delete button to delete current existing data.\n\nCancel button allows you to go back to previous activity without saving.</string>
+    <string name="dialog">Go back without Saving?</string>
+
+    <!---Thermostat stuff -->
+    <string name="duplicateQuestion">Do you want to delete duplicate?</string>
+    <string name="title_activity_thermo_message_details">ThermoMessageDetails</string>
+    <string name="action_settings">Settings</string>
+    <string name="EntrySuccessful">Entry added to the list successfully</string>
+    <string name="SuccessfulEntry">Entry has been successfully modified</string>
+    <string name="EntryRemoved">Entry has been removed successfully</string>
+    <string name="thermoDuplicate">Duplicate entry\'s found!</string>
+    <string name="thermoYes">YES</string>
+    <string name="thermoNo">NO</string>
+    <string name="ruleAdd">Add new rule</string>
+    <string name="thermoRuleMessage">Please Enter New Thermostat Rule</string>
+    <string name="thermoRuleChange">Please change or delete Thermostat Rule</string>
+    <string name="week_day">Week day:</string>
+    <string name="time">Time:</string>
+    <string name="temperature_in_c">Temperature in C:</string>
+    <string name="save">SAVE</string>
+    <string name="delete_entry">Delete entry</string>
+    <string name="cancelThermo">CANCEL</string>
+    <string name="save_as_a_new_rule">Save as a new rule</string>
+    <string name="temperature">Temperature</string>
+    <string name="alertFinalProject">CST2335_FinalProject by:</string>
+    <string name="monday">MONDAY</string>
+    <string name="tuesday">TUESDAY</string>
+    <string name="wednesday">WEDNESDAY</string>
+    <string name="thursday">THURSDAY</string>
+    <string name="friday">FRIDAY</string>
+    <string name="saturday">SATURDAY</string>
+    <string name="sunday">SUNDAY</string>
+    <string name="helpThermoHeader">Thermostat Activity V2.0 by Nikolay Melnik</string>
+    <string name="helpThermActivity"> You can program the thermostat by \n
+        adding the new rules or deleting/updating\n
+        the old ones.\n
+        Please press \"Add new Rule\" button\n
+        to add new rule, or click on the List\n
+        to update/delete an old one.\n
+        In the next activity you can change\n
+        individual parameters by clicking on them\
+        nor by choosing different options.\n
+        After you are satisfied with your choice\n
+        please click proper button for operation\n
+        and you will return back to this screen\n
+        where you will see the changes.\n
+        If you enter a duplicate entry, you will\n
+        be asked to confirm your choice by an Alert\n
+        window.</string>
+    <string name="intro">Huaming Cai - Activity Tracker\nShu Chen - Food Nutrition Tracker\nNikolay Melnik - Thermostat\nJinda Xu - Automobile Activity"</string>
+
 </resources>
