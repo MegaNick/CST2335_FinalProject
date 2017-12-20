@@ -14,10 +14,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -33,7 +36,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-public class ThermostatActivity extends FragmentActivity {
+public class ThermostatActivity extends AppCompatActivity {
+    private Toolbar toolbar;
     private Button ruleAddButton;
     private FloatingActionButton floatingActionButton;
     private String [] days;
@@ -57,11 +61,13 @@ public class ThermostatActivity extends FragmentActivity {
         progressBar = findViewById(R.id.thermoProgressBar);
         messageAdapter =new ChatAdapter( this );
         chatListView.setAdapter (messageAdapter);
+        Toolbar toolbar = findViewById(R.id.thermoToolBar);
+        setSupportActionBar(toolbar);
         //Checking Phone orientation
         frameLayout = findViewById(R.id.frameThermo);
         days = new String[] {getResources().getString(R.string.monday), getResources().getString(R.string.tuesday), getResources().getString(R.string.wednesday),
                 getResources().getString(R.string.thursday), getResources().getString(R.string.friday), getResources().getString(R.string.saturday), getResources().getString(R.string.sunday)};
-        floatingActionButton = findViewById(R.id.floatingActionButton);
+//        floatingActionButton = findViewById(R.id.floatingActionButton);
 
         //Initializer
 //        System.out.println("Position-"+frameLayout);
@@ -155,23 +161,23 @@ public class ThermostatActivity extends FragmentActivity {
             }
           });
 
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(v.getContext());
-                builder.setTitle(R.string.helpThermActivity);
-                String text = getResources().getString(R.string.docs);
-                android.support.v7.app.AlertDialog.Builder builder1 = builder.setMessage(text);
-// Add the button
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                    }
-                });
-                // Create the AlertDialog
-                android.support.v7.app.AlertDialog dialog = builder.create();
-                dialog.show();
-            }
-        });
+//        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(v.getContext());
+//                builder.setTitle(R.string.helpThermActivity);
+//                String text = getResources().getString(R.string.docs);
+//                android.support.v7.app.AlertDialog.Builder builder1 = builder.setMessage(text);
+//// Add the button
+//                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int id) {
+//                    }
+//                });
+//                // Create the AlertDialog
+//                android.support.v7.app.AlertDialog dialog = builder.create();
+//                dialog.show();
+//            }
+//        });
 
 
     }//END of onCreate
@@ -443,4 +449,50 @@ public class ThermostatActivity extends FragmentActivity {
         super.onDestroy();
         db.close();
     }
+
+    //TOOLBAR stuff
+    @Override
+    public boolean onCreateOptionsMenu(Menu m) {
+        super.onCreateOptionsMenu(m);
+        getMenuInflater().inflate(R.menu.thermo_toolbar_menu, m );
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem mi) {
+        super.onOptionsItemSelected(mi);
+        int id = mi.getItemId();
+        switch (id) {
+            case R.id.action_one:
+                //Activity Tracking
+                Intent intent1 = new Intent(ThermostatActivity.this,DashBoardOfActivityTracking.class);
+                startActivity(intent1);
+                break;
+            case R.id.action_two:
+                //Nutrition Tracker
+                Intent intent2 = new Intent(ThermostatActivity.this, FoodList.class);
+                startActivity(intent2);
+                break;
+            case R.id.action_three:
+                //Start Automobile Activity
+                Intent intent4 = new Intent(ThermostatActivity.this, AutomobileActivity.class);
+                startActivity(intent4);
+                break;
+            case R.id.action_four:
+                android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
+                builder.setTitle(R.string.helpThermoHeader);
+                builder.setMessage(getResources().getString(R.string.helpThermActivity));
+// Add the button
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
+                });
+                // Create the AlertDialog
+                android.support.v7.app.AlertDialog dialog = builder.create();
+                dialog.show();
+                break;
+        }
+        return true;
+    }
+
 }
