@@ -143,4 +143,17 @@
         android:layout_toRightOf="@id/deleteButton"
         android:text="@string/cancel"/>
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/floatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/cancelButton"
+        android:layout_alignParentEnd="true"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="22dp"
+        android:clickable="true"
+        android:focusable="true"
+        app:backgroundTint="@android:color/background_light"
+        app:srcCompat="@drawable/info" />
+
 </RelativeLayout>

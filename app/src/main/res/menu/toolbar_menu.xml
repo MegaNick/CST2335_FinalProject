@@ -12,6 +12,7 @@
         android:title="Two"
         android:icon="@drawable/icon_food"
         android:orderInCategory="2"
+
         app:showAsAction="always" />
 
     <item android:id="@+id/action_three"
