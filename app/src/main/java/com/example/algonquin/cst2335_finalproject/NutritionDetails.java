@@ -5,8 +5,10 @@ import android.app.Fragment;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.icu.util.Calendar;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -31,11 +34,12 @@ public class NutritionDetails extends Fragment implements AdapterView.OnItemSele
     private Button saveButton;
     private Button deleteButton;
     private Button cancelButton;
+    private FloatingActionButton floatingActionButton;
     private String[] weekDays={"Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"};
     //0--foodItem, 1--day, 2--hour, 3--minute, 4--Cal, 5--fat, 6--Carbohydrate, 7--viewPosition
     public String[] foodKeeperArray = new String[8];
     private int todo;
-    private Long id;
+    private Long singleID;
     private int viewPosition;
 
     public NutritionDetails(){phone = true;}
@@ -49,20 +53,43 @@ public class NutritionDetails extends Fragment implements AdapterView.OnItemSele
 
         View view = inflater.inflate(R.layout.activity_nutrition_details, container, false);
 
-        final Bundle args = this.getArguments();
-        id = args.getLong("id");
-        viewPosition = args.getInt("viewPosition");
-
         enterFoodItem = view.findViewById(R.id.enterFoodItem);
-
         selectDay = view.findViewById(R.id.selectDay);
+        enterTime = view.findViewById(R.id.enterTime);
+        enterTime.setFocusable(false);
+        enterCalories = view.findViewById(R.id.enterCalories);
+        enterTotalFat = view.findViewById(R.id.enterTotalFat);
+        enterTotalCarbohydrate =view.findViewById(R.id.enterTotalCarbohydrate);
+        saveButton = view.findViewById(R.id.saveButton);
+        deleteButton = view.findViewById(R.id.deleteButton);
+        cancelButton = view.findViewById(R.id.cancelButton);
+        floatingActionButton = view.findViewById(R.id.floatingActionButton);
+
+        final Bundle args = this.getArguments();
+        singleID = args.getLong("id");
+        viewPosition = args.getInt("viewPosition");
+        todo = args.getInt("TODO");
+        if(todo == 1){
+            foodKeeperArray[2]="00";
+            foodKeeperArray[3]="00";
+            enterTime.setText(foodKeeperArray[2]+":"+foodKeeperArray[3]);
+            deleteButton.setEnabled(false);
+        }
+        if(todo == 2){
+            foodKeeperArray = args.getStringArray("foodInfo");
+            enterFoodItem.setText(foodKeeperArray[0]);
+            selectDay.setSelection(whichDay(foodKeeperArray[1]));
+            enterTime.setText(foodKeeperArray[2]+":"+foodKeeperArray[3]);
+            enterCalories.setText(foodKeeperArray[4]);
+            enterTotalFat.setText(foodKeeperArray[5]);
+            enterTotalCarbohydrate.setText(foodKeeperArray[6]);
+        }
+
         ArrayAdapter<String> i = new ArrayAdapter (getContext(), android.R.layout.simple_spinner_item,weekDays);
         i.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         selectDay.setAdapter(i);
         selectDay.setOnItemSelectedListener(this);
 
-        enterTime = view.findViewById(R.id.enterTime);
-        enterTime.setFocusable(false);
         enterTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,35 +114,11 @@ public class NutritionDetails extends Fragment implements AdapterView.OnItemSele
                         tempTime = tempTime + foodKeeperArray[3];
                         enterTime.setText(tempTime);
                     }
-                }, hour, minute, true);//True -  24 hour time
+                }, hour, minute, true);
                 mTimePicker.setTitle("Select Time");
                 mTimePicker.show();
             }
         });
-
-        enterCalories = view.findViewById(R.id.enterCalories);
-        enterTotalFat = view.findViewById(R.id.enterTotalFat);
-        enterTotalCarbohydrate =view.findViewById(R.id.enterTotalCarbohydrate);
-        saveButton = view.findViewById(R.id.saveButton);
-        deleteButton = view.findViewById(R.id.deleteButton);
-        cancelButton = view.findViewById(R.id.cancelButton);
-
-        todo = args.getInt("TODO");
-        if(todo == 1){
-            foodKeeperArray[2]="00";
-            foodKeeperArray[3]="00";
-            enterTime.setText(foodKeeperArray[2]+":"+foodKeeperArray[3]);
-            deleteButton.setEnabled(false);
-        }
-        if(todo == 2){
-            foodKeeperArray = args.getStringArray("foodInfo");
-            enterFoodItem.setText(foodKeeperArray[0]);
-            selectDay.setSelection(whichDay(foodKeeperArray[1]));
-            enterTime.setText(foodKeeperArray[2]+":"+foodKeeperArray[3]);
-            enterCalories.setText(foodKeeperArray[4]);
-            enterTotalFat.setText(foodKeeperArray[5]);
-            enterTotalCarbohydrate.setText(foodKeeperArray[6]);
-        }
 
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,18 +143,30 @@ public class NutritionDetails extends Fragment implements AdapterView.OnItemSele
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (phone==true) {
-                    if (checkFood()==true) {
-                        Intent intent = new Intent();
-                        intent.putExtra("forDelete", args);
-                        getActivity().setResult(2, intent);
-                        getActivity().finish();
+                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                builder.setTitle(R.string.delete_button_dialog);
+                builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        if (phone==true) {
+                            if (checkFood()==true) {
+                                Intent intent = new Intent();
+                                intent.putExtra("forDelete", args);
+                                getActivity().setResult(2, intent);
+                                getActivity().finish();
+                            }
+                        }
+                        else {
+                            ((FoodList) getActivity()).deleteInfo(singleID,viewPosition);
+                            getActivity().getFragmentManager().beginTransaction().remove(NutritionDetails.this).commit();
+                        }
                     }
-                }
-                else {
-                    ((FoodList) getActivity()).deleteInfo(id,viewPosition);
-                    getActivity().getFragmentManager().beginTransaction().remove(NutritionDetails.this).commit();
-                }
+                });
+                builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
             }
         });
 
@@ -159,7 +174,7 @@ public class NutritionDetails extends Fragment implements AdapterView.OnItemSele
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-                builder.setTitle(R.string.dialog);
+                builder.setTitle(R.string.cancel_button_dialog);
                 builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         getActivity().finish();
@@ -173,8 +188,32 @@ public class NutritionDetails extends Fragment implements AdapterView.OnItemSele
                 dialog.show();
             }
         });
+
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                LayoutInflater inflater = getActivity().getLayoutInflater();
+                View view1 =inflater.inflate(R.layout.custom_dialog_food, null);
+
+                TextView title = view1.findViewById(R.id.item_title);
+                title.setText(getString(R.string.floating_button_title));
+
+                TextView bodyMessage = view1.findViewById(R.id.item_body_message);
+                bodyMessage.setText(getString(R.string.floating_button_body_message));
+
+                builder.setView(view1)
+                        .setPositiveButton(R.string.dialog_ok_button, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int id) {}
+                        });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
         return view;
     }
+
     @Override
     public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long id) {
         foodKeeperArray[1] = weekDays[position];
@@ -252,27 +291,13 @@ public class NutritionDetails extends Fragment implements AdapterView.OnItemSele
 
     public int whichDay(String a){
         int i=0;
-        if(a.equals("Monday")){
-            i=0;
-        }
-        else if(a.equals("Tuesday")){
-            i=1;
-        }
-        else if(a.equals("Wednesday")){
-            i=2;
-        }
-        else if(a.equals("Thursday")){
-            i=3;
-        }
-        else if(a.equals("Friday")){
-            i=4;
-        }
-        else if(a.equals("Saturday")){
-            i=5;
-        }
-        else if(a.equals("Sunday")){
-            i=6;
-        }
+        if(a.equals("Monday")) i=0;
+        else if(a.equals("Tuesday")) i=1;
+        else if(a.equals("Wednesday")) i=2;
+        else if(a.equals("Thursday")) i=3;
+        else if(a.equals("Friday")) i=4;
+        else if(a.equals("Saturday")) i=5;
+        else if(a.equals("Sunday")) i=6;
         return i;
     }
 
