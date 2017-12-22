@@ -21,7 +21,8 @@
         app:showAsAction="always" />
 
     <item android:id="@+id/action_menu"
-        android:title="about"
+        android:title="Help"
+        android:icon="@drawable/icons8_help_50"
         android:orderInCategory="103"
-        app:showAsAction="never" />
+        app:showAsAction="always" />
 </menu>

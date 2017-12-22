@@ -14,7 +14,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@id/button_orderByDate"
-            android:layout_marginTop="60dp"
             android:layout_alignParentStart="true">
         </ListView>
 
@@ -24,7 +23,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
-            android:text="Order by time">
+            android:textSize="16sp"
+            android:text="@string/button_orderByDate">
         </Button>
 
         <Button
@@ -33,7 +33,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_toEndOf="@+id/button_orderByDate"
-            android:text="Daily summary">
+            android:textSize="16sp"
+            android:text="@string/button_summary">
         </Button>
 
         <ProgressBar
@@ -42,7 +43,6 @@
             android:layout_height="wrap_content"
             android:visibility="invisible"
             android:layout_centerInParent="true"
-            android:layout_marginTop="60dp"
             />
 
 
