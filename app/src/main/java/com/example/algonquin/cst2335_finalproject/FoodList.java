@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -29,9 +28,12 @@ import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import android.support.design.widget.Snackbar;
 import android.widget.Toast;
 
@@ -40,34 +42,39 @@ public class FoodList extends AppCompatActivity {
     private ArrayList<FoodInformation> foodArray = new ArrayList<>();
     private ListView foodListView;
     private Button addFoodButton;
+    private Button calAvgButton;
+    private Button calTotalButton;
     private FoodDatabaseHelper fdHelper;
     private SQLiteDatabase db;
     private FoodAdapter foodAdapter;
     private Cursor c;
     private FrameLayout tabletLayOut;
     private Boolean onTablet;
-    private Toolbar toolbar;
+    private Toolbar foodToolbar;
     private ProgressBar pBar;
-    private Long singleId;
-    private int position;
+    private Long dataID;
+    private int viewPosition;
     private Boolean clickAdd;
     private Handler handler;
     private int timerCounter;
     private Runnable runnable;
-    private int total;
+    private double total;
+    private int caloriesLastDay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_food_list);
 
-        pBar = findViewById(R.id.progressBar);
+        pBar = findViewById(R.id.foodProgressBar);
         foodListView = findViewById(R.id.foodListView);
-        addFoodButton = findViewById(R.id.addFood);
-        toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        addFoodButton = findViewById(R.id.addFoodButton);
+        calAvgButton = findViewById(R.id.calculateAverageCal);
+        calTotalButton = findViewById(R.id.calculateTotalCal);
+        foodToolbar = findViewById(R.id.foodToolbar);
+        setSupportActionBar(foodToolbar);
 
-        tabletLayOut=findViewById(R.id.tableFrameLayout);
+        tabletLayOut=findViewById(R.id.foodTableFrameLayout);
         if(tabletLayOut == null) onTablet=false;
         else onTablet=true;
 
@@ -81,23 +88,27 @@ public class FoodList extends AppCompatActivity {
             public void run() {
                 if(timerCounter<100) {
                     addFoodButton.setEnabled(false);
+                    calAvgButton.setEnabled(false);
+                    calTotalButton.setEnabled(false);
                     //This idea is taken from: https://stackoverflow.com/questions/36918219/how-to-disable-user-interaction-while-progressbar-is-visible-in-android
                     //How to disable user interaction while ProgressBar is visible in android?
                     getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                                          WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                     if (timerCounter == 0)
-                        Toast.makeText(FoodList.this, "Loading Database...Please Wait", Toast.LENGTH_LONG).show();
+                        Toast.makeText(FoodList.this, R.string.loading_database, Toast.LENGTH_LONG).show();
                     if (timerCounter == 25)
-                        Toast.makeText(FoodList.this, "Loading Database...Please Wait", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(FoodList.this, R.string.loading_database, Toast.LENGTH_SHORT).show();
                     if (timerCounter == 50)
-                        Toast.makeText(FoodList.this, "Loading Database...Please Wait", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(FoodList.this, R.string.loading_database, Toast.LENGTH_SHORT).show();
                     if (timerCounter == 75)
-                        Toast.makeText(FoodList.this, "Loading Database...Please Wait", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(FoodList.this, R.string.loading_database, Toast.LENGTH_SHORT).show();
                 }
                 if(timerCounter==100) {
                     addFoodButton.setEnabled(true);
+                    calAvgButton.setEnabled(true);
+                    calTotalButton.setEnabled(true);
                     getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                    Toast.makeText(FoodList.this, "Loading Complete! Activity fully functional", Toast.LENGTH_LONG).show();
+                    Toast.makeText(FoodList.this, R.string.loading_complete, Toast.LENGTH_LONG).show();
                 }
                 timerCounter++;
                 handler.postDelayed(this,90);
@@ -113,13 +124,13 @@ public class FoodList extends AppCompatActivity {
             public void onClick(View view) {
                 clickAdd = true;
                 Bundle bd = new Bundle();
-                bd.putInt("TODO",1);
+                bd.putInt("TODO",1);//tell fragment set all fields to empty
 
                 if(onTablet==true){
                     NutritionDetails nd = new NutritionDetails(FoodList.this);
                     nd.setArguments(bd);
                     FragmentTransaction ft =  getFragmentManager().beginTransaction();
-                    ft.replace(R.id.tableFrameLayout,nd);
+                    ft.replace(R.id.foodTableFrameLayout,nd);
                     ft.addToBackStack(null);
                     ft.commit();
                 }
@@ -135,29 +146,27 @@ public class FoodList extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 clickAdd = false;
-                position = i;
-                singleId = l;
+                viewPosition = i;
+                dataID = l;
                 FoodInformation fi = foodArray.get(i);
-                String [] tempArray = new String[7];
+                String [] tempArray = new String[5];
                 tempArray[0] = fi.food;
-                tempArray[1] = fi.day;
-                tempArray[2] = fi.hour;
-                tempArray[3] = fi.minute;
-                tempArray[4] = fi.calories;
-                tempArray[5] = fi.totalFat;
-                tempArray[6] = fi.totalCarbohydrate;
+                tempArray[1] = fi.time;
+                tempArray[2] = fi.calories;
+                tempArray[3] = fi.totalFat;
+                tempArray[4] = fi.totalCarbohydrate;
 
                 Bundle foodBundle = new  Bundle();
-                foodBundle.putInt("TODO", 2);
+                foodBundle.putInt("TODO", 2);//tell fragment load these info into fields
                 foodBundle.putStringArray("foodInfo", tempArray);
-                foodBundle.putInt("viewPosition",position);
-                foodBundle.putLong("id",singleId);
+                foodBundle.putInt("viewPosition",viewPosition);
+                foodBundle.putLong("id",dataID);
 
                 if(onTablet==true){
                     NutritionDetails nd = new NutritionDetails(FoodList.this);
                     nd.setArguments(foodBundle);
                     FragmentTransaction ft =  getFragmentManager().beginTransaction();
-                    ft.replace(R.id.tableFrameLayout,nd);
+                    ft.replace(R.id.foodTableFrameLayout,nd);
                     ft.addToBackStack(null);
                     ft.commit();
                 }
@@ -168,56 +177,77 @@ public class FoodList extends AppCompatActivity {
                 }
             }
         });
-    }
 
-    @Override
-    public boolean onCreateOptionsMenu (Menu m){
-        getMenuInflater().inflate(R.menu.toolbar_menu, m );
-        return true;
-    }
+        calAvgButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                c = db.rawQuery("select * from " + fdHelper.tableName,null);
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem mi) {
-        switch (mi.getItemId()) {
-            case R.id.action_one:
-                total = 0;
+                total = 0.00;
                 for(int i = 0; i<foodArray.size(); i++){
                     c.moveToPosition(i);
-                    total += Integer.parseInt(c.getString(c.getColumnIndex(FoodDatabaseHelper.Key_Calories)));
+                    total += Double.parseDouble(c.getString(c.getColumnIndex(FoodDatabaseHelper.Key_Calories)));
                 }
+                c.close();
 
-                final AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-                LayoutInflater inflater = this.getLayoutInflater();
+                final AlertDialog.Builder builder = new AlertDialog.Builder(FoodList.this);
+                LayoutInflater inflater =  LayoutInflater.from(getApplicationContext());
                 View view =inflater.inflate(R.layout.custom_dialog_food, null);
 
                 TextView item1Title = view.findViewById(R.id.item_title);
                 item1Title.setText(getString(R.string.item1_title));
 
                 TextView item1BodyMessage = view.findViewById(R.id.item_body_message);
-                item1BodyMessage.setText(getString(R.string.item1_body_message) + " " + total);
-                item1BodyMessage.setTypeface(null, Typeface.BOLD);
+                item1BodyMessage.setText(getString(R.string.item1_body_message) + " " + String.format("%.2f",total/foodArray.size()));
                 item1BodyMessage.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
 
-                builder1.setView(view)
+                builder.setView(view)
                         .setPositiveButton(R.string.dialog_ok_button, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int id) {}
                         });
-                AlertDialog dialog1 = builder1.create();
-                dialog1.show();
-                break;
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
 
-            case R.id.action_two:
-                final AlertDialog.Builder builder2 = new AlertDialog.Builder(this);
-                LayoutInflater inflater2 = this.getLayoutInflater();
+        calTotalButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //This idea is taken from: https://stackoverflow.com/questions/3747490/android-get-date-before-7-days-one-week
+                //Android get date before 7 days (one week)
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                String today = dateFormat.format(new Date()); //date of today
+
+                Date myDate = null;
+                try {
+                    myDate = dateFormat.parse(today);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                Date newDate = new Date(myDate.getTime() - 1);//get date of yesterday
+                String yesterday = dateFormat.format(newDate);
+
+                c = db.rawQuery("SELECT * FROM " + FoodDatabaseHelper.tableName + " Where "+ FoodDatabaseHelper.Key_Time + " like '" + yesterday + "%'",null);
+                c.moveToFirst();
+
+                caloriesLastDay = 0;
+                while(!c.isAfterLast()){
+                    caloriesLastDay += Integer.parseInt(c.getString(c.getColumnIndex(FoodDatabaseHelper.Key_Calories)));
+                    c.moveToNext();
+                }
+                c.close();
+
+                final AlertDialog.Builder builder2 = new AlertDialog.Builder(FoodList.this);
+                LayoutInflater inflater2 = LayoutInflater.from(getApplicationContext());
                 View view2 =inflater2.inflate(R.layout.custom_dialog_food, null);
 
                 TextView item2Title = view2.findViewById(R.id.item_title);
                 item2Title.setText((getString(R.string.item2_title)));
 
                 TextView item2BodyMessage = view2.findViewById(R.id.item_body_message);
-                item2BodyMessage.setText(getString(R.string.item2_body_message));
-                item2BodyMessage.setTypeface(null, Typeface.BOLD);
+                item2BodyMessage.setText(getString(R.string.item2_message_today)+today+getString(R.string.item2_yesterday)
+                +yesterday+getString(R.string.item2_message_yesterday)+caloriesLastDay);
                 item2BodyMessage.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
 
                 builder2.setView(view2)
@@ -227,27 +257,53 @@ public class FoodList extends AppCompatActivity {
                         });
                 AlertDialog dialog2 = builder2.create();
                 dialog2.show();
+            }
+        });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu (Menu m){
+        getMenuInflater().inflate(R.menu.food_toolbar_menu, m);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem mi) {
+        switch (mi.getItemId()) {
+            case R.id.action_one:
+                Intent intent1 = new Intent(FoodList.this,DashBoardOfActivityTracking.class);
+                startActivity(intent1);
+                break;
+
+            case R.id.action_two:
+                Intent intent2 = new Intent(FoodList.this, ThermostatActivity.class);
+                startActivity(intent2);
                 break;
 
             case R.id.action_three:
-                final AlertDialog.Builder builder3 = new AlertDialog.Builder(this);
-                LayoutInflater inflater3 = this.getLayoutInflater();
-                View view3 =inflater3.inflate(R.layout.custom_dialog_food, null);
+                Intent intent3 = new Intent(FoodList.this, AutomobileActivity.class);
+                startActivity(intent3);
+                break;
 
-                TextView item3Title = view3.findViewById(R.id.item_title);
-                item3Title.setText((getString(R.string.item3_title)));
+            case R.id.action_four:
+                final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                LayoutInflater inflater = this.getLayoutInflater();
+                View view =inflater.inflate(R.layout.custom_dialog_food, null);
 
-                TextView item3BodyMessage = view3.findViewById(R.id.item_body_message);
-                item3BodyMessage.setText(getString(R.string.item3_body_message));
-                item3BodyMessage.setTextSize(18);
+                TextView helpMenuTitle = view.findViewById(R.id.item_title);
+                helpMenuTitle.setText((getString(R.string.help_menu_title)));
 
-                builder3.setView(view3)
+                TextView helpMenuMessage = view.findViewById(R.id.item_body_message);
+                helpMenuMessage.setText(getString(R.string.help_menu_message));
+                helpMenuMessage.setTextSize(18);
+
+                builder.setView(view)
                         .setPositiveButton(R.string.dialog_ok_button, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int id) {}
                         });
-                AlertDialog dialog3 = builder3.create();
-                dialog3.show();
+                AlertDialog dialog = builder.create();
+                dialog.show();
                 break;
         }
         return true;
@@ -258,8 +314,7 @@ public class FoodList extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == 1) {
             String[] extraInfo = data.getStringArrayExtra("saveInfo");
-            FoodInformation recordInfo = new FoodInformation(extraInfo[0], extraInfo[1], extraInfo[2], extraInfo[3], extraInfo[4],
-                    extraInfo[5],extraInfo[6]);
+            FoodInformation recordInfo = new FoodInformation(extraInfo[0], extraInfo[1], extraInfo[2], extraInfo[3], extraInfo[4]);
             saveInfo(recordInfo);
         }
         else if (resultCode ==2) {
@@ -273,34 +328,32 @@ public class FoodList extends AppCompatActivity {
     public void saveInfo(FoodInformation foodTemp){
         ContentValues values = new ContentValues();
         values.put(FoodDatabaseHelper.Key_FOOD, foodTemp.food);
-        values.put(FoodDatabaseHelper.Key_Day, foodTemp.day);
-        values.put(FoodDatabaseHelper.Key_Hour, foodTemp.hour);
-        values.put(FoodDatabaseHelper.Key_Minute, foodTemp.minute);
+        values.put(FoodDatabaseHelper.Key_Time, foodTemp.time);
         values.put(FoodDatabaseHelper.Key_Calories, foodTemp.calories);
         values.put(FoodDatabaseHelper.Key_Fat, foodTemp.totalFat);
         values.put(FoodDatabaseHelper.Key_Carbohydrate, foodTemp.totalCarbohydrate);
 
-        if(clickAdd==true){
+        if(clickAdd==true){ //if add button been clicked, means adding a new record into database
             db.insert(FoodDatabaseHelper.tableName, null, values);
             c = db.rawQuery("select * from " + fdHelper.tableName,null);
             foodArray.add(foodTemp);
-            foodAdapter.notifyDataSetChanged();
+            foodAdapter.notifyDataSetChanged();//update listview
             if(onTablet==true)
-                Snackbar.make(findViewById(R.id.tabletXML), "A new food info is added", Snackbar.LENGTH_LONG).show();
+                Snackbar.make(findViewById(R.id.foodTabletXML), R.string.food_info_saved, Snackbar.LENGTH_LONG).show();
             else
-                Snackbar.make(findViewById(R.id.foodListLayout), "A new food info is added", Snackbar.LENGTH_LONG).show();
+                Snackbar.make(findViewById(R.id.foodListLayout), R.string.food_info_saved, Snackbar.LENGTH_LONG).show();
         }
-        else{
-            db.update(FoodDatabaseHelper.tableName, values, FoodDatabaseHelper.Key_ID+" = " + singleId, null);
+        else{ //otherwise user is reading existing data and may modify current info
+            db.update(FoodDatabaseHelper.tableName, values, FoodDatabaseHelper.Key_ID+" = " + dataID, null);
             c = db.rawQuery("select * from " + fdHelper.tableName,null);
-            foodArray.set(position,foodTemp);
+            foodArray.set(viewPosition,foodTemp);
             foodAdapter.notifyDataSetChanged();
             if(onTablet==true)
-                Snackbar.make(findViewById(R.id.tabletXML), "Food info has been modified", Snackbar.LENGTH_LONG).show();
+                Snackbar.make(findViewById(R.id.foodTabletXML), R.string.food_info_updated, Snackbar.LENGTH_LONG).show();
             else
-                Snackbar.make(findViewById(R.id.foodListLayout), "Food info has been modified", Snackbar.LENGTH_LONG).show();
+                Snackbar.make(findViewById(R.id.foodListLayout), R.string.food_info_updated, Snackbar.LENGTH_LONG).show();
         }
-        sortInfo();
+        sortInfo(); //after insert or update, sort the listview
         foodAdapter.notifyDataSetChanged();
     }
 
@@ -310,9 +363,9 @@ public class FoodList extends AppCompatActivity {
         foodArray.remove(viewPosition);
         foodAdapter.notifyDataSetChanged();
         if(onTablet==true)
-            Snackbar.make(findViewById(R.id.tabletXML), "Food info has been removed", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(findViewById(R.id.foodTabletXML), R.string.food_info_deleted, Snackbar.LENGTH_LONG).show();
         else
-            Snackbar.make(findViewById(R.id.foodListLayout), "Food info has been removed", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(findViewById(R.id.foodListLayout), R.string.food_info_deleted, Snackbar.LENGTH_LONG).show();
     }
 
     public void sortInfo(){
@@ -322,23 +375,16 @@ public class FoodList extends AppCompatActivity {
     public class CustomComparator implements Comparator<FoodInformation> {
         @Override
         public int compare(FoodInformation obj1, FoodInformation obj2) {
-            if (dayIntoNumber(obj1.day) == dayIntoNumber(obj2.day))
-                return (Integer.parseInt(obj1.hour) * 60 + Integer.parseInt(obj1.minute))
-                        - (Integer.parseInt(obj2.hour) * 60 + Integer.parseInt(obj2.minute));
-            else
-                return dayIntoNumber(obj1.day) - dayIntoNumber(obj2.day);
-        }
-
-        private int dayIntoNumber(String a) {
-            int i = 0;
-            if (a.equals("Monday")) i = 1;
-            else if (a.equals("Tuesday")) i = 2;
-            else if (a.equals("Wednesday")) i = 3;
-            else if (a.equals("Thursday")) i = 4;
-            else if (a.equals("Friday")) i = 5;
-            else if (a.equals("Saturday")) i = 6;
-            else if (a.equals("Sunday")) i = 7;
-            return i;
+            SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            long sortDay = 0;
+            try {
+                Date day1 = myFormat.parse(obj1.time);
+                Date day2 = myFormat.parse(obj2.time);
+                sortDay = day2.getTime() - day1.getTime();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            return (int)sortDay;
         }
     }
 
@@ -363,18 +409,16 @@ public class FoodList extends AppCompatActivity {
             TextView message = result.findViewById(R.id.food_info);
 
             FoodInformation fi = getItem(position);
-            String textOnView = fi.day+", ";
-            if (Integer.parseInt(fi.hour)>0 && Integer.parseInt(fi.hour)<10) textOnView += "0";
-            textOnView += fi.hour +":";
-            if (Integer.parseInt(fi.minute)>0 && Integer.parseInt(fi.minute)<10) textOnView+="0";
-            textOnView += fi.minute;
-            textOnView = textOnView + "\nFood:" + fi.food + "\nCalories:"+fi.calories+ ", Total Fat:"
-                    +fi.totalFat+"g\nTotal Carbohydrate:"+fi.totalCarbohydrate+"g";
+            String textOnView = getString(R.string.view_time) + fi.time+"\n" +
+                    getString(R.string.view_food) + fi.food + "\n" + getString(R.string.view_calories) + fi.calories
+                    + ", " + getString(R.string.view_total_fat) + fi.totalFat+"g\n"
+                    + getString(R.string.view_total_carbohydrate) + fi.totalCarbohydrate+"g";
             message.setText(textOnView);
             return result;
         }
 
         public long getItemId(int position){
+            c = db.rawQuery("select * from " + fdHelper.tableName,null);
             c.moveToPosition(position);
             String x;
             x = c.getString(c.getColumnIndex(FoodDatabaseHelper.Key_ID));
@@ -386,36 +430,35 @@ public class FoodList extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... args) {
-            while (timerCounter<25);
+            while (timerCounter<25)
             onProgressUpdate(25);
 
             fdHelper = new FoodDatabaseHelper(getApplicationContext());
             db = fdHelper.getWritableDatabase();
+
+            while (timerCounter<50)
+            onProgressUpdate(50);
+
             c = db.rawQuery("select * from " + fdHelper.tableName,null);
             c.moveToFirst();
 
-            while (timerCounter<50);
-            onProgressUpdate(50);
-           ;
+            while (timerCounter<75)
+            onProgressUpdate(75);
+
             while(!c.isAfterLast()){
                 FoodInformation fi = new FoodInformation();
                 fi.food = c.getString(c.getColumnIndex(FoodDatabaseHelper.Key_FOOD));
-                fi.day = c.getString(c.getColumnIndex(FoodDatabaseHelper.Key_Day));
-                fi.hour = c.getString(c.getColumnIndex(FoodDatabaseHelper.Key_Hour));
-                fi.minute = c.getString(c.getColumnIndex(FoodDatabaseHelper.Key_Minute));
+                fi.time = c.getString(c.getColumnIndex(FoodDatabaseHelper.Key_Time));
                 fi.calories = c.getString(c.getColumnIndex(FoodDatabaseHelper.Key_Calories));
                 fi.totalFat = c.getString(c.getColumnIndex(FoodDatabaseHelper.Key_Fat));
                 fi.totalCarbohydrate = c.getString(c.getColumnIndex(FoodDatabaseHelper.Key_Carbohydrate));
-
-                while (timerCounter<75);
-                onProgressUpdate(75);
-
                 foodArray.add(fi);
                 c.moveToNext();
             }
 
-            while (timerCounter<100);
+            while (timerCounter<100)
             onProgressUpdate(100);
+
             return null;
         }
 

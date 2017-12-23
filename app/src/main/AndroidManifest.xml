@@ -22,6 +22,7 @@
         <activity android:name=".GasPriceHistoryActivity" />
         <activity android:name=".ThermoMessageDetails" />
         <activity android:name=".NutritionOnPhone" />
+        <activity android:name=".AutomobileActivity" />
 
         <activity
             android:name=".DashBoardOfActivityTracking"
