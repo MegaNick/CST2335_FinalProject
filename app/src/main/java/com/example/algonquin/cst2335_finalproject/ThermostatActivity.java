@@ -358,12 +358,12 @@ public class ThermostatActivity extends AppCompatActivity {
             TextView message = result.findViewById(R.id.message_text);
 
             ScheduleEntry tempEntry = getItem(position);
-            String text = days[tempEntry.day] + ", Time:";
+            String text = days[tempEntry.day] + ", "+getString(R.string.time);
             if (tempEntry.hours<10){text += "0";}
             text += tempEntry.hours +":";
             if (tempEntry.minutes<10) {text+="0";}
             text += tempEntry.minutes;
-            text = text + ", \nTemperature in C:" + (tempEntry.temperature);
+            text = text + ", \n" + getString(R.string.temperature_in_c) + (tempEntry.temperature);
             message.setText(text); // get the string at position
             return result;
         }
