@@ -2,14 +2,15 @@ package com.example.algonquin.cst2335_finalproject;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
+import android.app.Fragment;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -23,22 +24,27 @@ import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Locale;
+import java.util.Date;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class addActivityTracking extends Fragment implements AdapterView.OnItemSelectedListener {
-    private String[] activityType={"Running","Walking","Biking","Swimming","Skating"};
+
+    private String[] activityType;
     private long idInDB;
     private Button bt_add;
     private Button bt_delete;
     private Button bt_update;
     private EditText et_duration, et_comment;
-    private TextView tv_date;
+    private static TextView tv_date;
+    private TextView tv_datePicker;
     private SQLiteDatabase db;
-    private String activity; //, date, comment, duration;
+    private View view;
+    private int activity; //The position in the activity array for an activity
+//    private String activity; //,date,comment, duration;
+//    private static String date;
 
     public addActivityTracking() {
         // Required empty public constructor
@@ -49,19 +55,30 @@ public class addActivityTracking extends Fragment implements AdapterView.OnItemS
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_add_activity_tracking, container, false);
+        view = inflater.inflate(R.layout.fragment_add_activity_tracking, container, false);
+        //view.setBackgroundColor(Color.YELLOW);
+        //The spinner's values
+        activityType= new String[]{
+                getActivity().getString(R.string.Running),
+                getActivity().getString(R.string.Walking),
+                getActivity().getString(R.string.Biking),
+                getActivity().getString(R.string.Swimming),
+                getActivity().getString(R.string.Skating)
+        };
 
+        //Declare the variable
         bt_add = (Button)view.findViewById(R.id.button_add);
         bt_delete = view.findViewById(R.id.button_delete);
         et_duration = view.findViewById(R.id.editText_amountOfTime);
         et_comment = view.findViewById(R.id.editText_comment);
         bt_update = view.findViewById(R.id.button_update);
         tv_date = view.findViewById(R.id.textView_valueOfDate);
+        tv_datePicker = view.findViewById(R.id.textView_datePicker);
 
         //Get current date
         final Calendar c = Calendar.getInstance();
         final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-//         String       date = df.format(c.getTime());
+//        date = df.format(c.getTime());
 
         //Set up the spinner of activity type.
         Spinner spin = (Spinner) view.findViewById(R.id.spinner_selectOneActivity);
@@ -84,15 +101,15 @@ public class addActivityTracking extends Fragment implements AdapterView.OnItemS
             //Set the spinner of activity type to the clicked item in viewActivityTracking.
             //Find the item position and set the value of spinner
             switch (separated[2]){
-                case "Running": spin.setSelection(0);
+                case ("0"): spin.setSelection(0);
                     break;
-                case "Walking": spin.setSelection(1);
+                case "1": spin.setSelection(1);
                     break;
-                case "Biking": spin.setSelection(2);
+                case "2": spin.setSelection(2);
                     break;
-                case "Swimming": spin.setSelection(3);
+                case "3": spin.setSelection(3);
                     break;
-                case "Skating": spin.setSelection(4);
+                case "4": spin.setSelection(4);
                     break;
             }
 
@@ -135,10 +152,10 @@ public class addActivityTracking extends Fragment implements AdapterView.OnItemS
 */
                 long rowInserted = db.insert(aTrackingHelperObject.name, "", contentValues());
                 if(rowInserted >= 1){
-                    Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Inserted successfully", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(getActivity().getApplicationContext(), getActivity().getString(R.string.addTrackingSucc), Toast.LENGTH_SHORT);
                     toast.show();
                 }else{
-                    Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Failed to insert", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(getActivity().getApplicationContext(), getActivity().getString(R.string.addTrackingFail), Toast.LENGTH_SHORT);
                     toast.show();
                 }
 
@@ -159,19 +176,19 @@ public class addActivityTracking extends Fragment implements AdapterView.OnItemS
             public void onClick(View view) {
                 //Show the dialog when an item is clicked.
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setTitle("Are you sure to delete this record?");
+                builder.setTitle(getActivity().getString(R.string.deleteTrackingConfirm));
                 // Add the buttons
-                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                builder.setPositiveButton(getActivity().getString(R.string.deleteTrackingConfirmYes), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // User clicked OK button
                         //Execute sql query to remove from database
 //                        db.execSQL("DELETE FROM " + aTrackingHelperObject.name + " WHERE " + aTrackingHelperObject.KEY_ID + "=" + idInDB + ";");
                         long delete = db.delete(aTrackingHelperObject.name,aTrackingHelperObject.KEY_ID + "=" + idInDB,null);
                         if (delete >= 1 ){
-                            Snackbar.make(getActivity().findViewById(android.R.id.content), "Deleted successfully!", Snackbar.LENGTH_LONG)
+                            Snackbar.make(getActivity().findViewById(android.R.id.content), getActivity().getString(R.string.deleteTrackingConfirmYesAlert), Snackbar.LENGTH_LONG)
                                     .show();
                         }else {
-                            Snackbar.make(getActivity().findViewById(android.R.id.content), "Failed to delete!", Snackbar.LENGTH_LONG)
+                            Snackbar.make(getActivity().findViewById(android.R.id.content), getActivity().getString(R.string.deleteTrackingConfirmNoAlert), Snackbar.LENGTH_LONG)
                                     .show();
                         }
                         //Close current fragment and then get to activity list view
@@ -179,7 +196,7 @@ public class addActivityTracking extends Fragment implements AdapterView.OnItemS
                         getActivity().findViewById(R.id.action_two).performClick();
                     }
                 });
-                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                builder.setNegativeButton(getActivity().getString(R.string.deleteTrackingConfirmNo), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // User cancelled the dialog
                     }
@@ -197,9 +214,9 @@ public class addActivityTracking extends Fragment implements AdapterView.OnItemS
                 //create a object for inserting data to a SQLite database
                 long update = db.update(aTrackingHelperObject.name,contentValues(),aTrackingHelperObject.KEY_ID + "=" + idInDB,null);
                 if(update >= 1){
-                    Toast.makeText(getActivity().getApplicationContext(), "Updated successfully", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity().getApplicationContext(), getActivity().getString(R.string.updateTrackingSucc), Toast.LENGTH_SHORT).show();
                 }else{
-                    Toast.makeText(getActivity().getApplicationContext(), "Failed to update", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity().getApplicationContext(), getActivity().getString(R.string.updateTrackingFail), Toast.LENGTH_SHORT).show();
                 }
 
                 //Clear the input
@@ -213,6 +230,14 @@ public class addActivityTracking extends Fragment implements AdapterView.OnItemS
             }
         });
 
+        //Date picker to select a new date
+        tv_datePicker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDatePickerDialog(v);
+            }
+        });
+
         return view;
     }
 
@@ -220,58 +245,59 @@ public class addActivityTracking extends Fragment implements AdapterView.OnItemS
     private ContentValues contentValues (){
         ContentValues data = new ContentValues();
         data.put("DATE", tv_date.getText().toString());
-        data.put("ACTIVITYTYPE", activity);
+        data.put("ACTIVITYTYPE", String.valueOf(activity));
         data.put("DURATION", et_duration.getText().toString());
         data.put("COMMENT", et_comment.getText().toString());
 
         return data;
     }
 
-/*
-// https://stackoverflow.com/questions/14933330/datepicker-how-to-popup-datepicker-when-click-on-edittext
-
-    Calendar myCalendar = Calendar.getInstance();
-    DatePickerDialog.OnDateSetListener date = new
-            DatePickerDialog.OnDateSetListener() {
-
-                @Override
-                public void onDateSet(DatePicker view, int year, int monthOfYear,
-                                      int dayOfMonth) {
-                    myCalendar.set(Calendar.YEAR, year);
-                    myCalendar.set(Calendar.MONTH, monthOfYear);
-                    myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                    updateLabel();
-                }
-
-            };
-edittext.setOnTouchListener(new View.OnTouchListener() {
-
-        @Override
-        public void onTouch(View v, MotionEvent event) {
-            if(event.getAction() == MotionEvent.ACTION_DOWN) {
-                new DatePickerDialog(classname.this, date, myCalendar
-                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
-            }
-        }
-    });
-
-    private void updateLabel() {
-
-        String myFormat = "MM/dd/yy"; //In which you need put here
-        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-
-        edittext.setText(sdf.format(myCalendar.getTime()));
-    }
-*/
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        activity = activityType[i];
+        //activity = activityType[i];
+        activity = i;
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
 
+    }
+
+    public void showDatePickerDialog(View v) {
+        DialogFragment newFragment = new DatePickerFragment();
+        newFragment.show(getFragmentManager(), "datePicker");
+    }
+
+    /* https://developer.android.com/guide/topics/ui/controls/pickers.html */
+    //Class of date picker
+    public static class DatePickerFragment extends DialogFragment
+            implements DatePickerDialog.OnDateSetListener {
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // Use the current date as the default date in the picker
+            final Calendar c = Calendar.getInstance();
+            int year = c.get(Calendar.YEAR);
+            int month = c.get(Calendar.MONTH);
+            int day = c.get(Calendar.DAY_OF_MONTH);
+
+            // Create a new instance of DatePickerDialog and return it
+            return new DatePickerDialog(getActivity(), this, year, month, day);
+        }
+
+        public void onDateSet(DatePicker view, int year, int month, int day) {
+            // Do something with the date chosen by the user and change to format "yyyy-MM-dd"
+            final Calendar c = Calendar.getInstance();
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = c.getTime();
+            String dtStar = year + "-" + (month+1) + "-" + day; // beware of month indexing from zero
+            try {
+                date = format.parse(dtStar);
+            }catch (java.text.ParseException e) {
+                e.printStackTrace();
+            }
+            tv_date.setText(format.format(date));
+        }
     }
 
     @Override

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CalculateActivityTracking">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:id = "@+id/textView_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="30sp"
+        android:text="@string/textView_title" />
+
+    <TextView
+        android:id = "@+id/textView_month"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textView_title"
+        android:layout_marginTop="30dp"
+        android:textSize="25sp"
+        android:text="@string/textView_month" />
+
+    <TextView
+        android:id = "@+id/textView_minutes_month"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:textSize="25sp"
+        android:layout_toRightOf="@id/textView_month"
+        android:layout_below="@id/textView_title"
+        android:text="" />
+
+    <TextView
+        android:id = "@+id/textView_lastmonth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textView_month"
+        android:layout_marginTop="30dp"
+        android:textSize="25sp"
+        android:text="@string/textView_lastmonth" />
+
+    <TextView
+        android:id = "@+id/textView_minutes_lastmonth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:textSize="25sp"
+        android:layout_toRightOf="@id/textView_lastmonth"
+        android:layout_below="@id/textView_minutes_month"
+        android:text="" />
+
+</RelativeLayout>

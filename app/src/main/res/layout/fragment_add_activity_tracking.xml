@@ -17,18 +17,25 @@
             android:id="@+id/textView_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="60dp"
             android:textSize="20sp"
-            android:text="Date: " />
+            android:text="@string/textView_date" />
 
         <TextView
             android:id="@+id/textView_valueOfDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="60dp"
             android:textSize="20sp"
             android:layout_toRightOf="@id/textView_date"
             android:text=""/>
+
+        <TextView
+            android:id="@+id/textView_datePicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:textSize="20sp"
+            android:layout_toRightOf="@id/textView_valueOfDate"
+            android:text="@string/textView_datePicker"/>
 
         <TextView
             android:id="@+id/textView_selectOneActivity"
@@ -37,7 +44,7 @@
             android:layout_marginTop="20dp"
             android:textSize="20sp"
             android:layout_below="@id/textView_date"
-            android:text="Select a activity: " />
+            android:text="@string/textView_selectOneActivity" />
 
         <Spinner
             android:id="@+id/spinner_selectOneActivity"
@@ -56,7 +63,7 @@
             android:layout_below="@id/textView_selectOneActivity"
             android:textSize="20sp"
             android:layout_marginTop="20dp"
-            android:text="Amount of time: " />
+            android:text="@string/textView_amountOfTime" />
 
         <EditText
             android:id="@+id/editText_amountOfTime"
@@ -64,7 +71,7 @@
             android:layout_height="wrap_content"
             android:inputType="number"
             android:ems="10"
-            android:hint="In minutes"
+            android:hint="@string/hint_minutes"
             android:layout_marginTop="20dp"
             android:layout_toRightOf="@id/textView_amountOfTime"
             android:layout_below="@id/spinner_selectOneActivity"
@@ -77,7 +84,7 @@
             android:layout_marginTop="20dp"
             android:textSize="20sp"
             android:layout_below="@id/textView_amountOfTime"
-            android:text="Comment:" />
+            android:text="@string/textView_comment" />
 
         <EditText
             android:id="@+id/editText_comment"
@@ -95,7 +102,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentBottom="true"
-            android:text="Add" />
+            android:textSize="20sp"
+            android:text="@string/button_add" />
 
         <Button
             android:id="@+id/button_update"
@@ -103,7 +111,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentBottom="true"
-            android:text="Update" />
+            android:textSize="20sp"
+            android:text="@string/button_update" />
 
         <Button
             android:id="@+id/button_delete"
@@ -112,7 +121,8 @@
             android:layout_toRightOf="@id/button_update"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="false"
-            android:text="Delete" />
+            android:textSize="20sp"
+            android:text="@string/button_delete" />
 
     </RelativeLayout>
 

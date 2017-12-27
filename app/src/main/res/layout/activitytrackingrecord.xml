@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:textSize="20sp"
-        android:text="Date">
+        android:text="@string/textView_dateAndTime">
     </TextView>
 
     <TextView
@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:textSize="20sp"
-        android:text="Activity Type">
+        android:text="@string/textView_activityType">
     </TextView>
 
     <TextView
@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:textSize="20sp"
-        android:text="Duration">
+        android:text="@string/textView_durationInMinutes">
     </TextView>
 
 </LinearLayout>

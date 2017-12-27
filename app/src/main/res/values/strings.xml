@@ -6,10 +6,6 @@
     <string name="fuelVolumeTV">Enter the amount of gas (L)</string>
     <string name="enterGasPriceS">Enter the price of gas</string>
 
-    <!---Activity Tracking stuff -->
-    <string name="dashboard">Activity Tracking Dashboard</string>
-    <string name="title_activity_dash_board_of_tracking">ActivityTracking</string>
-
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
@@ -123,5 +119,59 @@
         be asked to confirm your choice by an Alert\n
         window.</string>
     <string name="intro">Huaming Cai - Activity Tracker\nShu Chen - Food Nutrition Tracker\nNikolay Melnik - Thermostat\nJinda Xu - Automobile Activity"</string>
+
+    <!---Activity Tracking stuff -->
+    <!-- activity_dash_board_of_tracking.xml -->
+    <string name="dashboard">Activity Tracking Dashboard</string>
+    <string name="title_activity_dash_board_of_tracking">ActivityTracking</string>
+    <string name="projectNameInActivityTracking">Final Project</string>
+
+    <!-- fragment_view_tracking.xml -->
+    <string name="textView_dateAndTime">Date</string>
+    <string name="textView_activityType">Activity Type</string>
+    <string name="textView_durationInMinutes">Duration</string>
+    <string name="button_orderByDate">Order by time</string>
+    <string name="button_summary">Daily summary</string>
+
+    <!-- fragment_add_activity_tracking.xml -->
+    <string name="textView_date">Date: </string>
+    <string name="textView_datePicker">Change date?</string>
+    <string name="textView_selectOneActivity">Select a activity: </string>
+    <string name="textView_amountOfTime">Amount of time: </string>
+    <string name="textView_comment">Comment:</string>
+    <string name="button_add">Add</string>
+    <string name="button_update">Update</string>
+    <string name="button_delete">Delete</string>
+    <string name="hint_minutes">In minutes</string>
+    <string name="Running">Running</string>
+    <string name="Walking">Walking</string>
+    <string name="Biking">Biking</string>
+    <string name="Swimming">Swimming</string>
+    <string name="Skating">Skating</string>
+    <string name="deleteTrackingConfirm">Are you sure to delete this record?</string>
+    <string name="deleteTrackingConfirmYes">Yes</string>
+    <string name="deleteTrackingConfirmNo">No</string>
+    <string name="deleteTrackingConfirmYesAlert">Deleted successfully!</string>
+    <string name="deleteTrackingConfirmNoAlert">Failed to delete!</string>
+    <string name="updateTrackingSucc">Updated successfully!</string>
+    <string name="updateTrackingFail">Failed to update!</string>
+    <string name="addTrackingSucc">Added successfully!</string>
+    <string name="addTrackingFail">Failed to add!</string>
+
+    <!-- fragment_calculate_activity_tracking.xml -->
+    <string name="textView_title">Calculation of activity (in minutes)</string>
+    <string name="textView_month">Per month: </string>
+    <string name="textView_lastmonth">Last month (</string>
+
+    <!-- activity tracking help menu dialog -->
+    <string name="activityTrackingHelpMenu">
+        Author: HUAMING CAI\n\nVersion Number: 1.0.0\n\nThis is an Activity Tracking. In the bottom tool bar of this interface,
+        there are four buttons to operate this activity tracking. From left to right, the first button is designed to add
+        a new activity tracking. The second button is used to list all activity tracking. User can select one of them to edit or delete
+        it. These activity tracking can also be sorted by clicking "SORT BY TIME" button and summarized daily by clicking
+        "DAILY SUMMARY" button. The third button is used to calculate minutes of activity the user does per month and last month.
+        The fourth button is for help information.\n\nThe second language is Simplified Chinese.\n\nOn the top tool bar, three buttons are used to bring a user to other three activities.
+    </string>
+    <string name="activityTrackingHelpMenuClose">Close</string>>
 
 </resources>
