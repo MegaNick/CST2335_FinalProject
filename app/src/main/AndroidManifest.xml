@@ -2,8 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.algonquin.cst2335_finalproject">
 
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -14,39 +12,21 @@
         <activity android:name=".StartActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-<<<<<<< HEAD
-        <activity android:name=".ActivityTracking" />
-        <activity android:name=".AddOneActivityTracking" />
-        <activity android:name=".ViewActivityTracking" />
-        <activity android:name=".NutritionDetails" />
+        <!--<activity android:name=".ViewActivityTracking" />-->
         <activity android:name=".FoodList" />
-        <activity
-            android:name=".ThermostatActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".AutomobileActivity" />
+        <activity android:name=".ThermostatActivity"/>
         <activity android:name=".PurchaseGasActivity" />
         <activity android:name=".GasPriceHistoryActivity" />
         <activity android:name=".ThermoMessageDetails" />
-=======
-        <activity android:name=".FoodList" />
+        <activity android:name=".NutritionOnPhone" />
+        <activity android:name=".AutomobileActivity" />
 
-        <uses-library
-            android:name="com.google.android.wearable"
-            android:required="true" />
-        <!--
-               Set to true if your app is Standalone, that is, it does not require the handheld
-               app to run.
-        -->
-        <meta-data
-            android:name="com.google.android.wearable.standalone"
-            android:value="false" />
-
-        <activity android:name=".NutritionOnPhone"></activity>
->>>>>>> Milestone1
+        <activity
+            android:name=".DashBoardOfActivityTracking"
+            android:label="@string/title_activity_dash_board_of_tracking" />
     </application>
 
 </manifest>
