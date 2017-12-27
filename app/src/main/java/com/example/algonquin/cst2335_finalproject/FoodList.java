@@ -11,6 +11,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -28,14 +29,14 @@ import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
-import android.support.design.widget.Snackbar;
-import android.widget.Toast;
 
 public class FoodList extends AppCompatActivity {
 
@@ -75,8 +76,7 @@ public class FoodList extends AppCompatActivity {
         setSupportActionBar(foodToolbar);
 
         tabletLayOut=findViewById(R.id.foodTableFrameLayout);
-        if(tabletLayOut == null) onTablet=false;
-        else onTablet=true;
+        onTablet = tabletLayOut != null;
 
         foodAdapter =new FoodAdapter(this);
         foodListView.setAdapter(foodAdapter);
@@ -181,7 +181,7 @@ public class FoodList extends AppCompatActivity {
         calAvgButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                c = db.rawQuery("select * from " + fdHelper.tableName,null);
+                c = db.rawQuery("select * from " + FoodDatabaseHelper.tableName,null);
 
                 total = 0.00;
                 for(int i = 0; i<foodArray.size(); i++){
@@ -335,7 +335,7 @@ public class FoodList extends AppCompatActivity {
 
         if(clickAdd==true){ //if add button been clicked, means adding a new record into database
             db.insert(FoodDatabaseHelper.tableName, null, values);
-            c = db.rawQuery("select * from " + fdHelper.tableName,null);
+            c = db.rawQuery("select * from " + FoodDatabaseHelper.tableName,null);
             foodArray.add(foodTemp);
             foodAdapter.notifyDataSetChanged();//update listview
             if(onTablet==true)
@@ -345,7 +345,7 @@ public class FoodList extends AppCompatActivity {
         }
         else{ //otherwise user is reading existing data and may modify current info
             db.update(FoodDatabaseHelper.tableName, values, FoodDatabaseHelper.Key_ID+" = " + dataID, null);
-            c = db.rawQuery("select * from " + fdHelper.tableName,null);
+            c = db.rawQuery("select * from " + FoodDatabaseHelper.tableName,null);
             foodArray.set(viewPosition,foodTemp);
             foodAdapter.notifyDataSetChanged();
             if(onTablet==true)
@@ -359,7 +359,7 @@ public class FoodList extends AppCompatActivity {
 
     public void deleteInfo(Long id, int viewPosition){
         db.delete(FoodDatabaseHelper.tableName, FoodDatabaseHelper.Key_ID + "=" + id, null);
-        c = db.rawQuery("select * from " + fdHelper.tableName,null);
+        c = db.rawQuery("select * from " + FoodDatabaseHelper.tableName,null);
         foodArray.remove(viewPosition);
         foodAdapter.notifyDataSetChanged();
         if(onTablet==true)
@@ -418,7 +418,7 @@ public class FoodList extends AppCompatActivity {
         }
 
         public long getItemId(int position){
-            c = db.rawQuery("select * from " + fdHelper.tableName,null);
+            c = db.rawQuery("select * from " + FoodDatabaseHelper.tableName,null);
             c.moveToPosition(position);
             String x;
             x = c.getString(c.getColumnIndex(FoodDatabaseHelper.Key_ID));
@@ -439,7 +439,7 @@ public class FoodList extends AppCompatActivity {
             while (timerCounter<50)
             onProgressUpdate(50);
 
-            c = db.rawQuery("select * from " + fdHelper.tableName,null);
+            c = db.rawQuery("select * from " + FoodDatabaseHelper.tableName,null);
             c.moveToFirst();
 
             while (timerCounter<75)

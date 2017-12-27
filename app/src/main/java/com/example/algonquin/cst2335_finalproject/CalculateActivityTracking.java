@@ -34,14 +34,14 @@ public class CalculateActivityTracking extends Fragment {
         View view = inflater.inflate(R.layout.fragment_calculate_activity_tracking, container, false);
         //view.setBackgroundColor(Color.BLUE);
 
-        TextView tv_perMonth = (TextView)view.findViewById(R.id.textView_minutes_month);
-        TextView tv_lastMonth = (TextView)view.findViewById(R.id.textView_minutes_lastmonth);
-        TextView tv_nameLastMonth = (TextView)view.findViewById(R.id.textView_lastmonth);
+        TextView tv_perMonth = view.findViewById(R.id.textView_minutes_month);
+        TextView tv_lastMonth = view.findViewById(R.id.textView_minutes_lastmonth);
+        TextView tv_nameLastMonth = view.findViewById(R.id.textView_lastmonth);
 
         //Get the data groud by month
         ActivityTrackingDatabaseHelper aTrackingHelperObject = new ActivityTrackingDatabaseHelper(getActivity());
         db = aTrackingHelperObject.getWritableDatabase();
-        cursor = db.query(false,aTrackingHelperObject.name,new String[]{"substr(DATE,0,8) as mDATE","SUM(DURATION) as DURATION"},null,null,"mDATE",null,null,null);
+        cursor = db.query(false, ActivityTrackingDatabaseHelper.name,new String[]{"substr(DATE,0,8) as mDATE","SUM(DURATION) as DURATION"},null,null,"mDATE",null,null,null);
 
         //Get the previous month
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM");

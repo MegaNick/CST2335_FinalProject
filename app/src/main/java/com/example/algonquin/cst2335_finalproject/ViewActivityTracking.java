@@ -55,15 +55,15 @@ public class ViewActivityTracking extends Fragment {
         //view.setBackgroundColor(Color.CYAN);
 
         listView = view.findViewById(R.id.listView_trackingItem);
-        Button bt_orderByDate = (Button)view.findViewById(R.id.button_orderByDate);
-        Button bt_summary = (Button)view.findViewById(R.id.button_summary);
+        Button bt_orderByDate = view.findViewById(R.id.button_orderByDate);
+        Button bt_summary = view.findViewById(R.id.button_summary);
 
         //Order by date
         bt_orderByDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Refresh this fragment
-                FragmentManager fm = getFragmentManager();;
+                FragmentManager fm = getFragmentManager();
                 FragmentTransaction transaction = fm.beginTransaction();
                 ViewActivityTracking fragmentOrder = new ViewActivityTracking();
                 transaction.replace(R.id.fl_toolbar,fragmentOrder,"orderByDate");
@@ -81,7 +81,7 @@ public class ViewActivityTracking extends Fragment {
             @Override
             public void onClick(View view) {
                 //Refresh this fragment
-                FragmentManager fm = getFragmentManager();;
+                FragmentManager fm = getFragmentManager();
                 FragmentTransaction transaction = fm.beginTransaction();
                 ViewActivityTracking fragmentSummary = new ViewActivityTracking();
                 transaction.replace(R.id.fl_toolbar,fragmentSummary,"summary");
@@ -107,7 +107,7 @@ public class ViewActivityTracking extends Fragment {
                 if (viewActivityTracking == null) {  //If in the summary fragment (the summary button is clicked), no action if an item is clicked
                     //Pass the clicked record to addOneActivityTracking activity
                     if (i>0){  //The activity tracking item is clicked
-                        FragmentManager fm = getFragmentManager();;
+                        FragmentManager fm = getFragmentManager();
                         FragmentTransaction transaction = fm.beginTransaction();
                         addActivityTracking fragmentAdd = new addActivityTracking();
                         FrameLayout frameLayoutTablet = getActivity().findViewById(R.id.fl_tablet);
@@ -150,9 +150,9 @@ public class ViewActivityTracking extends Fragment {
 
             String[] separated = getItem(position).split(","); // get the string at the position
             result = inflater.inflate(R.layout.activitytrackingrecord, null);
-            TextView tv_date = (TextView)result.findViewById(R.id.textView_dateAndTime);
-            TextView tv_activityType = (TextView)result.findViewById(R.id.textView_activityType);
-            TextView tv_duration = (TextView)result.findViewById(R.id.textView_durationInMinutes);
+            TextView tv_date = result.findViewById(R.id.textView_dateAndTime);
+            TextView tv_activityType = result.findViewById(R.id.textView_activityType);
+            TextView tv_duration = result.findViewById(R.id.textView_durationInMinutes);
 
             tv_date.setText(separated[1]); //set the date
             if (getArguments().getString("button") == "summary"){  //Perhaps more than one activity type
@@ -214,19 +214,19 @@ public class ViewActivityTracking extends Fragment {
             //if orderByTime button is clicked, query the data order by date;
             //if summary button is clicked, query the data group by date, and sum the duration.
             if (getArguments().getString("button") == "click")
-                cursor = db.query(false,aTrackingHelperObject.name,new String[]{"_id","DATE","ACTIVITYTYPE","DURATION","COMMENT"},null,null,null,null,null,null);
+                cursor = db.query(false, ActivityTrackingDatabaseHelper.name,new String[]{"_id","DATE","ACTIVITYTYPE","DURATION","COMMENT"},null,null,null,null,null,null);
             else if (getArguments().getString("button") == "orderByDate")
-                cursor = db.query(false,aTrackingHelperObject.name,new String[]{"_id","DATE","ACTIVITYTYPE","DURATION","COMMENT"},null,null,null,null,"DATE",null);
+                cursor = db.query(false, ActivityTrackingDatabaseHelper.name,new String[]{"_id","DATE","ACTIVITYTYPE","DURATION","COMMENT"},null,null,null,null,"DATE",null);
             else if (getArguments().getString("button") == "summary")
-                cursor = db.query(false,aTrackingHelperObject.name,new String[]{"DATE", "SUM(DURATION) as DURATION"},null,null,"DATE",null,null,null);
+                cursor = db.query(false, ActivityTrackingDatabaseHelper.name,new String[]{"DATE", "SUM(DURATION) as DURATION"},null,null,"DATE",null,null,null);
 
 
             //Get the index(what column in order starting from 0) of message in the table
-            int idIndex =  cursor.getColumnIndex( aTrackingHelperObject.KEY_ID);
-            int dateIndex =  cursor.getColumnIndex( aTrackingHelperObject.KEY_date);
-            int activityTypeIndex = cursor.getColumnIndex( aTrackingHelperObject.KEY_ACTIVITYTYPE);
-            int durationIndex =  cursor.getColumnIndex( aTrackingHelperObject.KEY_DURATION);
-            int commentIndex = cursor.getColumnIndex( aTrackingHelperObject.KEY_COMMENT);
+            int idIndex =  cursor.getColumnIndex(ActivityTrackingDatabaseHelper.KEY_ID);
+            int dateIndex =  cursor.getColumnIndex(ActivityTrackingDatabaseHelper.KEY_date);
+            int activityTypeIndex = cursor.getColumnIndex(ActivityTrackingDatabaseHelper.KEY_ACTIVITYTYPE);
+            int durationIndex =  cursor.getColumnIndex(ActivityTrackingDatabaseHelper.KEY_DURATION);
+            int commentIndex = cursor.getColumnIndex(ActivityTrackingDatabaseHelper.KEY_COMMENT);
 
 //        String n = cursor.getColumnName(1);
             //Get message and add them to the arrayList
@@ -238,7 +238,7 @@ public class ViewActivityTracking extends Fragment {
                 {
                     String activitySummary ="";
                     //Query the activities group by the month that is taken in the above db query (summary button is clicked)
-                    cursor_gb = db.query(false,aTrackingHelperObject.name,new String[]{"DATE", "ACTIVITYTYPE"},"DATE=\""+cursor.getString(dateIndex)+"\"",null,null,null,null,null);
+                    cursor_gb = db.query(false, ActivityTrackingDatabaseHelper.name,new String[]{"DATE", "ACTIVITYTYPE"},"DATE=\""+cursor.getString(dateIndex)+"\"",null,null,null,null,null);
                     cursor_gb.moveToFirst();//resets the iteration of results
                     while (!cursor_gb.isAfterLast()){
                         //Check the duplicated activity type and ignore it. or add it to the activitySummary

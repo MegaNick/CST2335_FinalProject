@@ -26,7 +26,7 @@ public class AutomobileActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_automobile);
         listItems = new ArrayList<String>();
-        purchaseBT = (Button)findViewById(R.id.fuelCostB);
+        purchaseBT = findViewById(R.id.fuelCostB);
 
         listItems.add("Gas Pirce History");
         listItems.add("Gas Amount History");
@@ -35,7 +35,7 @@ public class AutomobileActivity extends Activity {
 
         ad = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listItems);
         ca = new CustomAdapter(this);
-        automobileList = (ListView) findViewById(R.id.automobileList);
+        automobileList = findViewById(R.id.automobileList);
         automobileList.setAdapter(ad); //adapt the list
 
 

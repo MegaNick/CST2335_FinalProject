@@ -2,7 +2,6 @@ package com.example.algonquin.cst2335_finalproject;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
@@ -24,7 +23,7 @@ public class DashBoardOfActivityTracking extends AppCompatActivity {
         setContentView(R.layout.activity_dash_board_of_tracking);
 
         //Show the top toolbar
-        Toolbar topToolbar = (Toolbar)findViewById(R.id.start_toolbar_inActivityTracking);
+        Toolbar topToolbar = findViewById(R.id.start_toolbar_inActivityTracking);
         setSupportActionBar(topToolbar);
         getSupportActionBar().setTitle(getString(R.string.projectNameInActivityTracking));
 
@@ -71,7 +70,7 @@ public class DashBoardOfActivityTracking extends AppCompatActivity {
         });
 
         //Show the bottom toolbar
-        Toolbar myToolbar = (Toolbar)findViewById(R.id.toolbar);
+        Toolbar myToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
 
     }
@@ -88,7 +87,7 @@ public class DashBoardOfActivityTracking extends AppCompatActivity {
     //Menu item selection (bottom)
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        FragmentManager fm = getFragmentManager();;
+        FragmentManager fm = getFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
         Bundle bundle;
         // Handle presses on the action bar items

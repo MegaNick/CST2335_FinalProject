@@ -67,7 +67,7 @@ public class addActivityTracking extends Fragment implements AdapterView.OnItemS
         };
 
         //Declare the variable
-        bt_add = (Button)view.findViewById(R.id.button_add);
+        bt_add = view.findViewById(R.id.button_add);
         bt_delete = view.findViewById(R.id.button_delete);
         et_duration = view.findViewById(R.id.editText_amountOfTime);
         et_comment = view.findViewById(R.id.editText_comment);
@@ -81,7 +81,7 @@ public class addActivityTracking extends Fragment implements AdapterView.OnItemS
 //        date = df.format(c.getTime());
 
         //Set up the spinner of activity type.
-        Spinner spin = (Spinner) view.findViewById(R.id.spinner_selectOneActivity);
+        Spinner spin = view.findViewById(R.id.spinner_selectOneActivity);
         //Load the spinner of activity type.
         spin.setOnItemSelectedListener(this);
         //Creating the ArrayAdapter instance having the bank name list
@@ -150,7 +150,7 @@ public class addActivityTracking extends Fragment implements AdapterView.OnItemS
                 newData.put("DURATION", et_duration.getText().toString());
                 newData.put("COMMENT", et_comment.getText().toString());
 */
-                long rowInserted = db.insert(aTrackingHelperObject.name, "", contentValues());
+                long rowInserted = db.insert(ActivityTrackingDatabaseHelper.name, "", contentValues());
                 if(rowInserted >= 1){
                     Toast toast = Toast.makeText(getActivity().getApplicationContext(), getActivity().getString(R.string.addTrackingSucc), Toast.LENGTH_SHORT);
                     toast.show();
@@ -183,7 +183,7 @@ public class addActivityTracking extends Fragment implements AdapterView.OnItemS
                         // User clicked OK button
                         //Execute sql query to remove from database
 //                        db.execSQL("DELETE FROM " + aTrackingHelperObject.name + " WHERE " + aTrackingHelperObject.KEY_ID + "=" + idInDB + ";");
-                        long delete = db.delete(aTrackingHelperObject.name,aTrackingHelperObject.KEY_ID + "=" + idInDB,null);
+                        long delete = db.delete(ActivityTrackingDatabaseHelper.name, ActivityTrackingDatabaseHelper.KEY_ID + "=" + idInDB,null);
                         if (delete >= 1 ){
                             Snackbar.make(getActivity().findViewById(android.R.id.content), getActivity().getString(R.string.deleteTrackingConfirmYesAlert), Snackbar.LENGTH_LONG)
                                     .show();
@@ -212,7 +212,7 @@ public class addActivityTracking extends Fragment implements AdapterView.OnItemS
             @Override
             public void onClick(View view) {
                 //create a object for inserting data to a SQLite database
-                long update = db.update(aTrackingHelperObject.name,contentValues(),aTrackingHelperObject.KEY_ID + "=" + idInDB,null);
+                long update = db.update(ActivityTrackingDatabaseHelper.name,contentValues(), ActivityTrackingDatabaseHelper.KEY_ID + "=" + idInDB,null);
                 if(update >= 1){
                     Toast.makeText(getActivity().getApplicationContext(), getActivity().getString(R.string.updateTrackingSucc), Toast.LENGTH_SHORT).show();
                 }else{
