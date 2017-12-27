@@ -15,35 +15,66 @@
 
     <!---Nutrition stuff -->
     <string name="food_item">Food: </string>
-    <string name="eat_day">Day: </string>
     <string name="eat_time">Time: </string>
     <string name="calories">Calories: </string>
     <string name="total_fat">Total Fat: </string>
     <string name="total_carbohydrate">Total Carbohydrate: </string>
+    <string name="view_food">Food: </string>
+    <string name="view_time">Time: </string>
+    <string name="view_calories">Calories: </string>
+    <string name="view_total_fat">Total Fat: </string>
+    <string name="view_total_carbohydrate">Total Carbohydrate: </string>
     <string name="delete_info">Delete</string>
     <string name="save_info">Save</string>
     <string name="save_asNew">Save As A New Record</string>
     <string name="cancel">Cancel</string>
     <string name="add_food">Add a Food Item</string>
+    <string name="calAvg">Calories(Avg)</string>
+    <string name="calTotal">Calories(Sum)</string>
     <string name="title_activity_nutrition_details">NutritionDetails</string>
+    <string name="loading_database">Loading Database...Please Wait</string>
+    <string name="loading_complete">Loading Complete! Activity fully functional</string>
     <string name="ok">Yes</string>
     <string name="no">No</string>
-
     <string name="delete_button_dialog">Delete this record?</string>
     <string name="cancel_button_dialog">Go back without Saving?</string>
     <string name="dialog_ok_button">OK</string>
     <string name="item1_title">Average Calories Per Day</string>
     <string name="item1_body_message">\nYour calories intake per day:</string>
-    <string name="item2_title">Total Calories By Day</string>
-    <string name="item2_body_message">Your total calories intake from yesterday was:</string>
-    <string name="item3_title">Food Nutrition Information Tracker</string>
-    <string name="item3_body_message">Author: Shu Chen\n\nFragments will show in yellow background.\n\nThis activity also support a chinese version.\n\nThree Toolbar Items:\n\n1. Calculate average calories eaten per day.\n\n2: Calculate total calories eaten by day.\n\n3: Instruction about this activity.\n\nTo review or edit nutrition details: click any records on display view.\n\nTo add a food item: click Add A Food Item button on the bottom.\n\nFind out more details by clicking floating action button in fragment.</string>
+    <string name="item2_title">Total Calories in the Last Day</string>
+    <string name="item2_message_today">Today is:</string>
+    <string name="item2_yesterday">\n\nCalories intake from yesterday(</string>
+    <string name="item2_message_yesterday">) was: </string>
+    <string name="help_menu_title">Help Menu</string>
+    <string name="help_menu_message">Author: Shu Chen\n\nActivity version: Food Nutrition information tracker V1.0\n\nThings the user needs to know:\n\n
+        1. This activity supports chinese version.\n
+        2. Fragments show in yellow background.\n
+        3. Tablet mode is available(turn screen).\n
+        3. Active other activities from toolbar.\n
+        4. Listview is sorted by time(latest to earliest).\n
+        5. Click listview for more details.\n
+        6. Click Add A Food Item button to add a new info.\n
+        7. Click Calories(avg) button for Calories eaten per day.\n
+        8: Click Calories(sum) button for Calories eaten yesterday.\n
+        9. Find out more details by clicking floating action button in fragment.</string>
     <string name="floating_button_title">User Guideline</string>
-    <string name="floating_button_body_message">To store or update nutrition details:\n\n
-    1. Please fill out all empty fields.\n\n
-    2. Food Item field must and only contain letters.\n\n
-    3. Fields for Calories, Fat and Carbohydrate are numbers only.\n\nInformation will store into a database and can be used for calculation and future analysis purposes.\n\nClick Delete button to delete current existing data.\n\nCancel button allows you to go back to previous activity without saving.</string>
+    <string name="floating_button_body_message">To store, update or delete records:\n\n
+        1. Please fill out all empty fields.\n\n
+        2. Food Item field must and only contain letters.\n\n
+        3. Fields for Calories, Fat and Carbohydrate are numbers only.\n\nInformation will store into a database and can be used for calculation and future analysis purposes.\n\nClick Delete button to delete current existing data.\n\nCancel button allows you to go back to previous activity without saving.</string>
     <string name="dialog">Go back without Saving?</string>
+    <string name="hint_food">Enter Food Item</string>
+    <string name="hint_calories">Enter Calories</string>
+    <string name="hint_total_fat">Enter Total Fat</string>
+    <string name="hint_total_carbohydrate">Enter Total Carbohydrate</string>
+    <string name="food_info_saved">A new food info is added</string>
+    <string name="food_info_updated">Food info has been modified</string>
+    <string name="food_info_deleted">Food info has been removed</string>
+    <string name="check_food_entered">Please enter a food item</string>
+    <string name="check_valid_food">Please enter a VALID food item</string>
+    <string name="check_valid_calories">Please enter Calories info</string>
+    <string name="check_valid_fat">Please enter fat info</string>
+    <string name="check_valid_carbohydrate">Please enter Carbohydrate info</string>
 
     <!---Thermostat stuff -->
     <string name="duplicateQuestion">Do you want to delete duplicate?</string>
