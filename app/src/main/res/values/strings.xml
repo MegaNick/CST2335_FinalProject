@@ -92,5 +92,7 @@
         be asked to confirm your choice by an Alert\n
         window.</string>
     <string name="intro">Huaming Cai - Activity Tracker\nShu Chen - Food Nutrition Tracker\nNikolay Melnik - Thermostat\nJinda Xu - Automobile Activity"</string>
+    <string name="warningDelete">WARNING!</string>
+    <string name="dialogProceed">You are about to delete the Rule. Do you want to proceed?</string>
 
 </resources>
