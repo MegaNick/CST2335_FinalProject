@@ -109,8 +109,8 @@
         to add new rule, or click on the List\n
         to update/delete an old one.\n
         In the next activity you can change\n
-        individual parameters by clicking on them\
-        nor by choosing different options.\n
+        individual parameters by clicking on them\n
+        or by choosing different options.\n
         After you are satisfied with your choice\n
         please click proper button for operation\n
         and you will return back to this screen\n
@@ -119,6 +119,8 @@
         be asked to confirm your choice by an Alert\n
         window.</string>
     <string name="intro">Huaming Cai - Activity Tracker\nShu Chen - Food Nutrition Tracker\nNikolay Melnik - Thermostat\nJinda Xu - Automobile Activity"</string>
+    <string name="warningDelete">WARNING!</string>
+    <string name="dialogProceed">You are about to delete the Rule. Do you want to proceed?</string>
 
     <!---Activity Tracking stuff -->
     <!-- activity_dash_board_of_tracking.xml -->
