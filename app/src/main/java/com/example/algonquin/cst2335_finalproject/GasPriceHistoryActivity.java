@@ -21,8 +21,12 @@ public class GasPriceHistoryActivity extends Activity {
         Bundle bundle = getIntent().getExtras();
         Bundle args = bundle.getBundle("package");
         double [] tempArray = args.getDoubleArray("displayArray");
-        Log.i("wth happening here", Double.toString(tempArray[0]));
 
+        for (int i = 0; i < tempArray.length; i++){
+            tempArray[i] = Math.round(tempArray[i]*100D)/100D;
+        }
+
+        Log.i("wth happening here", Double.toString(tempArray[0]));
 
         gasPriceArrayList.add("Your Average gas price last month was : "+Double.toString(tempArray[0]) + " $");
         gasPriceArrayList.add("You bought a total of : "+Double.toString(tempArray[1]) + " L of gas last month");
