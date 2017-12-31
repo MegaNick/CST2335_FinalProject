@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="food_item">食物: </string>
+    <string name="eat_time">时间: </string>
+    <string name="calories">卡路里: </string>
+    <string name="total_fat">总脂肪: </string>
+    <string name="total_carbohydrate">总糖分: </string>
+    <string name="view_food">食物: </string>
+    <string name="view_time">时间: </string>
+    <string name="view_calories">卡路里: </string>
+    <string name="view_total_fat">总脂肪: </string>
+    <string name="view_total_carbohydrate">总糖分: </string>
+    <string name="delete_info">删除</string>
+    <string name="save_info">保存</string>
+    <string name="cancel">取消</string>
+    <string name="add_food">添加食物</string>
+    <string name="calAvg">卡路里(平均)</string>
+    <string name="calTotal">卡路里(总量)</string>
+    <string name="title_activity_nutrition_details">营养细节</string>
+    <string name="ok">是</string>
+    <string name="no">否</string>
+    <string name="loading_database">数据读取中...</string>
+    <string name="loading_complete">读取完毕!</string>
+    <string name="delete_button_dialog">删除此记录?</string>
+    <string name="cancel_button_dialog">不保存直接退出?</string>
+    <string name="dialog_ok_button">确认</string>
+    <string name="item1_title">每日卡路里摄入量</string>
+    <string name="item1_body_message">\n你每日摄入的卡路里:</string>
+    <string name="item2_title">昨日卡路里摄入总量</string>
+    <string name="item2_message_today">今天是: </string>
+    <string name="item2_yesterday">\n\n昨日(</string>
+    <string name="item2_message_yesterday">) 摄入的卡路里: </string>
+    <string name="help_menu_title">帮助菜单</string>
+    <string name="help_menu_message">作者: Shu Chen\n\n程序版本号: 美食追踪器V1.0\n\n用户须知:\n\n
+        1. 此程序支持中文版本.\n
+        2. 片段附加背景颜色.\n
+        3. 支持平板模式(旋转屏幕).\n
+        3. 点击工具栏激活其他程序.\n
+        4. 信息按日期排序(新到旧).\n
+        5. 点击信息查看细节.\n
+        6. 点击添加食物键添加信息.\n
+        7. 点击卡路里(平均)查询每日摄入量.\n
+        8: 点击卡路里(总量)查询昨日摄入量.\n
+        9. 更多信息点击漂浮按钮.</string>
+    <string name="floating_button_title">用户手册</string>
+    <string name="floating_button_body_message">储存,升级和删除信息:\n\n
+        1. 请填写所有信息.\n\n
+        2. 食物信息只含有字母.\n\n
+        3. 卡路里，脂肪和糖分只能是数字.\n\n信息将储存在数据库并且用于数据分析.\n\n点击删除键移除当前信息.\n\n取消键可以返回之前界面.</string>
+    <string name="dialog">不保存直接退出?</string>
+    <string name="hint_food">输入食物</string>
+    <string name="hint_calories">输入卡路里</string>
+    <string name="hint_total_fat">输入脂肪含量</string>
+    <string name="hint_total_carbohydrate">输入糖分</string>
+    <string name="food_info_saved">新的食物记录已保存</string>
+    <string name="food_info_updated">已更新食物记录</string>
+    <string name="food_info_deleted">已删除该记录</string>
+    <string name="check_food_entered">请输入一种食物</string>
+    <string name="check_valid_food">请输入一个有效食品名称</string>
+    <string name="check_valid_calories">请输入有效卡路里信息</string>
+    <string name="check_valid_fat">请输入有效脂肪信息</string>
+    <string name="check_valid_carbohydrate">请输入有效糖分信息</string>
+</resources>

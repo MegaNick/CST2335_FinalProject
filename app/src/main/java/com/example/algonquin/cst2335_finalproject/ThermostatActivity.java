@@ -12,7 +12,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -23,6 +22,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -39,7 +39,6 @@ import java.util.Comparator;
 public class ThermostatActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private Button ruleAddButton;
-    private FloatingActionButton floatingActionButton;
     private String [] days;
     private ArrayList<ScheduleEntry> arrayList = new ArrayList<>();
     private ListView chatListView;
@@ -51,6 +50,7 @@ public class ThermostatActivity extends AppCompatActivity {
     private int timerCounter;
     private Runnable runnable; //for timer
     private int y;
+    private ScheduleEntry xyz;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -216,7 +216,7 @@ public class ThermostatActivity extends AppCompatActivity {
                 addEntry(tempEntry);
 
             } else if (resultCode ==12){ //Delete Entry
-                eraseEntry(tempEntry);
+                deleteWarning(tempEntry).show();
 
             } else if (resultCode ==13){ //Change Entry
                 updateEntry(tempEntry);
@@ -355,15 +355,15 @@ public class ThermostatActivity extends AppCompatActivity {
                 result = inflater.inflate(R.layout.thermostat_row_even, null);
             else
                 result = inflater.inflate(R.layout.thermostat_row_odd, null);
-            TextView message = (TextView)result.findViewById(R.id.message_text);
+            TextView message = result.findViewById(R.id.message_text);
 
             ScheduleEntry tempEntry = getItem(position);
-            String text = days[tempEntry.day] + ", Time:";
+            String text = days[tempEntry.day] + ", "+getString(R.string.time);
             if (tempEntry.hours<10){text += "0";}
             text += tempEntry.hours +":";
             if (tempEntry.minutes<10) {text+="0";}
             text += tempEntry.minutes;
-            text = text + ", \nTemperature in C:" + (tempEntry.temperature);
+            text = text + ", \n" + getString(R.string.temperature_in_c) + (tempEntry.temperature);
             message.setText(text); // get the string at position
             return result;
         }
@@ -384,6 +384,9 @@ public class ThermostatActivity extends AppCompatActivity {
             //Initializing video countdown
             timerCounter = 0;
             progressBar.setActivated(true);
+//Layout blocker taken from Stackoverflow https://stackoverflow.com/questions/36918219/how-to-disable-user-interaction-while-progressbar-is-visible-in-android
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
          }
 
         @Override
@@ -392,6 +395,7 @@ public class ThermostatActivity extends AppCompatActivity {
             ProgressBar pbar;
             pbar = mActivity.findViewById(R.id.thermoProgressBar);
             pbar.setVisibility(View.INVISIBLE);
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
             addAndSort();
             messageAdapter.notifyDataSetChanged();
         }
@@ -493,6 +497,30 @@ public class ThermostatActivity extends AppCompatActivity {
                 break;
         }
         return true;
+    }
+
+    //Delete Alert dialog
+    public AlertDialog deleteWarning (ScheduleEntry tempEntry){
+        xyz = tempEntry;
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        // Get the layout inflater
+        LayoutInflater inflater = this.getLayoutInflater();
+        View view = inflater.inflate(R.layout.thermo_delete_alert, null);
+        //builder.setTitle("Delete Warning");
+        builder.setView(view)
+                // Add action buttons
+                .setPositiveButton(R.string.thermoYes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        eraseEntry(xyz);
+                    }
+                })
+                .setNegativeButton(R.string.thermoNo, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
+                });
+        return builder.create();
     }
 
 }

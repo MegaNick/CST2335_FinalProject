@@ -4,18 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/tabletXML"
+    android:id="@+id/foodTabletXML"
     tools:context="com.example.algonquin.cst2335_finalproject.FoodList">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+        android:id="@+id/foodToolbar"
         android:layout_width="310dp"
         android:layout_height="?attr/actionBarSize"
+        android:layout_alignParentTop="true"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
     <FrameLayout
-        android:id="@+id/tableFrameLayout"
+        android:id="@+id/foodTableFrameLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_toEndOf="@+id/foodListView"
@@ -26,25 +27,41 @@
         android:id="@+id/foodListView"
         android:layout_width="310dp"
         android:layout_height="match_parent"
-        android:layout_above="@id/addFood"
-        android:layout_below="@id/toolbar">
+        android:layout_above="@id/addFoodButton"
+        android:layout_below="@id/foodToolbar">
     </ListView>
 
     <ProgressBar
-        android:id="@+id/progressBar"
+        android:id="@+id/foodProgressBar"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/addFood"
+        android:layout_above="@+id/addFoodButton"
         android:layout_alignParentStart="true"
         android:layout_marginStart="58dp"
         android:visibility="visible" />
 
     <Button
-        android:id="@+id/addFood"
+        android:id="@+id/addFoodButton"
         android:layout_width="310dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_above="@id/calculateAverageCal"
         android:text="@string/add_food"/>
+
+    <Button
+        android:id="@+id/calculateAverageCal"
+        android:layout_width="155dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:text="@string/calAvg" />
+
+    <Button
+        android:id="@+id/calculateTotalCal"
+        android:layout_width="155dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@id/calculateAverageCal"
+        android:text="@string/calTotal" />
 
 </RelativeLayout>

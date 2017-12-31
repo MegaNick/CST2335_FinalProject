@@ -44,5 +44,7 @@
         Если Вы введете повторную запись, то Вы
         будете испрошены подтвердить свой выбор
         в диалоговом окне.</string>
+    <string name="warningDelete">ВНИМАНИЕ!</string>
+    <string name="dialogProceed">Текущее правило будет удалено. Продолжать?</string>
 
 </resources>
