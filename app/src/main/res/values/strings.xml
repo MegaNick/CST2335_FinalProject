@@ -2,9 +2,15 @@
     <string name="app_name">Final Project</string>
 
     <!---Automobile stuff -->
-    <string name="fuelCostButton">Add new purchase</string>
-    <string name="fuelVolumeTV">Enter the amount of gas (L)</string>
-    <string name="enterGasPriceS">Enter the price of gas</string>
+    <string name="fuelCostButton">New purchase</string>
+    <string name="fuelVolumeTV">Enter the amount of gas (L):</string>
+    <string name="enterGasPriceS">Enter the price of gas ($):</string>
+    <string name="confirmPurchase">Add Purchase</string>
+    <string name="deleteGastext">Delete</string>
+    <string name="editGasButton">Save Changes</string>
+    <string name="priceHistoryButton">Purchase Analysis</string>
+    <string name="autoHeader">By: Jinda Xu</string>
+    <string name="autoHelper">Add, edit or delete gas purchases</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
