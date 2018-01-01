@@ -39,8 +39,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:ems="10"
         android:layout_below="@+id/enterGasVolumeTV"
+        android:ems="10"
         android:inputType="numberDecimal" />
 
     <Button

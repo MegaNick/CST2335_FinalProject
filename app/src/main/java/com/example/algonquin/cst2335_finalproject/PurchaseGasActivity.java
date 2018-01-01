@@ -3,6 +3,7 @@ package com.example.algonquin.cst2335_finalproject;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -101,14 +102,14 @@ public class PurchaseGasActivity extends Fragment {
                     Log.i("IS PHONE",phone);
 
                     if (isPhone){
-                        Toast.makeText(getContext(), "Your Purchase has been recorded!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), getResources().getString(R.string.toastAdd), Toast.LENGTH_SHORT).show();
                         Log.i("ARRAY VALUE", automobileInfoArray[0]);
                         Intent intent = new Intent();
                         intent.putExtra("data", automobileInfoArray);
                         getActivity().setResult(11,intent);
                         getActivity().finish();
                     }else{
-                        Toast.makeText(getContext(), "Your Purchase has been recorded!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), getResources().getString(R.string.toastAdd), Toast.LENGTH_SHORT).show();
                         ((AutomobileActivity)getActivity()).addEntry((arrayToEntry(automobileInfoArray)));
                         getFragmentManager().popBackStackImmediate();
                     }
@@ -143,7 +144,7 @@ public class PurchaseGasActivity extends Fragment {
                     getFragmentManager().popBackStackImmediate();
                 }
 
-                Toast.makeText(getContext(), "Entry deleted", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getResources().getString(R.string.toastDelete), Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -173,7 +174,7 @@ public class PurchaseGasActivity extends Fragment {
                         getFragmentManager().popBackStackImmediate();
                     }
                 }
-                Toast.makeText(getContext(), "Your Purchase has been Saved", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getResources().getString(R.string.toastEdit), Toast.LENGTH_SHORT).show();
             }
         });
 

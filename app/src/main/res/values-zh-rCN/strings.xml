@@ -1,5 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!---Automobile stuff -->
+    <string name="fuelCostButton">新购买</string>
+    <string name="fuelVolumeTV">输入气体量 (L):</string>
+    <string name="enterGasPriceS">输入天然气的价格 ($):</string>
+    <string name="confirmPurchase">添加购买</string>
+    <string name="deleteGastext">删除</string>
+    <string name="editGasButton">保存更改</string>
+    <string name="priceHistoryButton">购买分析</string>
+    <string name="autoHeader">通过： Jinda Xu</string>
+    <string name="autoHelper">添加，编辑或删除天然气采购</string>
+    <string name="toastAdd">您的购买已记录！</string>
+    <string name="toastDelete">条目已删除</string>
+    <string name="toastEdit">您的购买已保存</string>
+    <string name="timeOfPurchase">购买时间：</string>
+    <string name="gasPurchasedAt">天然气购买</string>
+    <string name="LitersOfGas">购买天然气总量：</string>
+    <string name="AvergaeGasLastMonth">你上个月的平均气价是：</string>
+    <string name="youBoughtTotalOf">你总共购买了：</string>
+    <string name="litersOfGasLastMonth">L上个月的天然气</string>
+    <string name="totalGasHeader">天然气购买总量（今年）：</string>
+    <string name="January">一月份是：</string>
+    <string name="Febuary">二月份是：</string>
+    <string name="March">三月份是:</string>
+    <string name="April">四份是:</string>
+    <string name="May">五份是:</string>
+    <string name="June">六份是:</string>
+    <string name="July">七份是:</string>
+    <string name="August">八份是:</string>
+    <string name="September">九份是:</string>
+    <string name="October">十份是:</string>
+    <string name="November">十一份是:</string>
+    <string name="December">十二 份是:</string>
+    <string name="addSnackbar">添加新条目</string>
+
     <!-- activity_dash_board_of_tracking.xml -->
     <string name="title_activity_dash_board_of_tracking">减肥神器</string>
     <string name="projectNameInActivityTracking">四人帮集团</string>

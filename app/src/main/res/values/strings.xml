@@ -11,6 +11,30 @@
     <string name="priceHistoryButton">Purchase Analysis</string>
     <string name="autoHeader">By: Jinda Xu</string>
     <string name="autoHelper">Add, edit or delete gas purchases</string>
+    <string name="toastAdd">Your Purchase has been recorded!</string>
+    <string name="toastDelete">Entry deleted</string>
+    <string name="toastEdit">Your Purchase has been Saved</string>
+    <string name="timeOfPurchase">Time of Purchase:</string>
+    <string name="gasPurchasedAt">Gas Purchased at:</string>
+    <string name="LitersOfGas">Total Gas Purchased:</string>
+    <string name="AvergaeGasLastMonth">Your Average gas price last month was :</string>
+    <string name="youBoughtTotalOf">You bought a total of :</string>
+    <string name="litersOfGasLastMonth">L of gas last month</string>
+    <string name="totalGasHeader">Total amount of gas bought in (This Year):</string>
+    <string name="January">January was:</string>
+    <string name="Febuary">Febuary was:</string>
+    <string name="March">March was:</string>
+    <string name="April">April was:</string>
+    <string name="May">May was:</string>
+    <string name="June">June was:</string>
+    <string name="July">July was:</string>
+    <string name="August">August was:</string>
+    <string name="September">September was:</string>
+    <string name="October">October was:</string>
+    <string name="November">November was:</string>
+    <string name="December">December was:</string>
+    <string name="addSnackbar">Adding new entry</string>
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

@@ -137,7 +137,7 @@ public class AutomobileActivity extends AppCompatActivity {
                 Bundle data = new Bundle();
                 data.putInt("addButtonClicked",1);
 
-                Snackbar snackbar = Snackbar.make(view,"Adding new entry",Snackbar.LENGTH_LONG);
+                Snackbar snackbar = Snackbar.make(view,getResources().getString(R.string.addSnackbar),Snackbar.LENGTH_LONG);
                 snackbar.show();
 
                 if (isPhone){
@@ -496,7 +496,7 @@ public class AutomobileActivity extends AppCompatActivity {
             AutomobileInformation automobileInformation = getItem(position);
 
             String [] date = automobileInformation.parseDate(automobileInformation.time);
-            String displayText = "Time of Purchase: "+
+            /*String displayText = "Time of Purchase: "+
                     "\nYear: "+date[0] +
                     "\n"+ date[1] +
                     " " + date[2]+
@@ -505,7 +505,12 @@ public class AutomobileActivity extends AppCompatActivity {
                     "\nSeconds: " +date[5]+
                     "\n"
                     +  "Gas Purchased At: " + automobileInformation.gasPrice + "$\n"
-                    + "Liters of gas Purchased: "+ automobileInformation.gasVolume + "L";
+                    + "Liters of gas Purchased: "+ automobileInformation.gasVolume + "L";*/
+
+            String displayText = getResources().getString(R.string.timeOfPurchase) + "\n"+automobileInformation.time
+                    + "\n" + getResources().getString(R.string.gasPurchasedAt) + "\n"+ automobileInformation.gasPrice + " $"
+                    + "\n" + getResources().getString(R.string.LitersOfGas) + "\n"+ automobileInformation.gasVolume + " L";
+
             TextView displayTextView = (TextView) result.findViewById(R.id.automobileDisplay);
             displayTextView.setText(displayText);
 
