@@ -21,7 +21,7 @@
         app:showAsAction="always" />
 
     <item android:id="@+id/action_four"
-        android:title="Info"
+        android:title="@string/ThermoInfo"
         android:orderInCategory="4"
         app:showAsAction="never" />
 

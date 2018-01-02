@@ -19,7 +19,6 @@
         <!-- <activity android:name=".ViewActivityTracking" /> -->
         <activity android:name=".FoodList" />
         <activity android:name=".ThermostatActivity" />
-        <activity android:name=".PurchaseGasActivity" />
         <activity android:name=".GasPriceHistoryActivity" />
         <activity android:name=".ThermoMessageDetails" />
         <activity android:name=".NutritionOnPhone" />
@@ -28,7 +27,6 @@
             android:name=".DashBoardOfActivityTracking"
             android:label="@string/title_activity_dash_board_of_tracking" />
         <activity android:name=".AutomobileDetails" />
-        <activity android:name=".AutomobileFragment"></activity>
     </application>
 
 </manifest>
