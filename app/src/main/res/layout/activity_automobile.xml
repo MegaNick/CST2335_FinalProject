@@ -33,6 +33,7 @@
 
     <ProgressBar
         android:id="@+id/automobileProgBar"
+        style="@android:style/Widget.ProgressBar.Horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -42,9 +43,11 @@
     <ListView
         android:id="@+id/automobileList"
         android:layout_width="wrap_content"
-        android:layout_height="519dp"
+        android:layout_height="464dp"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"></ListView>
+        android:layout_alignParentTop="true"
+        android:layout_below="@+id/automobileToolbar"
+        android:layout_marginTop="55dp"></ListView>
 
 
 </RelativeLayout>

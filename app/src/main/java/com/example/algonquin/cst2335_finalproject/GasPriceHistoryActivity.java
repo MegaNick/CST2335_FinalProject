@@ -28,21 +28,21 @@ public class GasPriceHistoryActivity extends Activity {
 
         Log.i("wth happening here", Double.toString(tempArray[0]));
 
-        gasPriceArrayList.add("Your Average gas price last month was : "+Double.toString(tempArray[0]) + " $");
-        gasPriceArrayList.add("You bought a total of : "+Double.toString(tempArray[1]) + " L of gas last month");
-        gasPriceArrayList.add("Total amount of gas bought in: ");
-        gasPriceArrayList.add("January was : " + Double.toString(tempArray[2])+ " L");
-        gasPriceArrayList.add("Febuary was : " + Double.toString(tempArray[3])+ " L");
-        gasPriceArrayList.add("March was : " + Double.toString(tempArray[4])+ " L");
-        gasPriceArrayList.add("April was : " + Double.toString(tempArray[5])+ " L");
-        gasPriceArrayList.add("May was : " + Double.toString(tempArray[6])+ " L");
-        gasPriceArrayList.add("June was : " + Double.toString(tempArray[7])+ " L");
-        gasPriceArrayList.add("July was : " + Double.toString(tempArray[8])+ " L");
-        gasPriceArrayList.add("August was : " + Double.toString(tempArray[9])+ " L");
-        gasPriceArrayList.add("September was : " + Double.toString(tempArray[10])+ " L");
-        gasPriceArrayList.add("October was : " + Double.toString(tempArray[11])+ " L");
-        gasPriceArrayList.add("November was : " + Double.toString(tempArray[12])+ " L");
-        gasPriceArrayList.add("December was : " + Double.toString(tempArray[13])+ " L");
+        gasPriceArrayList.add(getResources().getString(R.string.AvergaeGasLastMonth)+ " " + Double.toString(tempArray[0]) + " $");
+        gasPriceArrayList.add(getResources().getString(R.string.youBoughtTotalOf)+ " " + Double.toString(tempArray[1]) + " " + getResources().getString(R.string.litersOfGasLastMonth));
+        gasPriceArrayList.add(getResources().getString(R.string.totalGasHeader)+" ");
+        gasPriceArrayList.add(getResources().getString(R.string.January)+ " " + Double.toString(tempArray[2])+ " L");
+        gasPriceArrayList.add(getResources().getString(R.string.Febuary)+" " + Double.toString(tempArray[3])+ " L");
+        gasPriceArrayList.add(getResources().getString(R.string.March)+" " + Double.toString(tempArray[4])+ " L");
+        gasPriceArrayList.add(getResources().getString(R.string.April)+" " + Double.toString(tempArray[5])+ " L");
+        gasPriceArrayList.add(getResources().getString(R.string.May)+" " + Double.toString(tempArray[6])+ " L");
+        gasPriceArrayList.add(getResources().getString(R.string.June)+" " + Double.toString(tempArray[7])+ " L");
+        gasPriceArrayList.add(getResources().getString(R.string.July)+" " + Double.toString(tempArray[8])+ " L");
+        gasPriceArrayList.add(getResources().getString(R.string.August)+" " + Double.toString(tempArray[9])+ " L");
+        gasPriceArrayList.add(getResources().getString(R.string.September)+" " + Double.toString(tempArray[10])+ " L");
+        gasPriceArrayList.add(getResources().getString(R.string.October)+" " + Double.toString(tempArray[11])+ " L");
+        gasPriceArrayList.add(getResources().getString(R.string.November)+" " + Double.toString(tempArray[12])+ " L");
+        gasPriceArrayList.add(getResources().getString(R.string.December)+" " + Double.toString(tempArray[13])+ " L");
 
         gasPirceListView = (ListView) findViewById(R.id.gasPriceHistoryListView);
         stringArrayAdapter = new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item ,gasPriceArrayList);
