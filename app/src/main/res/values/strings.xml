@@ -204,6 +204,7 @@
         "DAILY SUMMARY" button. The third button is used to calculate minutes of activity the user does per month and last month.
         The fourth button is for help information.\n\nThe second language is Simplified Chinese.\n\nOn the top tool bar, three buttons are used to bring a user to other three activities.
     </string>
-    <string name="activityTrackingHelpMenuClose">Close</string>>
+    <string name="activityTrackingHelpMenuClose">Close</string>
+    <string name="ThermoInfo">Info</string>>
 
 </resources>
