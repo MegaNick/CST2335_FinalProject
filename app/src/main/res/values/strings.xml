@@ -9,8 +9,21 @@
     <string name="deleteGastext">Delete</string>
     <string name="editGasButton">Save Changes</string>
     <string name="priceHistoryButton">Purchase Analysis</string>
-    <string name="autoHeader">By: Jinda Xu</string>
-    <string name="autoHelper">Add, edit or delete gas purchases</string>
+    <string name="autoHeader">
+        By: Jinda Xu \n
+        版本：1.0
+    </string>
+    <string name="autoHelper">
+        Add, edit or delete gas purchases!\n\n\n
+        1. To add a new purchase, click on the "New Purchase Button".\n
+        2.An automatic timestamp is created for each new purchase. \n
+        3.You can edit your gas purchase by selecting the purchase from the menu.\n
+        4.You can delete your gas purchase by first clicking on the gas purchase you want to remove,
+        then press the "Delete" button.\n
+        5.You can obtain an overview of your gas purchases by clicking on the "Purchase Analysis" button. It
+        will tell you the average gas price you spent last month, how much gas in liters you bought last month,
+        and also how much gas you have bought each month.
+    </string>
     <string name="toastAdd">Your Purchase has been recorded!</string>
     <string name="toastDelete">Entry deleted</string>
     <string name="toastEdit">Your Purchase has been Saved</string>
