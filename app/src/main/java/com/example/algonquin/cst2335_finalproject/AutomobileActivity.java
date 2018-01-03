@@ -519,10 +519,10 @@ public class AutomobileActivity extends AppCompatActivity {
                     +  "Gas Purchased At: " + automobileInformation.gasPrice + "$\n"
                     + "Liters of gas Purchased: "+ automobileInformation.gasVolume + "L";*/
 
-            String displayText = getResources().getString(R.string.timeOfPurchase) + "\n"+automobileInformation.time
-                    + "\n" + getResources().getString(R.string.gasPurchasedAt) + "\n"+ automobileInformation.gasPrice + " $"
-                    + "\n" + getResources().getString(R.string.LitersOfGas) + "\n"+ automobileInformation.gasVolume + " L"
-                    + "\n" + getResources().getString(R.string.kmOfGasDisplay) + "\n" + automobileInformation.kiloOfGas + "km";
+            String displayText = getResources().getString(R.string.timeOfPurchase) + "\t"+automobileInformation.time
+                    + "\n" + getResources().getString(R.string.gasPurchasedAt) + "\t"+ automobileInformation.gasPrice + " $"
+                    + "\n" + getResources().getString(R.string.LitersOfGas) + "\t"+ automobileInformation.gasVolume + " L"
+                    + "\n" + getResources().getString(R.string.kmOfGasDisplay) + "\t" + automobileInformation.kiloOfGas + "km";
 
             TextView displayTextView = (TextView) result.findViewById(R.id.automobileDisplay);
             displayTextView.setText(displayText);
