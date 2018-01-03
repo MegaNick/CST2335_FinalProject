@@ -33,6 +33,11 @@
     <string name="November">十一份是:</string>
     <string name="December">十二 份是:</string>
     <string name="addSnackbar">添加新条目</string>
+    <string name="kmOfGasText">输入气体量（公里）：</string>
+    <string name="kmOfGasDisplay">购买天然气的公里数：</string>
+    <string name="InvalidPrice">请输入天然气价格</string>
+    <string name="InvalidVolume">请输入燃气量（升）</string>
+    <string name="InvalidKm">请输入燃气量（公里）</string>
 
     <!-- activity_dash_board_of_tracking.xml -->
     <string name="title_activity_dash_board_of_tracking">减肥神器</string>

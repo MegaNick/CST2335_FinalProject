@@ -25,18 +25,15 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.Toolbar;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.GregorianCalendar;
+import java.util.concurrent.ExecutionException;
 
 public class AutomobileActivity extends AppCompatActivity {
     public ListView automobileList;
@@ -50,8 +47,6 @@ public class AutomobileActivity extends AppCompatActivity {
     public ProgressBar progressBar;
     public Cursor c;
     public boolean isPhone;
-    private Runnable runnable;
-    private Handler handler;
     private android.support.v7.widget.Toolbar toolbar;
 
     @Override
@@ -79,21 +74,13 @@ public class AutomobileActivity extends AppCompatActivity {
         aAdapter = new AutoMobileAdapter(this);
         automobileList.setAdapter(aAdapter); //adapt the list
 
+        Async async;
 
-        timeCounter = 0;
-        //Timer counter idea is taken from http://www.mopri.de/2010/timertask-bad-do-it-the-android-way-use-a-handler/comment-page-1/
-        handler = new Handler();
-        runnable = new Runnable() {
-            @Override
-            public void run() {
-                timeCounter++;
-                    if (timeCounter>100000) timeCounter=0;
-                handler.postDelayed(this, 100);
-            }
-        };
-        handler.postDelayed(runnable, 1000);
+        async = new Async(this);
+        async.execute("");
 
-        new Async(this).execute("");
+
+        Log.i("DONE DB", "yes");
 
         //Click on button
         automobileList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -103,7 +90,8 @@ public class AutomobileActivity extends AppCompatActivity {
                 String [] tempArray = new String [] {
                         tempInfo.time,
                         tempInfo.gasPrice,
-                        tempInfo.gasVolume
+                        tempInfo.gasVolume,
+                        tempInfo.kiloOfGas
                 };
 
                 Bundle data = new Bundle();
@@ -182,6 +170,7 @@ public class AutomobileActivity extends AppCompatActivity {
         values.put(AutomobileDatabaseHelper.KEY_DATE, tempInfo.time);
         values.put(AutomobileDatabaseHelper.KEY_GASPRICE, tempInfo.gasPrice);
         values.put(AutomobileDatabaseHelper.KEY_VOLUME, tempInfo.gasVolume);
+        values.put(AutomobileDatabaseHelper.KEY_KMGAS, tempInfo.kiloOfGas);
 
         db.insert(AutomobileDatabaseHelper.name,null,values);
         Cursor cursor = db.rawQuery("SELECT last_insert_rowid()", null);
@@ -211,6 +200,7 @@ public class AutomobileActivity extends AppCompatActivity {
         values.put(AutomobileDatabaseHelper.KEY_DATE, tempInfo.time);
         values.put(AutomobileDatabaseHelper.KEY_GASPRICE, tempInfo.gasPrice);
         values.put(AutomobileDatabaseHelper.KEY_VOLUME, tempInfo.gasVolume);
+        values.put(AutomobileDatabaseHelper.KEY_KMGAS, tempInfo.kiloOfGas);
 
         db.update(AutomobileDatabaseHelper.name, values,AutomobileDatabaseHelper.KEY_ID + "=" + id, null);
         listItems.set(position, tempInfo);
@@ -228,12 +218,13 @@ public class AutomobileActivity extends AppCompatActivity {
             if (resultCode == 11){
 
                 String [] tempArray = (String []) bundle.get("data");
-                AutomobileInformation tempInfo = new AutomobileInformation(tempArray[0], tempArray[1], tempArray[2]);
+                AutomobileInformation tempInfo = new AutomobileInformation(tempArray[0], tempArray[1], tempArray[2], tempArray[3]);
 
                 ContentValues values = new ContentValues();
                 values.put(AutomobileDatabaseHelper.KEY_DATE, tempInfo.time);
                 values.put(AutomobileDatabaseHelper.KEY_GASPRICE, tempInfo.gasPrice);
                 values.put(AutomobileDatabaseHelper.KEY_VOLUME, tempInfo.gasVolume);
+                values.put(AutomobileDatabaseHelper.KEY_KMGAS, tempInfo.kiloOfGas);
 
                 db.insert(AutomobileDatabaseHelper.name,null,values);
                 Cursor cursor = db.rawQuery("SELECT last_insert_rowid()", null);
@@ -260,12 +251,13 @@ public class AutomobileActivity extends AppCompatActivity {
                 long id = bundle.getLong("ID");
                 int position = bundle.getInt("position");
                 String [] tempArray = (String []) bundle.get("data");
-                AutomobileInformation tempInfo = new AutomobileInformation(tempArray[0], tempArray[1], tempArray[2]);
+                AutomobileInformation tempInfo = new AutomobileInformation(tempArray[0], tempArray[1], tempArray[2], tempArray[3]);
 
                 ContentValues values = new ContentValues();
                 values.put(AutomobileDatabaseHelper.KEY_DATE, tempInfo.time);
                 values.put(AutomobileDatabaseHelper.KEY_GASPRICE, tempInfo.gasPrice);
                 values.put(AutomobileDatabaseHelper.KEY_VOLUME, tempInfo.gasVolume);
+                values.put(AutomobileDatabaseHelper.KEY_KMGAS, tempInfo.kiloOfGas);
 
                 db.update(AutomobileDatabaseHelper.name, values,AutomobileDatabaseHelper.KEY_ID + "=" + id, null);
                 listItems.set(position, tempInfo);
@@ -430,6 +422,7 @@ public class AutomobileActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... strings) {
+
             onProgressUpdate(25);
 
            if (db == null){
@@ -440,8 +433,13 @@ public class AutomobileActivity extends AppCompatActivity {
             Cursor cursor = db.rawQuery("SELECT * FROM "+AutomobileDatabaseHelper.name, null);
             cursor.moveToFirst();
             listItems.clear();
-
-            while (timeCounter<10);
+            timeCounter = 0;
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            //while (timeCounter<1);
             onProgressUpdate(50);
 
             while(!cursor.isAfterLast()){
@@ -450,13 +448,27 @@ public class AutomobileActivity extends AppCompatActivity {
                 tempInfo.time = cursor.getString(cursor.getColumnIndex(AutomobileDatabaseHelper.KEY_DATE));
                 tempInfo.gasPrice = cursor.getString(cursor.getColumnIndex(AutomobileDatabaseHelper.KEY_GASPRICE));
                 tempInfo.gasVolume = cursor.getString(cursor.getColumnIndex(AutomobileDatabaseHelper.KEY_VOLUME));
+                tempInfo.kiloOfGas = cursor.getString(cursor.getColumnIndex(AutomobileDatabaseHelper.KEY_KMGAS));
+
                 listItems.add(tempInfo);
                 cursor.moveToNext();
             }
-            while (timeCounter<30);
-            onProgressUpdate(100);
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            //timeCounter = 0;
+           // while (timeCounter<2);
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            onProgressUpdate(1000);
 
-            while (timeCounter<40);
+           // timeCounter = 0;
+           // while (timeCounter<3);
             cursor.close();
 
 
@@ -480,7 +492,7 @@ public class AutomobileActivity extends AppCompatActivity {
             c = db.rawQuery("select * from " + AutomobileDatabaseHelper.name,null);
             c.moveToPosition(position);
             String x;
-            x = c.getString(c.getColumnIndex(FoodDatabaseHelper.Key_ID));
+            x = c.getString(c.getColumnIndex(AutomobileDatabaseHelper.KEY_ID));
             return Long.parseLong(x);
         }
 
@@ -509,7 +521,8 @@ public class AutomobileActivity extends AppCompatActivity {
 
             String displayText = getResources().getString(R.string.timeOfPurchase) + "\n"+automobileInformation.time
                     + "\n" + getResources().getString(R.string.gasPurchasedAt) + "\n"+ automobileInformation.gasPrice + " $"
-                    + "\n" + getResources().getString(R.string.LitersOfGas) + "\n"+ automobileInformation.gasVolume + " L";
+                    + "\n" + getResources().getString(R.string.LitersOfGas) + "\n"+ automobileInformation.gasVolume + " L"
+                    + "\n" + getResources().getString(R.string.kmOfGasDisplay) + "\n" + automobileInformation.kiloOfGas + "km";
 
             TextView displayTextView = (TextView) result.findViewById(R.id.automobileDisplay);
             displayTextView.setText(displayText);

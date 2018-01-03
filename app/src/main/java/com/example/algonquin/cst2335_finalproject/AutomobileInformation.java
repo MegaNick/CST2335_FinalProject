@@ -9,13 +9,19 @@ public class AutomobileInformation {
     public String time;
     public String gasPrice;
     public String gasVolume;
+    public String kiloOfGas;
 
     public AutomobileInformation(){}
 
-    public AutomobileInformation(String time, String gasPrice, String gasVolume){
+    public AutomobileInformation(String time, String gasPrice, String gasVolume, String kiloOfGas){
         this.time = time;
         this.gasPrice = gasPrice;
         this.gasVolume = gasVolume;
+        this.kiloOfGas = kiloOfGas;
+    }
+
+    public void setKmOfGas(String kiloOfGas){
+        this.kiloOfGas = kiloOfGas;
     }
 
     public String [] parseDate(String time){

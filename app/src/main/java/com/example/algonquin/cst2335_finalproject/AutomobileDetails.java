@@ -15,7 +15,7 @@ public class AutomobileDetails extends FragmentActivity {
         Bundle extras = getIntent().getExtras();
         Bundle args = extras.getBundle("package");
 
-        PurchaseGasActivity automobileFragment = new PurchaseGasActivity();
+        PurchaseGasActivity automobileFragment = new PurchaseGasActivity(true);
         automobileFragment.setArguments(args);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
