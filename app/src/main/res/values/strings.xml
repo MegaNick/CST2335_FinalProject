@@ -34,6 +34,12 @@
     <string name="November">November was:</string>
     <string name="December">December was:</string>
     <string name="addSnackbar">Adding new entry</string>
+    <string name="kmOfGasText">Enter the amount of gas (km):</string>
+    <string name="kmOfGasDisplay">Kilometers of Gas Purchased:</string>
+    <string name="InvalidPrice">Please enter a gas price</string>
+    <string name="InvalidVolume">Please enter a the amount of gas (Liters)</string>
+    <string name="InvalidKm">Please enter the amount of gas (km)</string>
+
 
 
     <!-- TODO: Remove or change this placeholder text -->

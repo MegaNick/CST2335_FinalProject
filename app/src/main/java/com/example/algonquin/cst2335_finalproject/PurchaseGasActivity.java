@@ -28,7 +28,7 @@ public class PurchaseGasActivity extends Fragment {
     protected static final String ACTIVITY_NAME = "PurchaseGas";
 
     ListView lv;
-    EditText gasPriceET, gasVolumeET;
+    EditText gasPriceET, gasVolumeET, gasKMET;
     private Button savebtn;
     private Button deletebtn;
     private Button editBtn;
@@ -36,7 +36,7 @@ public class PurchaseGasActivity extends Fragment {
     SQLiteDatabase db;
     private AutomobileInformation autoInformation;
     private String [] automobileInfoArray;
-    private String gasPrice, gasVolume, date = "";
+    private String gasPrice, gasVolume, date, kmOfGas = "";
     private boolean isPhone = true;
 
     public PurchaseGasActivity (){
@@ -58,6 +58,7 @@ public class PurchaseGasActivity extends Fragment {
         editBtn = (Button) view.findViewById(R.id.editGasButton);
         gasPriceET = (EditText) view.findViewById(R.id.enterGasPriceET);
         gasVolumeET = (EditText) view.findViewById(R.id.enterGasVolumeET);
+        gasKMET = (EditText)view.findViewById(R.id.enterKMofGasET);
 
         //Bundle bundle = new Bundle();
         //bundle.getBundle("package");
@@ -74,6 +75,7 @@ public class PurchaseGasActivity extends Fragment {
             String [] tempArray = args.getStringArray("info");
             gasPriceET.setText(tempArray[1]);
             gasVolumeET.setText(tempArray[2]);
+            gasKMET.setText(tempArray[3]);
 
         }else{
             deletebtn.setEnabled(false);
@@ -90,7 +92,9 @@ public class PurchaseGasActivity extends Fragment {
                 date = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
                 gasPrice = gasPriceET.getText().toString();
                 gasVolume = gasVolumeET.getText().toString();
-                automobileInfoArray = new String [] {date, gasPrice, gasVolume};
+                kmOfGas = gasKMET.getText().toString();
+
+                automobileInfoArray = new String [] {date, gasPrice, gasVolume, kmOfGas};
                 for (int i = 0; i<automobileInfoArray.length;i++){
                     if (automobileInfoArray[i]==null){
                         automobileInfoArray[i]="0";
@@ -127,15 +131,16 @@ public class PurchaseGasActivity extends Fragment {
                 String [] tempArray =  args.getStringArray("info");
                 gasPriceET.setText(tempArray[1]);
                 gasVolumeET.setText(tempArray[2]);
+                gasKMET.setText(tempArray[3]);
                 Intent intent = new Intent();
                 intent.putExtra("secondClass",args);
 
                 if (isPhone){
-
-
+                    Toast.makeText(getContext(), getResources().getString(R.string.toastDelete), Toast.LENGTH_SHORT).show();
                     getActivity().setResult(12,intent);
                     getActivity().finish();
                 }else{
+                    Toast.makeText(getContext(), getResources().getString(R.string.toastDelete), Toast.LENGTH_SHORT).show();
                     int position = args.getInt("position");
                     long ID = args.getLong("ID");
 
@@ -144,7 +149,7 @@ public class PurchaseGasActivity extends Fragment {
                     getFragmentManager().popBackStackImmediate();
                 }
 
-                Toast.makeText(getContext(), getResources().getString(R.string.toastDelete), Toast.LENGTH_SHORT).show();
+
 
             }
         });
@@ -156,16 +161,20 @@ public class PurchaseGasActivity extends Fragment {
                 date = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
                 gasPrice = gasPriceET.getText().toString();
                 gasVolume = gasVolumeET.getText().toString();
-                automobileInfoArray = new String [] {date, gasPrice, gasVolume};
+                kmOfGas = gasKMET.getText().toString();
+
+                automobileInfoArray = new String [] {date, gasPrice, gasVolume, kmOfGas};
 
                 if (checkInput()){
                     if (isPhone){
+                        Toast.makeText(getContext(), getResources().getString(R.string.toastEdit), Toast.LENGTH_SHORT).show();
 
                         Intent intent = new Intent();
                         intent.putExtra("data", automobileInfoArray);
                         getActivity().setResult(13,intent);
                         getActivity().finish();
                     }else{
+                        Toast.makeText(getContext(), getResources().getString(R.string.toastEdit), Toast.LENGTH_SHORT).show();
 
                         int position = args.getInt("position");
                         long ID = args.getLong("ID");
@@ -174,7 +183,7 @@ public class PurchaseGasActivity extends Fragment {
                         getFragmentManager().popBackStackImmediate();
                     }
                 }
-                Toast.makeText(getContext(), getResources().getString(R.string.toastEdit), Toast.LENGTH_SHORT).show();
+
             }
         });
 
@@ -184,17 +193,21 @@ public class PurchaseGasActivity extends Fragment {
     }
 
     public AutomobileInformation arrayToEntry(String[] tempArray){
-        return new AutomobileInformation(tempArray[0], tempArray[1],tempArray[2]);
+        return new AutomobileInformation(tempArray[0], tempArray[1],tempArray[2], tempArray[3]);
     }
 
     public boolean checkInput(){
         if (gasPriceET.getText().toString().equals("")){
-            Toast.makeText(getContext(), "Please enter a gas price", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), getResources().getString(R.string.InvalidPrice), Toast.LENGTH_SHORT).show();
             return false;
         }else if (gasVolumeET.getText().toString().equals("")){
-            Toast.makeText(getContext(), "Please enter a the amount of gas (Liters)", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), getResources().getString(R.string.InvalidVolume), Toast.LENGTH_SHORT).show();
             return false;
-        }else{
+        }else if (gasKMET.getText().toString().equals("")){
+            Toast.makeText(getContext(), getResources().getString(R.string.InvalidKm), Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        else{
             return true;
         }
 
