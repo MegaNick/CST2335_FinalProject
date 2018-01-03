@@ -529,8 +529,6 @@ public class AutomobileActivity extends AppCompatActivity {
 
             return result;
         }
-
-
     }
 
     @Override

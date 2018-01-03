@@ -9,7 +9,16 @@
     <string name="editGasButton">保存更改</string>
     <string name="priceHistoryButton">购买分析</string>
     <string name="autoHeader">通过： Jinda Xu</string>
-    <string name="autoHelper">添加，编辑或删除天然气采购</string>
+    <string name="autoHelper">
+        添加，编辑或删除天然气采购！\n\n\n
+        1.要添加新购买，请点击“新购买按钮”。\n
+        2.为每个新购买创建一个自动时间戳。 \n
+        3.您可以通过从菜单中选择购买来编辑您的购买天气。\n
+        4.您可以通过首先点击您想要移除的天然气购买来删除您的天然气购买，
+        然后按下“删除”按钮。\n
+        5.您可以通过点击“购买分析”按钮来获得您购买天然气的概况。它
+        会告诉你上个月你花的平均气价，你上个月买了多少气，
+        还有你每个月买了多少气</string>
     <string name="toastAdd">您的购买已记录！</string>
     <string name="toastDelete">条目已删除</string>
     <string name="toastEdit">您的购买已保存</string>
