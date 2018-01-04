@@ -1,3 +1,6 @@
+//To the Glory of God!
+// Thermostat activity by Nikolay Melnik. Algonquin College. Ottawa, 2018.
+//
 package com.example.algonquin.cst2335_finalproject;
 
 import android.annotation.SuppressLint;
@@ -20,6 +23,10 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+/**
+ * Supply class which operates user entries in the second activity of Thermostat
+ * By Nikolay Melnik
+ */
 public class ThermoRuleSetterActivity extends Fragment {
     public static final String ACTIVITY_NAME = "ThermoRuleSetterActivity";
     private TextView welcomeText;
@@ -30,18 +37,33 @@ public class ThermoRuleSetterActivity extends Fragment {
     private Button deleteButton;
     private Button cancelButton;
     private Button newRuleButton;
-//    private View view;
     int phoneMode;
     int [] intArray; // 0-id, 1-day, 2-hours, 3-minutes, 4-temperature, 5-viewId
 
     //Constructors to check Phone or Tablet
+
+    /**
+     * Default constructor
+     */
     public ThermoRuleSetterActivity(){} // Default Constructor
 
+    /**
+     * Parameterized constructor which sets current phone mode:
+     * @param x Mode  0- phone, 1 tablet
+     */
     @SuppressLint("ValidFragment")
     public ThermoRuleSetterActivity(int x){
         phoneMode = x;
     }
 
+    /**
+     * Major processing method which operates the second activity.
+     * Bundle holds int values "mode" 5 - entry new value, 6 - update current value
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return current view
+     */
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -212,6 +234,11 @@ public class ThermoRuleSetterActivity extends Fragment {
     }
 
     //Checking Temperature for valid entry
+
+    /**
+     * Method checks valid temperature for the thermostat. If it's wrong, Shows a Toast with warning
+     * @return true - temp is ok, false - temp is wrong
+     */
     public boolean checkTemp(){
         int temp;
         String temperature = setTemperature.getText().toString();
@@ -227,10 +254,19 @@ public class ThermoRuleSetterActivity extends Fragment {
     }
 
     //Transfer array to ThermoScheduleEntry
+
+    /**
+     * Method takes an array of 5 ints and creates new ScheduleEntry object
+     * @param x int[5] of data
+     * @return ScheduleEntry object
+     */
     public ScheduleEntry arrayToEntry(int [] x){
         return new ScheduleEntry(x[0], x[1], x[2], x[3], x[4]);
     }
 
+    /**
+     * Standard onDestroy Method
+     */
     @Override
     public void onDestroy() {
         super.onDestroy();
