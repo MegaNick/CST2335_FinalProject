@@ -1,3 +1,6 @@
+//To the Glory of God!
+// Thermostat activity by Nikolay Melnik. Algonquin College. Ottawa, 2018.
+//
 package com.example.algonquin.cst2335_finalproject;
 
 
@@ -36,6 +39,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+/**
+ * Thermostat activity. Author - Nikolay Melnik(C)2017-2018 Algonquin College. CST2335_Final_Project
+ * @author Nikolay Melnik
+ * V2.0
+ */
 public class ThermostatActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private Button ruleAddButton;
@@ -52,6 +60,10 @@ public class ThermostatActivity extends AppCompatActivity {
     private int y;
     private ScheduleEntry xyz;
 
+    /**
+     * Activity Main Entry Method
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -187,6 +199,10 @@ public class ThermostatActivity extends AppCompatActivity {
     ////////////////////////////////////////////////////////////////
     //Different Methods
     //Add and sort Method
+
+    /**
+     * Sorting of the Array using custom made comparator
+     */
     public void addAndSort(){
         //Sorting the Array
         Collections.sort(arrayList, new CustomComparator());
@@ -202,6 +218,12 @@ public class ThermostatActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Method which processing user's commands from the second Activity
+     * @param requestCode Must be 10 to start the processing of commands
+     * @param resultCode 11 - Create New Activity, 12 - Delete Activity, 13 - Change entry
+     * @param data
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -224,6 +246,10 @@ public class ThermostatActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Method checks for duplications in the database and asks to delete those if they have been found
+     * @param x ScheduleEntry object to be checked against database
+     */
     //Duplication checker
     public void duplicationChecker(ScheduleEntry x){
 
@@ -262,6 +288,11 @@ public class ThermostatActivity extends AppCompatActivity {
     }
 
  //Entry Update
+
+    /**
+     * Methods updates the database with data from ScheduleEntry object
+     * @param tempEntry ScheduleEntry object to be used as updater
+     */
     public void updateEntry(ScheduleEntry tempEntry){
         duplicationChecker(tempEntry);
         //Update query
@@ -284,6 +315,11 @@ public class ThermostatActivity extends AppCompatActivity {
     }
 
     //Entry Adding
+
+    /**
+     * Method adds ScheduleEntry object into database. Shows Snackbar notification
+     * @param tempEntry ScheduleEntry object to be added
+     */
     public void addEntry(ScheduleEntry tempEntry){
         duplicationChecker(tempEntry);
         //Insert procedure
@@ -307,6 +343,11 @@ public class ThermostatActivity extends AppCompatActivity {
     }
 
     //Entry eraser
+
+    /**
+     * Deleting entry from the database and list.
+     * @param tempEntry ScheduleEntry object to be deleted
+     */
     public void eraseEntry(ScheduleEntry tempEntry){
         int x = tempEntry.id;
         String query = "DELETE FROM "+ThermoDatabaseHelper.TABLE_NAME + " WHERE "+
@@ -327,8 +368,16 @@ public class ThermostatActivity extends AppCompatActivity {
 
 
     //Inner Class
+
+    /**
+     * Inner ArrayAdapter class which manipulates Listview information
+     */
     private class ChatAdapter extends ArrayAdapter<ScheduleEntry>{
 
+        /**
+         * Default constructor
+         * @param ctx Context
+         */
         public ChatAdapter(Context ctx) {
             super(ctx, 0);
         }
@@ -337,16 +386,33 @@ public class ThermostatActivity extends AppCompatActivity {
 //        a.	int getCount()  -  This returns the number of rows that will be in your listView. In your case, it should be the number of strings in the array list object ( return list.size() ).
 //        b.	String getItem(int position) – This returns the item to show in the list at the specified position: ( return list.get(position) )
 //        c.	View getView(int position, View convertView, ViewGroup parent) – this returns the layout that will be positioned at the specified row in the list. Do this in step 9.
+
+        /**
+         * Override method returns size of the working array
+         * @return int value of size
+         */
         @Override
         public int getCount(){
             return arrayList.size();
         }
 
+        /**
+         * Returns ScheduleEntry object from the ArrayList according to it's position
+         * @param position int Line position
+         * @return ScheduleEntry object in the line
+         */
         @Override
         public ScheduleEntry getItem(int position){
             return arrayList.get(position);
         }
 
+        /**
+         * Method generates view for every line in the ListView
+         * @param position int of the generating line
+         * @param convertView
+         * @param parent
+         * @return
+         */
         @Override
         public View getView(int position, View convertView, ViewGroup parent){
             LayoutInflater inflater = ThermostatActivity.this.getLayoutInflater();
@@ -371,12 +437,24 @@ public class ThermostatActivity extends AppCompatActivity {
     }//End Inner Class ChatAdapter
 
     //Inner Class
+
+    /**
+     * Inner AsyncTask class used as database loader and ArrayList creator
+     */
     private class Async extends AsyncTask<String, Integer, String>{
         Activity mActivity;
 
+        /**
+         * Default constructor
+         * @param activity
+         */
         public Async(Activity activity) {
             mActivity = activity;
         }
+
+        /**
+         * onPreExecute methods runs before starting AsyncTask. Resets ProgressBar counter and makes screen untouchable during the load
+         */
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -389,6 +467,10 @@ public class ThermostatActivity extends AppCompatActivity {
                     WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
          }
 
+        /**
+         * Method finishes AsyncTask. Disables progress bar, returns screen back to normal, sorts and prints ListView
+         * @param s not used
+         */
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
@@ -400,6 +482,10 @@ public class ThermostatActivity extends AppCompatActivity {
             messageAdapter.notifyDataSetChanged();
         }
 
+        /**
+         * Progress bar updater
+         * @param values Used only Integer[0] as persentage of the bar to be updated
+         */
         @Override
         protected void onProgressUpdate(Integer... values) {
             super.onProgressUpdate(values);
@@ -410,6 +496,11 @@ public class ThermostatActivity extends AppCompatActivity {
             pbar.setProgress(x);
         }
 
+        /**
+         * Major method which works with database and loading the ListView
+         * @param strings not used
+         * @return null
+         */
         @Override
         protected String doInBackground(String... strings) {
             onProgressUpdate(25);
@@ -448,6 +539,9 @@ public class ThermostatActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * onDestroy Method. Closing the database
+     */
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -455,6 +549,12 @@ public class ThermostatActivity extends AppCompatActivity {
     }
 
     //TOOLBAR stuff
+
+    /**
+     * Toolbar override method inflates Toolbar upon creation
+     * @param m Menu
+     * @return boolean true
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu m) {
         super.onCreateOptionsMenu(m);
@@ -462,6 +562,11 @@ public class ThermostatActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Toolbar chooser. Runs appropriate activities upon choosing
+     * @param mi MenuItem
+     * @return true
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem mi) {
         super.onOptionsItemSelected(mi);
@@ -500,6 +605,12 @@ public class ThermostatActivity extends AppCompatActivity {
     }
 
     //Delete Alert dialog
+
+    /**
+     * Method creates custom Delete Dialog. Called when user tries to delete entry
+     * @param tempEntry
+     * @return
+     */
     public AlertDialog deleteWarning (ScheduleEntry tempEntry){
         xyz = tempEntry;
         AlertDialog.Builder builder = new AlertDialog.Builder(this);

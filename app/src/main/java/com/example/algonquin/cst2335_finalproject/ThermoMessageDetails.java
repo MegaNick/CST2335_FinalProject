@@ -1,11 +1,22 @@
+//To the Glory of God!
+// Thermostat activity by Nikolay Melnik. Algonquin College. Ottawa, 2018.
+//
 package com.example.algonquin.cst2335_finalproject;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 
+/**
+ * Supply class for fragment activity called when phone is in "phone" mode and inflates fragment for phone activity
+ * By Nikolay Melnik as part of the Thermostat activity part
+ */
 public class ThermoMessageDetails extends FragmentActivity {
 
+    /**
+     * Major entry method for starting this activity
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -1,14 +1,16 @@
+//To the Glory of God!
+// Thermostat activity by Nikolay Melnik. Algonquin College. Ottawa, 2018.
+//
 package com.example.algonquin.cst2335_finalproject;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 /**
- * Created by Nikolay Melnik on 10/8/2017.
+ * Thermostat Database Class. Operates the database for Thermostat activity
+ * By Nikolay Melnik
  */
-
 public class ThermoDatabaseHelper extends SQLiteOpenHelper {
     public final static String DATABASE_NAME = "Thermostat.db";
     public final static int VERSION_NUM = 3;
@@ -41,11 +43,18 @@ public class ThermoDatabaseHelper extends SQLiteOpenHelper {
     public static final String ON_DOWNGRADE_QUERY =
             "DROP TABLE IF EXISTS " + TABLE_NAME;
 
-
+    /**
+     * Default constructor
+     * @param ctx
+     */
     public ThermoDatabaseHelper(Context ctx) {
         super(ctx, DATABASE_NAME, null, VERSION_NUM);
     }
 
+    /**
+     * Creates database for Thermostat
+     * @param db
+     */
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_THERMOSTAT_DATABASE);
@@ -53,6 +62,12 @@ public class ThermoDatabaseHelper extends SQLiteOpenHelper {
 
     }
 
+    /**
+     * Method for upgrading the database
+     * @param db
+     * @param i
+     * @param i1
+     */
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
     db.execSQL(ON_UPGRADE_QUERY);
@@ -60,6 +75,12 @@ public class ThermoDatabaseHelper extends SQLiteOpenHelper {
  //       Log.i("ChatDatabaseHelper", "Calling onUpgrade, oldVersion=" + i + " newVersion=" + i1);
     }
 
+    /**
+     * Method for downgrading the database
+     * @param db
+     * @param oldVersion
+     * @param newVersion
+     */
     @Override
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         super.onDowngrade(db, oldVersion, newVersion);
